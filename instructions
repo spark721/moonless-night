@@ -1,0 +1,14 @@
+npm install express
+npm install scoket.io
+
+app.js (server)
+-websocket creation
+-websocket events
+-websocket listener
+
+index.html (client)
+-websocket creation
+-websocket events (newPostiion, disconnect)
+-websocket listener
+
+player class
