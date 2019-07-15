@@ -1,5 +1,6 @@
 const Player = require('./player');
 const Entity = require('./entity');
+const Fire = require('./fire');
 
 const express = require("express");
 const app = express();
@@ -15,6 +16,7 @@ serv.listen(2000);
 
 Entity.list = {};
 Player.list = {};
+const fire = new Fire();
 
 Player.onConnect = socket => {
   const player = new Player(Object.keys(socketList).length);
@@ -68,6 +70,19 @@ Player.update = () => {
   return pack;
 }
 
+  // fire.update = () => {
+  //   const firePack = [];
+
+
+  //   firePack.push({
+  //     fireX: fire.x,
+  //     fireY: fire.y,
+  //     fireRadius: fire.radius
+  //   })
+
+  //   return firePack;
+  // }
+
 const socketList = {};
 
 // render at 60fps via setInterval
@@ -75,9 +90,21 @@ const socketList = {};
 setInterval(() => {
 
   const pack = Player.update();
-
+  const firePack = {
+      fireX: fire.state.x,
+      fireY: fire.state.y,
+      fireRadius: fire.state.radius
+  }
+  
   for (let i in socketList) {
     const socket = socketList[i];
-    socket.emit("newPosition", pack)
+    socket.emit("newPosition", pack);
+    socket.emit("Dwindle", firePack);
   }
 }, 1000 / 60);
+
+
+setInterval(() => {
+  fire.gameOver ? null : fire.dwindle();
+
+}, 10000);

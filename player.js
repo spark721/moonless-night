@@ -3,17 +3,17 @@ const Entity = require("./entity");
 class Player extends Entity {
   constructor(id) {
     super(id);
-    this.x = 700,
-    this.y = 300,
-    this.pressingRight = false,
-    this.pressingLeft = false,
-    this.pressingUp = false,
-    this.pressingDown = false,
-    this.maxSpeed = 10
-    this.carryingTorch = false,
-    this.baby = false,
-    this.healingPlayer = false,
-    this.healing = false,
+    this.x = 700;
+    this.y = 300;
+    this.pressingRight = false;
+    this.pressingLeft = false;
+    this.pressingUp = false;
+    this.pressingDown = false;
+    this.maxSpeed = 2;
+    this.carryingTorch = false;
+    this.baby = false;
+    this.healingPlayer = false;
+    this.healing = false;
   };
 
   // nice
