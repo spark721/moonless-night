@@ -1,35 +1,34 @@
 const Entity = require("./entity");
 
+// this.state = ['NEUTRAL', 'FETAL', 'TORCH', 'LOG', 'STICK', 'HEALING', 'BEINGHEALED']
+
 class Player extends Entity {
-  constructor(id) {
-    super(id);
-    this.x = 700,
-    this.y = 300,
-    this.pressingRight = false,
-    this.pressingLeft = false,
-    this.pressingUp = false,
-    this.pressingDown = false,
-    this.maxSpeed = 10
-    this.carryingTorch = false,
-    this.baby = false,
-    this.healingPlayer = false,
-    this.healing = false,
+  constructor(id, pos, size) {
+    super(id, pos, size);
+    this.pressingRight = false;
+    this.pressingLeft = false;
+    this.pressingUp = false;
+    this.pressingDown = false;
+    this.state = "NEUTRAL";
+    this.speed = 10
   };
 
   // nice
   update() {
-    this.updatePosition();
     super.update();
+    this.updatePosition();
   }
 
   updatePosition() {
-    if (this.pressingRight) this.x += this.maxSpeed;
-    if (this.pressingLeft) this.x -= this.maxSpeed;
-    if (this.pressingUp) this.y -= this.maxSpeed;
-    if (this.pressingDown) this.y += this.maxSpeed;
+    if (['NEUTRAL', 'RUNNING', 'CARRYTORCH', 'CARRYLOG'].includes(this.state)) {
+      if (this.pressingRight) this.x += this.speed;
+      if (this.pressingLeft) this.x -= this.speed;
+      if (this.pressingUp) this.y -= this.speed;
+      if (this.pressingDown) this.y += this.speed;
+    }
   };
 
 };
 
-// change to webpack
+// change to webpack?
 module.exports = Player;
