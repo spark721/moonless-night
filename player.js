@@ -1,14 +1,17 @@
 const Entity = require("./entity");
 
 class Player extends Entity {
+
   constructor(id, pos, size) {
     super(id, pos, size);
     this.state = "NEUTRAL";
     this.speed = 3;
+
     this.pressingRight = false;
     this.pressingLeft = false;
     this.pressingUp = false;
     this.pressingDown = false;
+
   }
 
   static update(treeList) {
@@ -22,6 +25,7 @@ class Player extends Entity {
 
     return pack;
   }
+
 
   update() {
     super.update();
