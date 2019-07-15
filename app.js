@@ -2,6 +2,12 @@ const Player = require('./player');
 const Entity = require('./entity');
 const Fire = require('./fire');
 const Tree = require('./tree');
+const Specter = require('./ghosts/specter');
+const SpecterLeft = require('./ghosts/specterLeft');
+const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
+spawner1.speed = 0;
+const spawner2 = new SpecterLeft(0, { x: 1300, y: 375 }, 15);
+spawner2.speed = 0;
 
 
 const express = require("express");
@@ -23,8 +29,7 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 
 
 
-Tree.list = {};
-Player.list = {};
+
 const fire = new Fire(1, { x: 700, y: 350 }, null);
 
 
@@ -33,9 +38,10 @@ const socketList = {};
 const entities = {
   players: Player.list,
   trees: Tree.list,
-  // ghosts: Ghost.list
+  specter: Specter.list,
+  specterLeft: SpecterLeft.list
 } 
-
+  
 Player.onConnect = socket => {
   const id = Object.keys(socketList).length;
   const pos = { x: 700, y: 300 };
@@ -79,22 +85,26 @@ io.on("connection", socket => {
 
 Tree.spawnTrees();
 
+
+
 setInterval(() => {
   // pass entities to all?
   const pack = {
 
     player: Player.update(entities.trees),
     tree: Tree.update(),
-    fire: fire.update()
+    fire: fire.update(),
+    specter: Specter.update(),
+    specterLeft: SpecterLeft.update()
   };
-
 
   for (let i in socketList) {
     const socket = socketList[i];
     socket.emit("pack", pack)
 
   }
-
+  spawner1.spawnSpecter();
+  spawner2.spawnSpecter();
 }, 1000 / 60);
 
 
