@@ -13,7 +13,7 @@
     
     // render players
     for (let i = 0; i < data.player.length; i++) {
-      ctx.fillText(data.player[i].id, data.player[i].x, data.player[i].y) 
+      ctx.fillText(data.player[i].state, data.player[i].x, data.player[i].y) 
     }
 
     // render trees
@@ -29,6 +29,7 @@
     if (event.keyCode === 65) socket.emit('keyPress', {inputId: 'left', state: true}); // a
     if (event.keyCode === 87) socket.emit('keyPress', {inputId: 'up', state: true}); // w
     if (event.keyCode === 83) socket.emit('keyPress', {inputId: 'down', state: true}); // s
+    if (event.keyCode === 74) socket.emit('keyPress', {inputId: 'chop', state: true });
   }
 
   document.onkeyup = event => {
@@ -36,6 +37,7 @@
     if (event.keyCode === 65) socket.emit('keyPress', {inputId: 'left', state: false});
     if (event.keyCode === 87) socket.emit('keyPress', {inputId: 'up', state: false});
     if (event.keyCode === 83) socket.emit('keyPress', {inputId: 'down', state: false});
+    if (event.keyCode === 74) socket.emit('keyPress', {inputId: 'chop', state: false });
   }
 
 </script>
