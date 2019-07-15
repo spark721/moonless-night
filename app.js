@@ -31,8 +31,8 @@ const fire = new Fire(1, { x: 700, y: 350 }, null);
 const socketList = {};
 
 const entities = {
-  players: Player.list,
-  trees: Tree.list,
+  player: Player.list,
+  tree: Tree.list,
   // ghosts: Ghost.list
 } 
 
@@ -47,6 +47,7 @@ Player.onConnect = socket => {
     if (data.inputId === "left") player.pressingLeft = data.state;
     if (data.inputId === "up") player.pressingUp = data.state;
     if (data.inputId === "down") player.pressingDown = data.state;
+    if (data.inputId === "chop") player.pressingChop = data.state;
   });
 }
 
@@ -83,9 +84,11 @@ setInterval(() => {
   // pass entities to all?
   const pack = {
 
+
     player: Player.update(entities.trees),
     tree: Tree.update(),
     fire: fire.update()
+
   };
 
 
