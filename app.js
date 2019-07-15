@@ -1,5 +1,8 @@
 const Player = require('./player');
+const Entity = require('./entity');
+const Fire = require('./fire');
 const Tree = require('./tree');
+
 
 const express = require("express");
 const app = express();
@@ -14,8 +17,11 @@ app.get("/", (req, res) => {
 app.use("/client", express.static(__dirname + "/client"));
 serv.listen(2000);
 
+
+
 Tree.list = {};
 Player.list = {};
+const fire = new Fire(1, { x: 700, y: 350 }, null);
 
 const socketList = {};
 
@@ -122,20 +128,53 @@ Tree.update = () => {
   return pack;
 }
 
+
+// handles updating fire's state changes. Will pass STATE later.
+  fire.update = () => {
+    let pack = {
+      x: fire.x,
+      y: fire.y,
+      radius: fire.radius
+    }
+    return pack;
+  }
+
+const socketList = {};
+
+
 // render at 60fps via setInterval
 // emits all updates for all players
+
 
 Tree.spawnTrees();
 
 setInterval(() => {
   const pack = {
     player: Player.update(),
-    tree: Tree.update()
+    tree: Tree.update(),
+    fire: fire.update()
   }
 
   for (let i in socketList) {
     const socket = socketList[i];
     socket.emit("pack", pack)
+
   }
 
 }, 1000 / 60);
+
+
+
+
+// Fire dwindles every 10 seconds
+// If the fire burns out, stop dwindling and call gameOver for the whole game
+let firePit = setInterval(() => {
+  if(fire.gameOver) {
+    null
+    // game.gameOver();
+  } else {
+    fire.dwindle();
+  }
+
+}, 3000);
+
