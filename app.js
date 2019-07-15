@@ -3,10 +3,10 @@ const Tree = require('./tree');
 
 const express = require("express");
 const app = express();
-// const serv = require("http").Server(app);
-const http = require("http");
-const server = http.createServer(app);
-const io = require("socket.io")(server, {});
+const server = require("http").Server(app);
+// const http = require("http");
+// const server = http.createServer(app);
+const io = require("socket.io")(server);
 
 const port = process.env.PORT || 2000;
 
@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 });
 
 // express to pull client files?
-// app.use("/client", express.static(__dirname + "/client"));
+app.use("/client", express.static(__dirname + "/client"));
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
 Tree.list = {};
@@ -58,7 +58,7 @@ Player.onDisconnect = socket => {
 // circular collision
 
 // on client "connection", do the following
-io.sockets.on("connection", socket => {
+io.on("connection", socket => {
   socket.id = Math.random();
   socketList[socket.id] = socket;
 
