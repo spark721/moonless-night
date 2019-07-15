@@ -14,9 +14,8 @@ app.get("/", (req, res) => {
 app.use("/client", express.static(__dirname + "/client"));
 serv.listen(2000);
 
-Entity.list = {};
 Player.list = {};
-const fire = new Fire();
+const fire = new Fire(1, { x: 700, y: 350 }, null);
 
 Player.onConnect = socket => {
   const player = new Player(Object.keys(socketList).length);
@@ -70,18 +69,15 @@ Player.update = () => {
   return pack;
 }
 
-  // fire.update = () => {
-  //   const firePack = [];
-
-
-  //   firePack.push({
-  //     fireX: fire.x,
-  //     fireY: fire.y,
-  //     fireRadius: fire.radius
-  //   })
-
-  //   return firePack;
-  // }
+// handles updating fire's state changes. Will pass STATE later.
+  fire.update = () => {
+    let pack = {
+      x: fire.x,
+      y: fire.y,
+      radius: fire.radius
+    }
+    return pack;
+  }
 
 const socketList = {};
 
@@ -89,22 +85,29 @@ const socketList = {};
 // emits all updates for all players
 setInterval(() => {
 
-  const pack = Player.update();
-  const firePack = {
-      fireX: fire.state.x,
-      fireY: fire.state.y,
-      fireRadius: fire.state.radius
-  }
+  const pack = ({
+    player: Player.update(),
+    fire: fire.update()
+  })
   
   for (let i in socketList) {
     const socket = socketList[i];
-    socket.emit("newPosition", pack);
-    socket.emit("Dwindle", firePack);
+    socket.emit("pack", pack);
   }
 }, 1000 / 60);
 
 
-setInterval(() => {
-  fire.gameOver ? null : fire.dwindle();
 
-}, 10000);
+
+// Fire dwindles every 10 seconds
+// If the fire burns out, stop dwindling and call gameOver for the whole game
+let firePit = setInterval(() => {
+  if(fire.gameOver) {
+    null
+    // game.gameOver();
+  } else {
+    fire.dwindle();
+  }
+
+}, 3000);
+
