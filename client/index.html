@@ -8,10 +8,15 @@
   
   const socket = io();
 
-  socket.on('newPosition', data => {
+  socket.on('pack', data => {
     ctx.clearRect(0,0,1400, 750);
-    for (let i = 0; i < data.length; i++) {
-      ctx.fillText(data[i].id, data[i].x, data[i].y) 
+    
+    for (let i = 0; i < data.player.length; i++) {
+      ctx.fillText(data.player[i].id, data.player[i].x, data.player[i].y) 
+    }
+
+    for (let i = 0; i < data.tree.length; i++) {
+      ctx.fillText(`Tree${data.tree[i].id}`, data.tree[i].x, data.tree[i].y) 
     }
   })
 
