@@ -1,6 +1,6 @@
 const Entity = require("./entity");
 
-// this.state = ['NEUTRAL', 'RUNNING', 'FETAL', 'CARRYTORCH', 'CARRYLOG', 'GHOSTED', 'HEALING', 'BEINGHEALED']
+// this.state = ['NEUTRAL', 'FETAL', 'TORCH', 'LOG', 'STICK', 'HEALING', 'BEINGHEALED']
 
 class Player extends Entity {
   constructor(id, pos, size) {
@@ -30,5 +30,5 @@ class Player extends Entity {
 
 };
 
-// change to webpack
+// change to webpack?
 module.exports = Player;
