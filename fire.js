@@ -26,6 +26,8 @@ class Fire extends Entity {
     this.radius = this.firePower * 5;
   }
 
+  
+
   // When fire has dwindled to 0 firePower, game is over. Set gameOver to true.
   dwindle () {
     if(this.firePower > 1){
@@ -37,6 +39,10 @@ class Fire extends Entity {
       this.gameOver = true;
     }
   };
+
+  draw(ctx) {
+
+  }
 
 };
 
