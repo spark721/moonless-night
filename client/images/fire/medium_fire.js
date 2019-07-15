@@ -31,12 +31,14 @@ character.src = "/client/images/fire/fire_medium_sprites.png"
 // var ctx = canvas.getContext('2d');
 
 var i = 0;
+var count = 0
+// this changes the speed of the animation
+var spriteSpd = 5
 
 function updateFrame() {
-
-
   if (currentFrame < 8 ){
-    currentFrame = ++currentFrame
+    count++
+    if(count % spriteSpd === 0) {currentFrame = ++currentFrame}
   }  else {
     i += 1
     currentFrame = 0
@@ -59,7 +61,7 @@ function updateFrame() {
 //   drawImage();
 // })
 
-function fireDrawImage() {
+function medFireDrawImage() {
   updateFrame();
   ctx.drawImage(character, srcX, srcY, width, height, x, y, width, height);
 }
