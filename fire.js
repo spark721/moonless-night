@@ -20,6 +20,15 @@ class Fire extends Entity {
     this.updateRadius = this.updateRadius.bind(this);
   };
 
+  update () {
+    let pack = {
+      x: this.x,
+      y: this.y,
+      radius: this.radius
+    }
+    return pack;
+  }
+
 
   // Updates state of fire. Will eventually be ["CRITICAL", "VERY LOW", "LOW", "MEDIUM", "HIGH"]
   updateRadius () {

@@ -73,6 +73,7 @@ io.on("connection", socket => {
 });
 
 
+
 // game.js?
 // Ghost.spawnGhosts();
 
@@ -83,7 +84,7 @@ setInterval(() => {
   const pack = {
 
     player: Player.update(entities.trees),
-    tree: Tree.update()
+    tree: Tree.update(),
     fire: fire.update()
   };
 
