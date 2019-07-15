@@ -1,9 +1,16 @@
-<canvas id='ctx' width='1400' height='750' style='border:1px solid black'></canvas>
+<link rel="stylesheet" type="text/css" href="/client/stylesheets/index.css">
+<script src="/client/images/fire/medium_fire.js"></script>
+
+
+<!-- <body class="body" background="/client/images/background/bk_forest_night.png"> -->
+  
+<canvas background="/client/images/background/bk_forest_night.png" id='ctx' width='1400' height='788' style='border:1px solid black'></canvas>
 
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
 
+  
 
 
   const ctx = document.getElementById('ctx').getContext('2d');
@@ -20,9 +27,7 @@
       ctx.fillText(data.player[i].id, data.player[i].x, data.player[i].y) 
     }
     
-    ctx.beginPath();
-    ctx.arc(data.fire.x, data.fire.y, data.fire.radius, 0, 2 * Math.PI);
-    ctx.stroke();
+    // ctx.beginPath();
 
     // render trees
     for (let i = 0; i < data.tree.length; i++) {
@@ -30,6 +35,8 @@
       ctx.arc(data.tree[i].x, data.tree[i].y, data.tree[i].size, 0, 2 * Math.PI);
       ctx.stroke();
     }    
+
+    fireDrawImage();
 
   })
 
@@ -49,3 +56,6 @@
 
 </script>
 
+
+
+</body>

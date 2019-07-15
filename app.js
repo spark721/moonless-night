@@ -107,7 +107,7 @@ let firePit = setInterval(() => {
     null
     // game.gameOver();
   } else {
-    fire.dwindle();
+    // fire.dwindle();
   }
 
 }, 3000);
