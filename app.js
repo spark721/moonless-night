@@ -3,16 +3,20 @@ const Tree = require('./tree');
 
 const express = require("express");
 const app = express();
-const serv = require("http").Server(app);
-const io = require("socket.io")(serv, {});
+// const serv = require("http").Server(app);
+const http = require("http");
+const server = http.createServer(app);
+const io = require("socket.io")(server, {});
+
+const port = process.env.PORT || 2000;
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/client/index.html");
 });
 
 // express to pull client files?
-app.use("/client", express.static(__dirname + "/client"));
-serv.listen(2000);
+// app.use("/client", express.static(__dirname + "/client"));
+server.listen(port, () => console.log(`Listening on port ${port}`));
 
 Tree.list = {};
 Player.list = {};
@@ -57,11 +61,15 @@ Player.onDisconnect = socket => {
 io.sockets.on("connection", socket => {
   socket.id = Math.random();
   socketList[socket.id] = socket;
-  
+
+  console.log(`Client connected`);
+
   Player.onConnect(socket);
 
   // server socket automatically listens for 'disconnect'
   socket.on("disconnect", () => {
+    console.log(`Client disconnected`);
+
     delete socketList[socket.id];
     Player.onDisconnect(socket);
   });
