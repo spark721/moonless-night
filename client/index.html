@@ -1,6 +1,6 @@
 <canvas id='ctx' width='1400' height='750' style='border:1px solid black'></canvas>
 
-<!-- <script src="https://cdn.socket.io/socket.io-2.2.0.js"></script> -->
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
 
@@ -14,8 +14,8 @@
 
 
   socket.on('pack', data => {
+    // clear canvas
     ctx.clearRect(0,0,1400, 750);
-
     for (let i = 0; i < data.player.length; i++) {
       ctx.fillText(data.player[i].id, data.player[i].x, data.player[i].y) 
     }
@@ -24,6 +24,7 @@
     ctx.arc(data.fire.x, data.fire.y, data.fire.radius, 0, 2 * Math.PI);
     ctx.stroke();
 
+    // render trees
     for (let i = 0; i < data.tree.length; i++) {
       ctx.beginPath();
       ctx.arc(data.tree[i].x, data.tree[i].y, data.tree[i].size, 0, 2 * Math.PI);
