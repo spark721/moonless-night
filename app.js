@@ -85,7 +85,7 @@ setInterval(() => {
   const pack = {
 
 
-    player: Player.update(entities.trees),
+    player: Player.update(entities),
     tree: Tree.update(),
     fire: fire.update()
 
