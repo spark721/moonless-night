@@ -1,10 +1,12 @@
 const Entity = require("./entity");
 
 class Player extends Entity {
+
   constructor(id, pos, size) {
     super(id, pos, size);
     this.state = "NEUTRAL";
     this.speed = 3;
+
     this.pressingRight = false;
     this.pressingLeft = false;
     this.pressingUp = false;
@@ -14,6 +16,7 @@ class Player extends Entity {
     this.fire = undefined;
     this.player = undefined;
     this.ghost = undefined;
+
   }
 
   static update(entities) {
@@ -27,6 +30,7 @@ class Player extends Entity {
 
     return pack;
   }
+
 
   update(entities) {
     super.update();
