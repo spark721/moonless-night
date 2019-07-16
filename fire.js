@@ -22,7 +22,10 @@ class Fire extends Entity {
 
   update () {
     let pack = {
-      firePower: this.firePower
+      firePower: this.firePower,
+      x: this.x,
+      y: this.y,
+      size: this.size,
     }
     return pack;
   }

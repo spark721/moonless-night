@@ -57,23 +57,29 @@
       // clear canvas
       ctx.clearRect(0, 0, 1400, 750);
       for (let i = 0; i < data.player.length; i++) {
-        ctx.fillText(data.player[i].state, data.player[i].x, data.player[i].y)
+        ctx.fillText(data.player[i].state, 100, 100)
+        ctx.beginPath();
+        ctx.arc(data.player[i].x, data.player[i].y, data.player[i].size, 0, 2 * Math.PI);
+        ctx.stroke();
         coords = data;
 
-        if (data.player[i].pressingRight) drawWalkRight(coords.player[i].x, coords.player[i].y)
-        if (data.player[i].pressingLeft) drawWalkLeft(coords.player[i].x, coords.player[i].y)
-        if (data.player[i].pressingUp) drawWalkUp(coords.player[i].x, coords.player[i].y)
-        if (data.player[i].pressingDown) drawWalkDown(coords.player[i].x, coords.player[i].y)
+        if (data.player[i].pressingRight) drawWalkRight(coords.player[i].x - 17, coords.player[i].y - 55)
+        if (data.player[i].pressingLeft) drawWalkLeft(coords.player[i].x - 17, coords.player[i].y - 55)
+        if (data.player[i].pressingUp) drawWalkUp(coords.player[i].x - 17, coords.player[i].y - 55)
+        if (data.player[i].pressingDown) drawWalkDown(coords.player[i].x - 17, coords.player[i].y - 55)
 
         if (
           !data.player[i].pressingDown &&
           !data.player[i].pressingUp &&
           !data.player[i].pressingLeft &&
           !data.player[i].pressingRight) {
-          drawPlayerIdle(coords.player[i].x, coords.player[i].y)
+          drawPlayerIdle(coords.player[i].x - 17, coords.player[i].y - 55)
         }
       }
       ctx.fillText(`${data.fire.firePower}`, 700, 100);
+      ctx.beginPath();
+      ctx.arc(data.fire.x, data.fire.y, data.fire.size, 0, 2 * Math.PI);
+      ctx.stroke();
 
       // render trees
       for (let i = 0; i < data.tree.length; i++) {

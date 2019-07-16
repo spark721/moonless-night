@@ -27,7 +27,7 @@ class Tree extends Entity {
 
     Object.values(Tree.createNodes(24, 300)).forEach(tree => {
       let pos = { x: tree.x, y: tree.y };
-      this.list[tree.id] = new Tree(tree.id, pos, 25);
+      this.list[tree.id] = new Tree(tree.id, pos, 10);
     });
   }
 
