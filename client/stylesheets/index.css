@@ -1,11 +1,14 @@
 
 body {
   background-color: #110a17;
-  display: flex;
-  justify-content: center;
   /* align-items: center;
   height: 100vh;
   margin: 20px 0 0 0; */
+}
+
+.canvas-chat {
+    display: flex;
+    justify-content: center;
 }
 
 canvas {
