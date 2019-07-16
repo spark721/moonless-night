@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,11 +14,15 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="/client/images/fire/medium_fire.js"></script>
   <script src="/client/images/stalker/stalker_sprite.js"></script>
+  <script src="/client/images/player/XX/walking/player_walk_right.js"></script>
+  <script src="/client/images/player/XX/walking/player_walk_left.js"></script>
+  <script src="/client/images/player/XX/walking/player_walk_up.js"></script>
+  <script src="/client/images/player/XX/walking/player_walk_down.js"></script>
+  <script src="/client/images/player/XX/idle/player_idle.js"></script>
 
   <title>Moonless Night</title>
 </head>
 <body>
-
   <div class="canvas-chat">
     <canvas id='ctx' width='1400' height='788' ></canvas>
     <div class="chat">
@@ -48,12 +51,27 @@
     ctx.fillStyle = "#FFFFFF";
 
     const socket = io();
+    let coords;
 
     socket.on('pack', data => {
       // clear canvas
       ctx.clearRect(0, 0, 1400, 750);
       for (let i = 0; i < data.player.length; i++) {
         ctx.fillText(data.player[i].state, data.player[i].x, data.player[i].y)
+        coords = data;
+
+        if (data.player[i].pressingRight) drawWalkRight(coords.player[i].x, coords.player[i].y)
+        if (data.player[i].pressingLeft) drawWalkLeft(coords.player[i].x, coords.player[i].y)
+        if (data.player[i].pressingUp) drawWalkUp(coords.player[i].x, coords.player[i].y)
+        if (data.player[i].pressingDown) drawWalkDown(coords.player[i].x, coords.player[i].y)
+
+        if (
+          !data.player[i].pressingDown &&
+          !data.player[i].pressingUp &&
+          !data.player[i].pressingLeft &&
+          !data.player[i].pressingRight) {
+          drawPlayerIdle(coords.player[i].x, coords.player[i].y)
+        }
       }
       ctx.fillText(`${data.fire.firePower}`, 700, 100);
 
@@ -113,7 +131,6 @@
     }    
     ctx.fillStyle = "rgba(255, 255, 255, 0)";
     medFireDrawImage();
-    ctx.fillStyle = "rgba(255, 255, 255, 0)";
     ctx.fillStyle = "#FFFFFF";
       
       

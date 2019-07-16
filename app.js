@@ -39,13 +39,9 @@ app.get("/", (req, res) => {
 app.use("/client", express.static(__dirname + "/client"));
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
-
-
-
-
 Tree.list = {};
 Player.list = {};
-const fire = new Fire(1, { x: 700, y: 420 }, 70);
+const fire = new Fire(1, { x: 685, y: 390 }, 40);
 
 
 const socketList = {};
@@ -69,7 +65,7 @@ Player.onConnect = socket => {
   const player = new Player(socket.id, pos, size);
   Player.list[socket.id] = player;
   socket.on("keyPress", data => {
-    if (data.inputId === "right") player.pressingRight = data.state;
+    if (data.inputId === "right") player.pressingRight = data.state; 
     if (data.inputId === "left") player.pressingLeft = data.state;
     if (data.inputId === "up") player.pressingUp = data.state;
     if (data.inputId === "down") player.pressingDown = data.state;
