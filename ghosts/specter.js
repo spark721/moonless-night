@@ -1,5 +1,5 @@
 const Entity = require("../entity");
-const Fire = require("../fire")
+const Torch = require('../items/torch');
 
 // this.state = ['NEUTRAL', 'FETAL', 'TORCH', 'LOG', 'STICK', 'HEALING', 'BEINGHEALED']
 
@@ -26,6 +26,10 @@ class Specter extends Entity {
         }   
         return pack;
     }
+
+    static delete(specterId){
+        delete Specter.list[specterId];
+    }
     
     spawnSpecter() {
         // console.log(this.cd)
@@ -47,6 +51,41 @@ class Specter extends Entity {
         super.update();
         this.updatePosition();
     }
+
+    collideWithFire(fire){
+        const tempPos = { x: this.x, y: this.y };
+        const dx = tempPos.x - Specter.fire.x;
+        const dy = tempPos.y - Specter.fire.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < this.size + fire.size - 50) {
+            Specter.delete(this.id);
+        }
+    }
+    collideWithTorch(torches){
+        for (let i in torches) {
+            // console.log(Specter.players[i].x);
+            const tempPos = { x: this.x, y: this.y };
+            const dx = tempPos.x - torches[i].x;
+            const dy = tempPos.y - torches[i].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+    
+            if (distance < this.size + torches[i].size) {
+                Torch.delete(torches[i].id)
+                Specter.delete(this.id);
+            }
+        }
+    }
+
+    collideWithPlayer(){
+        for (let i in Specter.players) {
+            // console.log(Specter.players[i].x);
+            if ((this.x >= Specter.players[i].x - 10 && this.x <= Specter.players[i].x + 10) && (this.y >= Specter.players[i].y - 10 && this.y <= Specter.players[i].y + 10)) {
+                // console.log('Specter collided with player')
+            }
+        }
+    }
+
     moveToObject(object){
         let diffX = object.x - this.x;
         let diffY = object.y - this.y;
@@ -61,11 +100,12 @@ class Specter extends Entity {
             this.y -= this.speed;
         }
     }
+
     updatePosition() {
-        this.moveToObject(Specter.fire)
-        if ((this.x <= 710 & this.x >= 690) && (this.y <= 360 & this.y >= 340)) {
-            delete Specter.list[this.id];
-        }
+        this.moveToObject(Specter.fire);
+        this.collideWithFire(Specter.fire);
+        this.collideWithPlayer();
+        this.collideWithTorch(Specter.torches);
     };
 
 

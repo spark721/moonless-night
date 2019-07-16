@@ -1,7 +1,57 @@
+
+body {
+  background-color: #110a17;
+  /* align-items: center;
+  height: 100vh;
+  margin: 20px 0 0 0; */
+}
+
+.canvas-chat {
+    display: flex;
+    justify-content: center;
+}
+
 canvas {
   z-index: 0;
   object-fit: contain;
   background: url("/client/images/background/bk_forest_night.png");
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+div.chat {
+    width: 400px;
+    height: 725px;
+    margin: 0 0 0 4px;
+}
+
+#chat-text {
+    font-family: 'Roboto', sans-serif;
+    width: 95%;
+    height: 100%;
+    overflow-y: scroll;
+    background-color: #2b1832;
+    color: #FFC107;
+    margin: 0 0 4px;
+    border: 1px solid #5f210e;
+    padding: 15px 10px;
+}
+
+#chat-input {
+    font-family: 'Roboto', sans-serif;
+    background-color: #2b1832;
+    color: #FFC107;
+    width: 97.75%;
+    height: 20px;
+    padding: 2px 4px;
+    outline: none;
+    border: 1px solid #5f210e;
+}
+
+#chat-input:hover {
+  border: 1px solid #e85122;
+}
+
+#chat-input:focus {
+  border: 1px solid #e85122;
 }

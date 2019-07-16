@@ -52,6 +52,11 @@ function updateFrame() {
   }
   
   srcX = currentFrame * width;
+
+
+  //this is the reason that other drawn images disappear behind the fire
+  // ctx.clearRect(x,y, sdwidth, height);
+
 }
 
 

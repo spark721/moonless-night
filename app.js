@@ -1,19 +1,36 @@
+const path = require('path');
 const Player = require('./player');
 const Entity = require('./entity');
 const Fire = require('./fire');
 const Tree = require('./tree');
+const Log = require('./items/log');
+const Torch = require('./items/torch');
 const Specter = require('./ghosts/specter');
 const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
-spawner1.speed = 0;
-
+const Stalker = require('./ghosts/stalker')
+const spawner2 = new Stalker(0, { x: 1, y: 1 }, 15);
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
-// const http = require("http");
-// const server = http.createServer(app);
 const io = require("socket.io")(server);
 
 const port = process.env.PORT || 2000;
+
+if (process.env.NODE_ENV === 'production') {
+  app.use("/client", express.static(__dirname + "/client"));
+  app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/client/index.html");
+  });
+  // app.use(express.static('frontend/build'));
+  // app.get('/', (req, res) => {
+  //   res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  // })
+}
+
+spawner1.speed = 0;
+spawner2.speed = 0;
+
+
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/client/index.html");
@@ -34,7 +51,10 @@ const entities = {
   player: Player.list,
   tree: Tree.list,
   fire: fire,
-  specter: Specter.list
+  specter: Specter.list,
+  stalker: Stalker.list,
+  torch: Torch.list,
+  log: Log.list
 
   // ghosts: Ghost.list
 } 
@@ -50,12 +70,21 @@ Player.onConnect = socket => {
     if (data.inputId === "up") player.pressingUp = data.state;
     if (data.inputId === "down") player.pressingDown = data.state;
     if (data.inputId === "chop") player.pressingChop = data.state;
+    if (data.inputId === "drop") player.pressingDrop = data.state;
   });
 }
 
 Player.onDisconnect = socket => {
   delete Player.list[socket.id];
 };
+
+
+
+// game.js?
+// Ghost.spawnGhosts();
+
+Tree.spawnTrees();
+
 
 // on client "connection", do the following
 io.on("connection", socket => {
@@ -80,10 +109,15 @@ io.on("connection", socket => {
 
     Player.onDisconnect(socket);
   });
+
+  socket.on("sendMsgToServer", (data) => {
+    let playerName = ("" + socket.id).slice(2, 7);
+    for (let i in socketList) {
+      socketList[i].emit("addToChat", playerName + ": " + data);
+    }
+  })
 });
 
-// game.js?
-// Ghost.spawnGhosts();
 
 Tree.spawnTrees();
 
@@ -96,13 +130,20 @@ setInterval(() => {
   
   // pass entities to all?
   Specter.fire = fire;
+  Specter.players = entities.player;
+  Specter.torches = entities.torch;
+  Specter.logs = entities.log;
+  Stalker.players = entities.player;
+  // console.log(entities.player);
   const pack = {
 
     player: Player.update(entities),
     tree: Tree.update(),
     fire: fire.update(),
     specter: Specter.update(),
-
+    stalker: Stalker.update(),
+    log: Log.update(),
+    torch: Torch.update()
   };
 
   for (let i in socketList) {
@@ -114,7 +155,9 @@ setInterval(() => {
       count = 0;
     }
   }
-  spawner1.spawnSpecter()
+
+  spawner1.spawnSpecter();
+  spawner2.spawnStalker();
 }, 1000 / 60);
 
 // Fire dwindles every 10 seconds
