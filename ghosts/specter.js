@@ -58,7 +58,7 @@ class Specter extends Entity {
         const dy = tempPos.y - Specter.fire.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < this.size + fire.size - 50) {
+        if (distance < this.size + fire.size) {
             Specter.delete(this.id);
         }
     }

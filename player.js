@@ -7,7 +7,7 @@ class Player extends Entity {
   constructor(id, pos, size) {
     super(id, pos, size);
     this.state = "NEUTRAL";
-    this.speed = 1;
+    this.speed = 2;
     this.pressingRight = false;
     this.pressingLeft = false;
     this.pressingUp = false;
