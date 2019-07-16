@@ -2,7 +2,7 @@
 // const socket = io();
 
 var canWidth = 1400;
-var canHeight = 750
+var canHeight = 788
 
 //the position where the frame will be drawn
 var x = 650;
@@ -33,7 +33,7 @@ character.src = "/client/images/fire/fire_medium_sprites.png"
 var i = 0;
 var count = 0
 // this changes the speed of the animation
-var spriteSpd = 5
+var spriteSpd = 10
 
 function updateFrame() {
   if (currentFrame < 8 ){

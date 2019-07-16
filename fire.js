@@ -12,7 +12,7 @@ class Fire extends Entity {
   constructor(id, pos, size) {
     super(id, pos, size)
 
-    this.firePower = 10;
+    this.firePower = 20;
     this.radius = this.firePower * 5;
     this.gameOver = false;
 
@@ -22,11 +22,14 @@ class Fire extends Entity {
 
   update () {
     let pack = {
-      x: this.x,
-      y: this.y,
-      radius: this.radius
+      firePower: this.firePower
     }
     return pack;
+  }
+
+  eatLogs () {
+    this.firePower += 5
+    console.log(this.firePower)
   }
 
 

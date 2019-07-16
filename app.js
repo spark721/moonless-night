@@ -2,7 +2,9 @@ const Player = require('./player');
 const Entity = require('./entity');
 const Fire = require('./fire');
 const Tree = require('./tree');
-
+const Specter = require('./ghosts/specter');
+const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
+spawner1.speed = 0;
 
 const express = require("express");
 const app = express();
@@ -23,19 +25,24 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 
 
 
+
 Tree.list = {};
 Player.list = {};
-const fire = new Fire(1, { x: 700, y: 350 }, null);
+const fire = new Fire(1, { x: 700, y: 420 }, 70);
 
 
 const socketList = {};
 
 const entities = {
+
   player: Player.list,
   tree: Tree.list,
+  fire: fire,
+  specter: Specter.list
+
   // ghosts: Ghost.list
 } 
-
+  
 Player.onConnect = socket => {
   const pos = { x: 700, y: 300 };
   const size = 10;
@@ -59,7 +66,12 @@ io.on("connection", socket => {
   socket.id = Math.random();
   socketList[socket.id] = socket;
 
-  console.log(`Client connected`);
+  let clients = io.engine.clientsCount;
+  console.log(`Client connected: ${clients}`);
+
+  if (clients > 2) {
+    socket.disconnect(true);
+  }
 
   Player.onConnect(socket);
 
@@ -79,28 +91,40 @@ io.on("connection", socket => {
 
 Tree.spawnTrees();
 
+let count = 0
+
 setInterval(() => {
+  count++
+
+  
+  
   // pass entities to all?
+  Specter.fire = fire;
+  Specter.players = entities.players;
+  // console.log(entities.players);
   const pack = {
+
+    player: Player.update(entities),
 
 
     player: Player.update(entities),
+
     tree: Tree.update(),
-    fire: fire.update()
-
+    fire: fire.update(),
+    specter: Specter.update()
   };
-
 
   for (let i in socketList) {
     const socket = socketList[i];
     socket.emit("pack", pack)
 
+    if (count === 180) {
+      fire.dwindle();
+      count = 0;
+    }
   }
-
+  spawner1.spawnSpecter()
 }, 1000 / 60);
-
-
-
 
 // Fire dwindles every 10 seconds
 // If the fire burns out, stop dwindling and call gameOver for the whole game
@@ -109,8 +133,7 @@ let firePit = setInterval(() => {
     null
     // game.gameOver();
   } else {
-    // fire.dwindle();
+    fire.firePower--;
   }
 
 }, 3000);
-
