@@ -27,6 +27,8 @@
     // render trees
     for (let i = 0; i < data.tree.length; i++) {
       let tree = data.tree[i];
+
+      if(tree.logs > 0) {
       ctx.beginPath();
       ctx.arc(tree.x, tree.y, tree.size, 0, 2 * Math.PI);
       ctx.stroke();
@@ -34,6 +36,7 @@
       const treeImage = new Image();
       treeImage.src = `/client/images/trees/${(tree.id % 4) + 1}${tree.logs}.png`;
       ctx.drawImage(treeImage, tree.x-50, tree.y-175, 100, 200);
+      }
     } 
     
     //specter
