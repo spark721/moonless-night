@@ -34,8 +34,9 @@
       ctx.stroke();
 
       const treeImage = new Image();
+
       treeImage.src = `/client/images/trees/${(tree.id % 4) + 1}${tree.logs}.png`;
-      ctx.drawImage(treeImage, tree.x-50, tree.y-175, 100, 200);
+      ctx.drawImage(treeImage, tree.x-50 * (tree.logs/6 + 0.5), tree.y-175 * (tree.logs/6 + 0.5), 100 * (tree.logs/6 + 0.5), 200 * (tree.logs/6 + 0.5));
       }
     } 
     
