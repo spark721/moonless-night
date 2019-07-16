@@ -1,103 +1,122 @@
-<link rel="stylesheet" type="text/css" href="/client/stylesheets/index.css">
-<script src="/client/images/fire/medium_fire.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="icon" href="/client/images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="/client/stylesheets/index.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
 
 
-<!-- <body class="body" background="/client/images/background/bk_forest_night.png"> -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/client/images/fire/medium_fire.js"></script>
+
+  <title>Moonless Night</title>
+</head>
+<body>
+
+  <canvas id='ctx' width='1400' height='788' ></canvas>
   
-<canvas background="/client/images/background/bk_forest_night.png"
-        id='ctx'
-        width='1400' 
-        height='788' 
-        style='border:1px solid black'>
-</canvas>
-
-
-<div id="chat-text" style="width:500px; height:100px; overflow-y: scroll">
-  <div>Hello! this is chat box</div>
-</div>
-
-<form id="chat-form">
-  <input type="text"
-         id="chat-input"
-         style="width:500px" >
-</form>
-
-
-
-<script src="/socket.io/socket.io.js"></script>
-<script>
-
-  const chatText = document.getElementById("chat-text")
-  const chatInput = document.getElementById("chat-input")
-  const chatForm = document.getElementById("chat-form")
-
-  const ctx = document.getElementById('ctx').getContext('2d');
-  ctx.font = '30px Arial';
-
-  ctx.fillStyle = "#FFFFFF";
-
-  const socket = io();
-  
-  socket.on('pack', data => {
-    // clear canvas
-    ctx.clearRect(0, 0, 1400, 750);
-    for (let i = 0; i < data.player.length; i++) {
-      ctx.fillText(data.player[i].state, data.player[i].x, data.player[i].y) 
-    }
-    ctx.fillText(`${data.fire.firePower}`, 700, 100);
-
-    // render trees
-    for (let i = 0; i < data.tree.length; i++) {
-      let tree = data.tree[i];
-
-      if(tree.logs > 0) {
-      ctx.beginPath();
-      ctx.arc(tree.x, tree.y, tree.size, 0, 2 * Math.PI);
-      ctx.stroke();
-
-      const treeImage = new Image();
-
-      treeImage.src = `/client/images/trees/${(tree.id % 4) + 1}${tree.logs}.png`;
-      ctx.drawImage(treeImage, tree.x-50 * (tree.logs/6 + 0.5), tree.y-175 * (tree.logs/6 + 0.5), 100 * (tree.logs/6 + 0.5), 200 * (tree.logs/6 + 0.5));
-      }
-    } 
+  <div class="chat">
+    <div id="chat-text">
+      <div>Hello! this is chat box</div>
+    </div>
     
-    //specter
-    for (let i = 0; i < data.specter.length; i++) {
-      ctx.beginPath();
-      ctx.arc(data.specter[i].x, data.specter[i].y, data.specter[i].size, 0, 2 * Math.PI);
-      ctx.stroke();  
+    <form id="chat-form">
+      <input type="text" 
+             id="chat-input"
+             placeholder="type your message here" >
+    </form>
+  </div>
+  
+  
+  <script>
 
-    }    
+    const chatText = document.getElementById("chat-text")
+    const chatInput = document.getElementById("chat-input")
+    const chatForm = document.getElementById("chat-form")
 
-    medFireDrawImage();
-  })
+    const ctx = document.getElementById('ctx').getContext('2d');
+    ctx.font = '30px Arial';
 
-  socket.on("addToChat", (data) => {
-    chatText.innerHTML += '<div>' + data + '</div>';
-  });
+    ctx.fillStyle = "#FFFFFF";
 
-  chatForm.onsubmit = (e) => {
-    e.preventDefault();
-    socket.emit("sendMsgToServer", chatInput.value);
-    chatInput.value = "";
-  };
+    const socket = io();
+
+    socket.on('pack', data => {
+      // clear canvas
+      ctx.clearRect(0, 0, 1400, 750);
+      for (let i = 0; i < data.player.length; i++) {
+        ctx.fillText(data.player[i].state, data.player[i].x, data.player[i].y)
+      }
+      ctx.fillText(`${data.fire.firePower}`, 700, 100);
+
+      // render trees
+      for (let i = 0; i < data.tree.length; i++) {
+        let tree = data.tree[i];
+
+        if (tree.logs > 0) {
+          ctx.beginPath();
+          ctx.arc(tree.x, tree.y, tree.size, 0, 2 * Math.PI);
+          ctx.stroke();
+
+          const treeImage = new Image();
+
+          treeImage.src = `/client/images/trees/${(tree.id % 4) + 1}${tree.logs}.png`;
+          ctx.drawImage(treeImage, tree.x - 50 * (tree.logs / 6 + 0.5), tree.y - 175 * (tree.logs / 6 + 0.5), 100 * (tree.logs / 6 + 0.5), 200 * (tree.logs / 6 + 0.5));
+        }
+      }
+
+      //specter
+      for (let i = 0; i < data.specter.length; i++) {
+        ctx.beginPath();
+        ctx.arc(data.specter[i].x, data.specter[i].y, data.specter[i].size, 0, 2 * Math.PI);
+        ctx.stroke();
+
+      }
+
+      medFireDrawImage();
+    })
+
+    socket.on("addToChat", (data) => {
+      chatText.innerHTML += '<div>' + data + '</div>';
+    });
+
+    chatForm.onsubmit = (e) => {
+      e.preventDefault();
+      socket.emit("sendMsgToServer", chatInput.value);
+      chatInput.value = "";
+    };
 
 
-  document.onkeydown = event => {
-    if (event.keyCode === 68) socket.emit('keyPress', {inputId: 'right', state: true}); // d
-    if (event.keyCode === 65) socket.emit('keyPress', {inputId: 'left', state: true}); // a
-    if (event.keyCode === 87) socket.emit('keyPress', {inputId: 'up', state: true}); // w
-    if (event.keyCode === 83) socket.emit('keyPress', {inputId: 'down', state: true}); // s
-    if (event.keyCode === 74) socket.emit('keyPress', {inputId: 'chop', state: true });
-  }
+    document.onkeydown = event => {
+      if (event.keyCode === 68) socket.emit('keyPress', { inputId: 'right', state: true }); // d
+      if (event.keyCode === 65) socket.emit('keyPress', { inputId: 'left', state: true }); // a
+      if (event.keyCode === 87) socket.emit('keyPress', { inputId: 'up', state: true }); // w
+      if (event.keyCode === 83) socket.emit('keyPress', { inputId: 'down', state: true }); // s
+      if (event.keyCode === 74) socket.emit('keyPress', { inputId: 'chop', state: true });
+    }
 
-  document.onkeyup = event => {
-    if (event.keyCode === 68) socket.emit('keyPress', {inputId: 'right', state: false});
-    if (event.keyCode === 65) socket.emit('keyPress', {inputId: 'left', state: false});
-    if (event.keyCode === 87) socket.emit('keyPress', {inputId: 'up', state: false});
-    if (event.keyCode === 83) socket.emit('keyPress', {inputId: 'down', state: false});
-    if (event.keyCode === 74) socket.emit('keyPress', {inputId: 'chop', state: false });
-  }
-</script>
+    document.onkeyup = event => {
+      if (event.keyCode === 68) socket.emit('keyPress', { inputId: 'right', state: false });
+      if (event.keyCode === 65) socket.emit('keyPress', { inputId: 'left', state: false });
+      if (event.keyCode === 87) socket.emit('keyPress', { inputId: 'up', state: false });
+      if (event.keyCode === 83) socket.emit('keyPress', { inputId: 'down', state: false });
+      if (event.keyCode === 74) socket.emit('keyPress', { inputId: 'chop', state: false });
+    }
+  </script>
+
+  
 </body>
+</html>
+
+
+
+
+
+
+
+
+

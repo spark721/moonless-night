@@ -53,7 +53,7 @@ function updateFrame() {
   
   srcX = currentFrame * width;
 
-  ctx.clearRect(x,y, width, height);
+  // ctx.clearRect(x,y, width, height);
 }
 
 
