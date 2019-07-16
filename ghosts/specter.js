@@ -26,6 +26,10 @@ class Specter extends Entity {
         }   
         return pack;
     }
+
+    static delete(specterId){
+        delete Specter.list[specterId];
+    }
     
     spawnSpecter() {
         // console.log(this.cd)
@@ -50,15 +54,23 @@ class Specter extends Entity {
 
     collideWithFire(fire){
         if ((this.x <= 710 && this.x >= 690) && (this.y <= 360 && this.y >= 340)) {
-            fire.firePower = fire.firePower - 5;
-            delete Specter.list[this.id];
+            fire.firePower = fire.firePower - 10;
+            // delete Specter.list[this.id];
+            Specter.delete(this.id);
         }
+        // const dx = tempPos.x - Specter.fire.x;
+        // const dy = tempPos.y - Specter.fire.y;
+        // const distance = Math.sqrt(dx * dx + dy * dy);
+
+        // if (distance < this.size + fire.size) {
+        //     Specter.delete(this.id);
+        // }
     }
     collideWithPlayer(){
         for (let i in Specter.players) {
             // console.log(Specter.players[i].x);
             if ((this.x >= Specter.players[i].x - 10 && this.x <= Specter.players[i].x + 10) && (this.y >= Specter.players[i].y - 10 && this.y <= Specter.players[i].y + 10)) {
-                console.log('Collided with player')
+                // console.log('Specter collided with player')
             }
         }
     }
