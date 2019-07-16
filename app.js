@@ -87,6 +87,8 @@ Tree.spawnTrees();
 setInterval(() => {
   // pass entities to all?
   Specter.fire = fire;
+  Specter.players = entities.players;
+  // console.log(entities.players);
   const pack = {
 
     player: Player.update(entities.trees),

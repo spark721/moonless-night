@@ -47,6 +47,22 @@ class Specter extends Entity {
         super.update();
         this.updatePosition();
     }
+
+    collideWithFire(fire){
+        if ((this.x <= 710 && this.x >= 690) && (this.y <= 360 && this.y >= 340)) {
+            fire.firePower = fire.firePower - 5;
+            delete Specter.list[this.id];
+        }
+    }
+    collideWithPlayer(){
+        for (let i in Specter.players) {
+            // console.log(Specter.players[i].x);
+            if ((this.x >= Specter.players[i].x - 10 && this.x <= Specter.players[i].x + 10) && (this.y >= Specter.players[i].y - 10 && this.y <= Specter.players[i].y + 10)) {
+                console.log('Collided with player')
+            }
+        }
+    }
+
     moveToObject(object){
         let diffX = object.x - this.x;
         let diffY = object.y - this.y;
@@ -61,11 +77,11 @@ class Specter extends Entity {
             this.y -= this.speed;
         }
     }
+
     updatePosition() {
-        this.moveToObject(Specter.fire)
-        if ((this.x <= 710 & this.x >= 690) && (this.y <= 360 & this.y >= 340)) {
-            delete Specter.list[this.id];
-        }
+        this.moveToObject(Specter.fire);
+        this.collideWithFire(Specter.fire);
+        this.collideWithPlayer();
     };
 
 
