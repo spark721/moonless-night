@@ -125,6 +125,13 @@ class Stalker extends Entity {
         // }
 
     }
+    
+    distance(object) {
+        if (object === undefined) return 0;
+        const dx = this.x - object.x;
+        const dy = this.y - object.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 
     updatePosition() {
         this.updateNearestObjects(Stalker.players)
