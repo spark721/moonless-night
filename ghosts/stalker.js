@@ -1,5 +1,5 @@
 const Entity = require("../entity");
-const Fire = require("../fire")
+const Fire = require("../fire");
 
 // this.state = ['NEUTRAL', 'FETAL', 'TORCH', 'LOG', 'STICK', 'HEALING', 'BEINGHEALED']
 
@@ -9,8 +9,10 @@ class Stalker extends Entity {
         this.state = "NEUTRAL";
         this.speed = 1;
         this.spawned = 0;
-        this.cdMax = 2400;
-        this.cd = 60;
+        this.cdMax = Math.floor((Math.random() * 2400) + 180);
+        this.cd = Math.floor((Math.random() * 180) + 100);
+        this.deathCd = 720;
+        this.summoningSickness = 120;
         this.player = undefined;
         this.spawnStalker = this.spawnStalker.bind(this);
     };
@@ -29,7 +31,6 @@ class Stalker extends Entity {
     }
 
     spawnStalker() {
-        // console.log(this.cd)
         if (this.cd === 0) {
             let pos = {
                 x: Math.floor(Math.random() * 1400),
@@ -38,15 +39,36 @@ class Stalker extends Entity {
             this.spawned += 1;
             let stalker = new Stalker(this.spawned, pos, 30);
             Stalker.list[this.spawned] = stalker;
-            this.cd = this.cdMax;
+            this.cd = Math.floor((Math.random() * 2400) + 180);
+            this.spawnCd = false;
         }
         this.cd -= 1
+    }
+
+    delete() {
+        if (this.deathCd === 0){
+            delete Stalker.list[this.id];
+        }
+        this.deathCd--;
+    }
+
+    summonSickness(){
+        if (this.summoningSickness > 0){
+            this.summoningSickness--;
+            this.speed = 0;
+            // return false;
+        }else{
+            this.speed = 1;
+            // return true;
+        }
     }
 
     // nice
     update() {
         super.update();
+        this.summonSickness();
         this.updatePosition();
+        this.delete();
     }
 
     // collideWithFire(fire) {

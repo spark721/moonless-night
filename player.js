@@ -1,4 +1,6 @@
 const Entity = require("./entity");
+const Torch = require('./items/torch');
+const Log = require('./items/log');
 
 class Player extends Entity {
 
@@ -11,11 +13,14 @@ class Player extends Entity {
     this.pressingUp = false;
     this.pressingDown = false;
     this.pressingChop = false;
+    this.pressingDrop = false;
     this.tree = undefined;
     this.fire = undefined;
+    this.log = undefined;
+    this.torch = undefined;
     this.player = undefined;
     this.ghost = undefined;
-
+    this.spawned = 0;
   }
 
   static update(entities) {
@@ -36,6 +41,7 @@ class Player extends Entity {
     if (entities) this.updateNearestObjects(entities);
     this.updatePosition(entities);
     this.chop();
+    this.drop();
   }
 
   updateNearestObjects(entities) {
@@ -53,9 +59,43 @@ class Player extends Entity {
     } else {
       this.tree = undefined;
     }
+    ////////////////////////////////////////////////////////////////
+    const logs = Object.values(entities.log)
+    const sortedLogs = logs.sort((a, b) => {
+      return this.distance(a) - this.distance(b);
+    });
 
-    if (this.distance(this.fire) < 120 && this.state === "LOGS") {
-      this.state = "TORCH"
+    const closestLog = sortedLogs[0];
+
+    if (this.distance(closestLog) < 70) {
+      this.log = closestLog;
+    } else {
+      this.log = undefined;
+    }
+    ////////////////////////////////////////////////////////////////
+    const torches = Object.values(entities.torch)
+    const sortedTorches = torches.sort((a, b) => {
+      return this.distance(a) - this.distance(b);
+    });
+
+    const closestTorch = sortedTorches[0];
+
+    if (this.distance(closestTorch) < 70) {
+      this.torch = closestTorch;
+    } else {
+      this.torch = undefined;
+    }
+
+    if (this.distance(this.fire) < 120 && this.state === "NEUTRAL" && this.pressingChop) {
+      this.state = "TORCH";
+    }
+    if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
+      Log.delete(this.log.id);
+      this.state = "LOGS";
+    }
+    if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
+      Torch.delete(this.torch.id);
+      this.state = "TORCH";
     }
   }
 
@@ -74,8 +114,12 @@ class Player extends Entity {
       this.y = tempPos.y;
     }
 
-    if (this.pressingChop && this.distance(this.fire) < 110 && this.state === "TORCH") {
+    if (this.pressingChop && this.distance(this.fire) < 110 && this.state === "LOGS") {
       this.fire.eatLogs();
+      this.state = "NEUTRAL"
+    }
+    if (this.pressingChop && this.distance(this.fire) < 110 && this.state === "TORCH") {
+      // this.fire.eatLogs();
       this.state = "NEUTRAL"
     }
 
@@ -92,6 +136,22 @@ class Player extends Entity {
     if (this.state === "NEUTRAL" && this.tree && this.pressingChop) {
       this.tree.chopped();
       this.state = "LOGS";
+    }
+  }
+
+  drop() {
+    if (this.pressingDrop){
+      if(this.state === "TORCH"){
+        this.state = "NEUTRAL";
+        let torch = new Torch(this.spawned, { x: this.x, y: this.y }, 15);
+        Torch.list[this.spawned] = torch;
+        this.spawned++;
+      } else if (this.state === "LOGS"){
+        this.state = "NEUTRAL";
+        let log = new Log(this.spawned, { x: this.x, y: this.y }, 15);
+        Log.list[this.spawned] = log;
+        this.spawned++;
+      }
     }
   }
 

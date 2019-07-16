@@ -53,18 +53,19 @@ class Specter extends Entity {
     }
 
     collideWithFire(fire){
-        if ((this.x <= 710 && this.x >= 690) && (this.y <= 360 && this.y >= 340)) {
-            fire.firePower = fire.firePower - 10;
-            // delete Specter.list[this.id];
-            Specter.delete(this.id);
-        }
-        // const dx = tempPos.x - Specter.fire.x;
-        // const dy = tempPos.y - Specter.fire.y;
-        // const distance = Math.sqrt(dx * dx + dy * dy);
-
-        // if (distance < this.size + fire.size) {
+        // if ((this.x <= 710 && this.x >= 690) && (this.y <= 360 && this.y >= 340)) {
+        //     fire.firePower = fire.firePower - 10;
+        //     // delete Specter.list[this.id];
         //     Specter.delete(this.id);
         // }
+        const tempPos = { x: this.x, y: this.y };
+        const dx = tempPos.x - Specter.fire.x;
+        const dy = tempPos.y - Specter.fire.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < this.size + fire.size - 50) {
+            Specter.delete(this.id);
+        }
     }
     collideWithPlayer(){
         for (let i in Specter.players) {
