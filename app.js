@@ -66,7 +66,12 @@ io.on("connection", socket => {
   socket.id = Math.random();
   socketList[socket.id] = socket;
 
-  console.log(`Client connected`);
+  let clients = io.engine.clientsCount;
+  console.log(`Client connected: ${clients}`);
+
+  if (clients > 2) {
+    socket.disconnect(true);
+  }
 
   Player.onConnect(socket);
 
