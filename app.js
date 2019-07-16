@@ -41,7 +41,7 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 
 Tree.list = {};
 Player.list = {};
-const fire = new Fire(1, { x: 685, y: 390 }, 40);
+const fire = new Fire(1, { x: 700, y: 420 }, 30);
 
 
 const socketList = {};
@@ -61,7 +61,7 @@ const entities = {
   
 Player.onConnect = socket => {
   const pos = { x: 700, y: 300 };
-  const size = 10;
+  const size = 15;
   const player = new Player(socket.id, pos, size);
   Player.list[socket.id] = player;
   socket.on("keyPress", data => {
