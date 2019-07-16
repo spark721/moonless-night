@@ -22,14 +22,24 @@ app.get("/", (req, res) => {
 app.use("/client", express.static(__dirname + "/client"));
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
-const fire = new Fire(1, { x: 700, y: 350 }, null);
+
+
+
+
+Tree.list = {};
+Player.list = {};
+const fire = new Fire(1, { x: 700, y: 420 }, 70);
+
 
 const socketList = {};
 
 const entities = {
-  players: Player.list,
-  trees: Tree.list,
+
+  player: Player.list,
+  tree: Tree.list,
+  fire: fire,
   specter: Specter.list
+
   // ghosts: Ghost.list
 } 
   
@@ -76,10 +86,19 @@ io.on("connection", socket => {
 
 Tree.spawnTrees();
 
+let count = 0
+
 setInterval(() => {
+  count++
+
+  
+  
   // pass entities to all?
   Specter.fire = fire;
   const pack = {
+
+    player: Player.update(entities),
+
 
     player: Player.update(entities),
 
@@ -92,6 +111,10 @@ setInterval(() => {
     const socket = socketList[i];
     socket.emit("pack", pack)
 
+    if (count === 180) {
+      fire.dwindle();
+      count = 0;
+    }
   }
   spawner1.spawnSpecter()
 }, 1000 / 60);
@@ -103,7 +126,7 @@ let firePit = setInterval(() => {
     null
     // game.gameOver();
   } else {
-    // fire.dwindle();
+    fire.firePower--;
   }
 
 }, 3000);

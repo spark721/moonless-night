@@ -11,6 +11,9 @@
 <script>
   const ctx = document.getElementById('ctx').getContext('2d');
   ctx.font = '30px Arial';
+
+  ctx.fillStyle = "#FFFFFF";
+
   const socket = io();
   
   socket.on('pack', data => {
@@ -19,8 +22,7 @@
     for (let i = 0; i < data.player.length; i++) {
       ctx.fillText(data.player[i].state, data.player[i].x, data.player[i].y) 
     }
-    
-    // ctx.beginPath();
+    ctx.fillText(`${data.fire.firePower}`, 700, 100);
 
     // render trees
     for (let i = 0; i < data.tree.length; i++) {

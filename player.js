@@ -39,6 +39,8 @@ class Player extends Entity {
   }
 
   updateNearestObjects(entities) {
+  
+    this.fire = entities.fire;
     const trees = Object.values(entities.tree)
     const sortedTrees = trees.sort((a, b) => {
       return this.distance(a) - this.distance(b);
@@ -51,10 +53,16 @@ class Player extends Entity {
     } else {
       this.tree = undefined;
     }
+
+    if (this.distance(this.fire) < 120 && this.state === "LOGS") {
+      console.log(this.distance(this.fire))
+      this.state = "TORCH"
+    }
   }
 
   updatePosition(entities) {
     const trees = Object.values(entities.tree);
+   
     const tempPos = { x: this.x, y: this.y };
 
     if (this.pressingRight) tempPos.x += this.speed;
@@ -62,10 +70,16 @@ class Player extends Entity {
     if (this.pressingDown) tempPos.y += this.speed;
     if (this.pressingUp) tempPos.y -= this.speed;
 
-    if (!this.playerTreeCollision(tempPos, trees)) {
+    if (!this.playerTreeCollision(tempPos, trees) && !this.playerFireCollision(tempPos, this.fire)) {
       this.x = tempPos.x;
       this.y = tempPos.y;
     }
+
+    if (this.pressingChop && this.distance(this.fire) < 110 && this.state === "TORCH") {
+      this.fire.eatLogs();
+      this.state = "NEUTRAL"
+    }
+
   }
 
   distance(object) {
@@ -82,6 +96,7 @@ class Player extends Entity {
     }
   }
 
+
   playerTreeCollision(tempPos, treeList) {
     return Object.values(treeList).some(tree => {
       const dx = tempPos.x - tree.x;
@@ -93,6 +108,16 @@ class Player extends Entity {
       }
     });
   }
+
+  playerFireCollision(tempPos, fire) {
+    const dx = tempPos.x - fire.x;
+    const dy = tempPos.y - fire.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < this.size + fire.size){
+      return true;
+    }
+  };
 };
 
 Player.list = {};
