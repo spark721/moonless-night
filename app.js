@@ -11,10 +11,12 @@ const Player = require('./player');
 const Entity = require('./entity');
 const Fire = require('./fire');
 const Tree = require('./tree');
+const Log = require('./items/log');
+const Torch = require('./items/torch');
 const Specter = require('./ghosts/specter');
 const Stalker = require('./ghosts/stalker');
 
-const fire = new Fire(1, { x: 700, y: 420 }, 70);
+const fire = new Fire(1, { x: 700, y: 420 }, 30);
 const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
 const spawner2 = new Stalker(0, { x: 1, y: 1 }, 15);
 
@@ -38,11 +40,12 @@ app.get("/game", (req, res) => {
 app.use("/client", express.static(__dirname + "/client"));
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
+
 spawner1.speed = 0;
 spawner2.speed = 0;
-
 Tree.list = {};
 Player.list = {};
+
 
 const entities = {
 
@@ -50,22 +53,25 @@ const entities = {
   tree: Tree.list,
   fire: fire,
   specter: Specter.list,
-  stalker: Stalker.list
+  stalker: Stalker.list,
+  torch: Torch.list,
+  log: Log.list
 
   // ghosts: Ghost.list
 } 
   
 Player.onConnect = socket => {
   const pos = { x: 700, y: 300 };
-  const size = 10;
+  const size = 15;
   const player = new Player(socket.id, pos, size);
   Player.list[socket.id] = player;
   socket.on("keyPress", data => {
-    if (data.inputId === "right") player.pressingRight = data.state;
+    if (data.inputId === "right") player.pressingRight = data.state; 
     if (data.inputId === "left") player.pressingLeft = data.state;
     if (data.inputId === "up") player.pressingUp = data.state;
     if (data.inputId === "down") player.pressingDown = data.state;
     if (data.inputId === "chop") player.pressingChop = data.state;
+    if (data.inputId === "drop") player.pressingDrop = data.state;
   });
 }
 
@@ -126,19 +132,19 @@ setInterval(() => {
   // pass entities to all?
   Specter.fire = fire;
   Specter.players = entities.player;
+  Specter.torches = entities.torch;
+  Specter.logs = entities.log;
   Stalker.players = entities.player;
   // console.log(entities.player);
   const pack = {
 
     player: Player.update(entities),
-
-
-    player: Player.update(entities),
-
     tree: Tree.update(),
     fire: fire.update(),
     specter: Specter.update(),
-    stalker: Stalker.update()
+    stalker: Stalker.update(),
+    log: Log.update(),
+    torch: Torch.update()
   };
 
   for (let i in socketList) {

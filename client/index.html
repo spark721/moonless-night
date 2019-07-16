@@ -5,21 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+
   <link rel="icon" href="/client/images/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/client/stylesheets/index.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
 
-
+  <link rel="stylesheet" type="text/css" href="/client/stylesheets/index.css">
   <script src="/socket.io/socket.io.js"></script>
   <script src="/client/images/fire/medium_fire.js"></script>
+  <script src="/client/images/stalker/stalker_sprite.js"></script>
+  <script src="/client/images/player/XX/walking/player_walk_right.js"></script>
+  <script src="/client/images/player/XX/walking/player_walk_left.js"></script>
+  <script src="/client/images/player/XX/walking/player_walk_up.js"></script>
+  <script src="/client/images/player/XX/walking/player_walk_down.js"></script>
+  <script src="/client/images/player/XX/idle/player_idle.js"></script>
 
   <title>Moonless Night</title>
 </head>
 <body>
-
   <div class="canvas-chat">
     <canvas id='ctx' width='1400' height='788' ></canvas>
-    
     <div class="chat">
       <div id="chat-text">
         <div>Keep the fire going!</div>
@@ -46,14 +51,35 @@
     ctx.fillStyle = "#FFFFFF";
 
     const socket = io();
+    let coords;
 
     socket.on('pack', data => {
       // clear canvas
       ctx.clearRect(0, 0, 1400, 750);
       for (let i = 0; i < data.player.length; i++) {
-        ctx.fillText(data.player[i].state, data.player[i].x, data.player[i].y)
+        ctx.fillText(data.player[i].state, 100, 100)
+        ctx.beginPath();
+        ctx.arc(data.player[i].x, data.player[i].y, data.player[i].size, 0, 2 * Math.PI);
+        ctx.stroke();
+        coords = data;
+
+        if (data.player[i].pressingRight) drawWalkRight(coords.player[i].x - 17, coords.player[i].y - 55)
+        if (data.player[i].pressingLeft) drawWalkLeft(coords.player[i].x - 17, coords.player[i].y - 55)
+        if (data.player[i].pressingUp) drawWalkUp(coords.player[i].x - 17, coords.player[i].y - 55)
+        if (data.player[i].pressingDown) drawWalkDown(coords.player[i].x - 17, coords.player[i].y - 55)
+
+        if (
+          !data.player[i].pressingDown &&
+          !data.player[i].pressingUp &&
+          !data.player[i].pressingLeft &&
+          !data.player[i].pressingRight) {
+          drawPlayerIdle(coords.player[i].x - 17, coords.player[i].y - 55)
+        }
       }
       ctx.fillText(`${data.fire.firePower}`, 700, 100);
+      ctx.beginPath();
+      ctx.arc(data.fire.x, data.fire.y, data.fire.size, 0, 2 * Math.PI);
+      ctx.stroke();
 
       // render trees
       for (let i = 0; i < data.tree.length; i++) {
@@ -71,29 +97,49 @@
         }
       }
 
-      //specter
-      for (let i = 0; i < data.specter.length; i++) {
-        ctx.fillStyle = "#3370d4";
-        ctx.beginPath();
-        ctx.arc(data.specter[i].x, data.specter[i].y, data.specter[i].size, 0, 2 * Math.PI);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();  
-      }    
-      //stalker
-      for (let i = 0; i < data.stalker.length; i++) {
-        ctx.fillStyle = "#c82124";
-        ctx.beginPath();
-        ctx.arc(data.stalker[i].x, data.stalker[i].y, data.stalker[i].size, 0, 2 * Math.PI);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();  
-      } 
-
-      ctx.fillStyle = "rgba(255, 255, 255, 0)";
-      medFireDrawImage();
-      ctx.fillStyle = "rgba(255, 255, 255, 0)";
-      ctx.fillStyle = "#FFFFFF";
+    //specter
+    for (let i = 0; i < data.specter.length; i++) {
+      ctx.fillStyle = "#3370d4";
+      ctx.beginPath();
+      ctx.arc(data.specter[i].x, data.specter[i].y, data.specter[i].size, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();  
+    
+    }    
+    //stalker
+    for (let i = 0; i < data.stalker.length; i++) {
+      ctx.fillStyle = "#c82124";
+      ctx.beginPath();
+      ctx.arc(data.stalker[i].x, data.stalker[i].y, data.stalker[i].size, 0, 2 * Math.PI);
+      // stalkerDrawImage(data.stalker[i].x, data.stalker[i].y);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();  
+    }    
+    //log
+    for (let i = 0; i < data.log.length; i++) {
+      ctx.fillStyle = "brown";
+      ctx.beginPath();
+      ctx.arc(data.log[i].x, data.log[i].y, data.log[i].size, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();  
+    }    
+    //torch
+    for (let i = 0; i < data.torch.length; i++) {
+      ctx.fillStyle = "orange";
+      ctx.beginPath();
+      ctx.arc(data.torch[i].x, data.torch[i].y, data.torch[i].size, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();  
+    }    
+    ctx.fillStyle = "rgba(255, 255, 255, 0)";
+    medFireDrawImage();
+    ctx.fillStyle = "#FFFFFF";
+      
+      
     })
 
     socket.on("addToChat", (data) => {
@@ -113,6 +159,7 @@
       if (event.keyCode === 87) socket.emit('keyPress', { inputId: 'up', state: true }); // w
       if (event.keyCode === 83) socket.emit('keyPress', { inputId: 'down', state: true }); // s
       if (event.keyCode === 74) socket.emit('keyPress', { inputId: 'chop', state: true });
+      if (event.keyCode === 75) socket.emit('keyPress', {inputId: 'drop', state: true });
     }
 
     document.onkeyup = event => {
@@ -121,6 +168,7 @@
       if (event.keyCode === 87) socket.emit('keyPress', { inputId: 'up', state: false });
       if (event.keyCode === 83) socket.emit('keyPress', { inputId: 'down', state: false });
       if (event.keyCode === 74) socket.emit('keyPress', { inputId: 'chop', state: false });
+      if (event.keyCode === 75) socket.emit('keyPress', {inputId: 'drop', state: false });
     }
   </script>
 
