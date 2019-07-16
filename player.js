@@ -6,7 +6,6 @@ class Player extends Entity {
     super(id, pos, size);
     this.state = "NEUTRAL";
     this.speed = 3;
-
     this.pressingRight = false;
     this.pressingLeft = false;
     this.pressingUp = false;
@@ -34,7 +33,7 @@ class Player extends Entity {
 
   update(entities) {
     super.update();
-    this.updateNearestObjects(entities);
+    if (entities) this.updateNearestObjects(entities);
     this.updatePosition(entities);
     this.chop();
   }
@@ -84,6 +83,7 @@ class Player extends Entity {
   }
 
   distance(object) {
+    if (object === undefined) return 0;
     const dx = this.x - object.x;
     const dy = this.y - object.y;
     return Math.sqrt(dx * dx + dy * dy);

@@ -2,7 +2,9 @@ const Player = require('./player');
 const Entity = require('./entity');
 const Fire = require('./fire');
 const Tree = require('./tree');
-
+const Specter = require('./ghosts/specter');
+const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
+spawner1.speed = 0;
 
 const express = require("express");
 const app = express();
@@ -23,6 +25,7 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 
 
 
+
 Tree.list = {};
 Player.list = {};
 const fire = new Fire(1, { x: 700, y: 420 }, 70);
@@ -31,18 +34,20 @@ const fire = new Fire(1, { x: 700, y: 420 }, 70);
 const socketList = {};
 
 const entities = {
+
   player: Player.list,
   tree: Tree.list,
   fire: fire,
+  specter: Specter.list
+
   // ghosts: Ghost.list
 } 
-
+  
 Player.onConnect = socket => {
-  const id = Object.keys(socketList).length;
   const pos = { x: 700, y: 300 };
   const size = 10;
-  const player = new Player(id, pos, size);
-  Player.list[id] = player;
+  const player = new Player(socket.id, pos, size);
+  Player.list[socket.id] = player;
   socket.on("keyPress", data => {
     if (data.inputId === "right") player.pressingRight = data.state;
     if (data.inputId === "left") player.pressingLeft = data.state;
@@ -70,11 +75,11 @@ io.on("connection", socket => {
     console.log(`Client disconnected`);
 
     delete socketList[socket.id];
+    delete Player.list[socket.id];
+
     Player.onDisconnect(socket);
   });
 });
-
-
 
 // game.js?
 // Ghost.spawnGhosts();
@@ -89,15 +94,18 @@ setInterval(() => {
   
   
   // pass entities to all?
+  Specter.fire = fire;
   const pack = {
+
+    player: Player.update(entities),
 
 
     player: Player.update(entities),
+
     tree: Tree.update(),
-    fire: fire.update()
-
+    fire: fire.update(),
+    specter: Specter.update()
   };
-
 
   for (let i in socketList) {
     const socket = socketList[i];
@@ -108,11 +116,8 @@ setInterval(() => {
       count = 0;
     }
   }
-
+  spawner1.spawnSpecter()
 }, 1000 / 60);
-
-
-
 
 // Fire dwindles every 10 seconds
 // If the fire burns out, stop dwindling and call gameOver for the whole game
@@ -125,4 +130,3 @@ let firePit = setInterval(() => {
   }
 
 }, 3000);
-
