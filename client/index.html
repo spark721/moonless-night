@@ -4,11 +4,33 @@
 
 <!-- <body class="body" background="/client/images/background/bk_forest_night.png"> -->
   
-<canvas background="/client/images/background/bk_forest_night.png" id='ctx' width='1400' height='788' style='border:1px solid black'></canvas>
+<canvas background="/client/images/background/bk_forest_night.png"
+        id='ctx'
+        width='1400' 
+        height='788' 
+        style='border:1px solid black'>
+</canvas>
+
+
+<div id="chat-text" style="width:500px; height:100px; overflow-y: scroll">
+  <div>Hello! this is chat box</div>
+</div>
+
+<form id="chat-form">
+  <input type="text"
+         id="chat-input"
+         style="width:500px" >
+</form>
+
 
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
+
+  const chatText = document.getElementById("chat-text")
+  const chatInput = document.getElementById("chat-input")
+  const chatForm = document.getElementById("chat-form")
+
   const ctx = document.getElementById('ctx').getContext('2d');
   ctx.font = '30px Arial';
 
@@ -50,6 +72,17 @@
 
     medFireDrawImage();
   })
+
+  socket.on("addToChat", (data) => {
+    chatText.innerHTML += '<div>' + data + '</div>';
+  });
+
+  chatForm.onsubmit = (e) => {
+    e.preventDefault();
+    socket.emit("sendMsgToServer", chatInput.value);
+    chatInput.value = "";
+  };
+
 
   document.onkeydown = event => {
     if (event.keyCode === 68) socket.emit('keyPress', {inputId: 'right', state: true}); // d
