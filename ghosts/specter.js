@@ -1,5 +1,5 @@
 const Entity = require("../entity");
-const Fire = require("../fire")
+const Torch = require('../items/torch');
 
 // this.state = ['NEUTRAL', 'FETAL', 'TORCH', 'LOG', 'STICK', 'HEALING', 'BEINGHEALED']
 
@@ -53,19 +53,30 @@ class Specter extends Entity {
     }
 
     collideWithFire(fire){
-        if ((this.x <= 710 && this.x >= 690) && (this.y <= 360 && this.y >= 340)) {
-            fire.firePower = fire.firePower - 10;
-            // delete Specter.list[this.id];
+        const tempPos = { x: this.x, y: this.y };
+        const dx = tempPos.x - Specter.fire.x;
+        const dy = tempPos.y - Specter.fire.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < this.size + fire.size - 50) {
             Specter.delete(this.id);
         }
-        // const dx = tempPos.x - Specter.fire.x;
-        // const dy = tempPos.y - Specter.fire.y;
-        // const distance = Math.sqrt(dx * dx + dy * dy);
-
-        // if (distance < this.size + fire.size) {
-        //     Specter.delete(this.id);
-        // }
     }
+    collideWithTorch(torches){
+        for (let i in torches) {
+            // console.log(Specter.players[i].x);
+            const tempPos = { x: this.x, y: this.y };
+            const dx = tempPos.x - torches[i].x;
+            const dy = tempPos.y - torches[i].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+    
+            if (distance < this.size + torches[i].size) {
+                Torch.delete(torches[i].id)
+                Specter.delete(this.id);
+            }
+        }
+    }
+
     collideWithPlayer(){
         for (let i in Specter.players) {
             // console.log(Specter.players[i].x);
@@ -94,6 +105,7 @@ class Specter extends Entity {
         this.moveToObject(Specter.fire);
         this.collideWithFire(Specter.fire);
         this.collideWithPlayer();
+        this.collideWithTorch(Specter.torches);
     };
 
 

@@ -3,6 +3,8 @@ const Player = require('./player');
 const Entity = require('./entity');
 const Fire = require('./fire');
 const Tree = require('./tree');
+const Log = require('./items/log');
+const Torch = require('./items/torch');
 const Specter = require('./ghosts/specter');
 const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
 const Stalker = require('./ghosts/stalker')
@@ -54,7 +56,9 @@ const entities = {
   tree: Tree.list,
   fire: fire,
   specter: Specter.list,
-  stalker: Stalker.list
+  stalker: Stalker.list,
+  torch: Torch.list,
+  log: Log.list
 
   // ghosts: Ghost.list
 } 
@@ -70,6 +74,7 @@ Player.onConnect = socket => {
     if (data.inputId === "up") player.pressingUp = data.state;
     if (data.inputId === "down") player.pressingDown = data.state;
     if (data.inputId === "chop") player.pressingChop = data.state;
+    if (data.inputId === "drop") player.pressingDrop = data.state;
   });
 }
 
@@ -130,19 +135,19 @@ setInterval(() => {
   // pass entities to all?
   Specter.fire = fire;
   Specter.players = entities.player;
+  Specter.torches = entities.torch;
+  Specter.logs = entities.log;
   Stalker.players = entities.player;
   // console.log(entities.player);
   const pack = {
 
     player: Player.update(entities),
-
-
-    player: Player.update(entities),
-
     tree: Tree.update(),
     fire: fire.update(),
     specter: Specter.update(),
-    stalker: Stalker.update()
+    stalker: Stalker.update(),
+    log: Log.update(),
+    torch: Torch.update()
   };
 
   for (let i in socketList) {
