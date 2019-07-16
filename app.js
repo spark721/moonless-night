@@ -24,7 +24,7 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 
 Tree.list = {};
 Player.list = {};
-const fire = new Fire(1, { x: 700, y: 420 }, 70);
+const fire = new Fire(1, { x: 685, y: 390 }, 40);
 
 
 const socketList = {};

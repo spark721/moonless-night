@@ -54,7 +54,7 @@ class Player extends Entity {
       this.tree = undefined;
     }
 
-    if (this.distance(this.fire) < 120 && this.state === "LOGS") {
+    if (this.distance(this.fire) < 100 && this.state === "LOGS") {
       console.log(this.distance(this.fire))
       this.state = "TORCH"
     }
