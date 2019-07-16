@@ -11,7 +11,6 @@
 <script>
   const ctx = document.getElementById('ctx').getContext('2d');
   ctx.font = '30px Arial';
-  
   const socket = io();
   
   socket.on('pack', data => {
@@ -29,9 +28,18 @@
       ctx.beginPath();
       ctx.arc(tree.x, tree.y, tree.size, 0, 2 * Math.PI);
       ctx.stroke();
+
       const treeImage = new Image();
       treeImage.src = `/client/images/trees/${(tree.id % 4) + 1}${tree.logs}.png`;
       ctx.drawImage(treeImage, tree.x-50, tree.y-175, 100, 200);
+    } 
+    
+    //specter
+    for (let i = 0; i < data.specter.length; i++) {
+      ctx.beginPath();
+      ctx.arc(data.specter[i].x, data.specter[i].y, data.specter[i].size, 0, 2 * Math.PI);
+      ctx.stroke();  
+
     }    
 
     medFireDrawImage();
