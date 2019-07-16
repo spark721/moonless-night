@@ -5,6 +5,12 @@ const Fire = require('./fire');
 const Tree = require('./tree');
 const Specter = require('./ghosts/specter');
 const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
+const express = require("express");
+const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
+
+const port = process.env.PORT || 2000;
 
 if (process.env.NODE_ENV === 'production') {
   app.use("/client", express.static(__dirname + "/client"));
@@ -19,14 +25,7 @@ if (process.env.NODE_ENV === 'production') {
 
 spawner1.speed = 0;
 
-const express = require("express");
-const app = express();
-const server = require("http").Server(app);
-// const http = require("http");
-// const server = http.createServer(app);
-const io = require("socket.io")(server);
 
-const port = process.env.PORT || 2000;
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/client/index.html");
