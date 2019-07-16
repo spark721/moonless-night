@@ -82,6 +82,14 @@ Player.onDisconnect = socket => {
   delete Player.list[socket.id];
 };
 
+
+
+// game.js?
+// Ghost.spawnGhosts();
+
+Tree.spawnTrees();
+
+
 // on client "connection", do the following
 io.on("connection", socket => {
   socket.id = Math.random();
@@ -105,12 +113,18 @@ io.on("connection", socket => {
 
     Player.onDisconnect(socket);
   });
+
+  socket.on("sendMsgToServer", (data) => {
+    let playerName = ("" + socket.id).slice(2, 7);
+    for (let i in socketList) {
+      socketList[i].emit("addToChat", playerName + ": " + data);
+    }
+  })
 });
 
-// game.js?
-// Ghost.spawnGhosts();
 
 Tree.spawnTrees();
+
 let count = 0
 
 setInterval(() => {
