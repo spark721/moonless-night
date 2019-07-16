@@ -34,11 +34,10 @@ const entities = {
 } 
   
 Player.onConnect = socket => {
-  const id = Object.keys(socketList).length;
   const pos = { x: 700, y: 300 };
   const size = 10;
-  const player = new Player(id, pos, size);
-  Player.list[id] = player;
+  const player = new Player(socket.id, pos, size);
+  Player.list[socket.id] = player;
   socket.on("keyPress", data => {
     if (data.inputId === "right") player.pressingRight = data.state;
     if (data.inputId === "left") player.pressingLeft = data.state;
@@ -66,6 +65,8 @@ io.on("connection", socket => {
     console.log(`Client disconnected`);
 
     delete socketList[socket.id];
+    delete Player.list[socket.id];
+
     Player.onDisconnect(socket);
   });
 });
@@ -79,7 +80,9 @@ setInterval(() => {
   // pass entities to all?
   Specter.fire = fire;
   const pack = {
-    player: Player.update(entities.trees),
+
+    player: Player.update(entities),
+
     tree: Tree.update(),
     fire: fire.update(),
     specter: Specter.update()

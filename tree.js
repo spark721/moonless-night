@@ -5,20 +5,44 @@ const Entity = require("./entity");
 class Tree extends Entity {
   constructor(id, pos, size) {
     super(id, pos, size);
-    this.logs = 10;
+    this.logs = 3;
     this.state = "NEUTRAL";
   }
 
   static spawnTrees() {
-    for (let i = 0; i < 10; i++) {
-      let pos = {
-        x: Math.floor(Math.random() * 1400),
-        y: Math.floor(Math.random() * 750)
-      };
+    // let i = 0;
 
-      let tree = new Tree(i, pos, 50);
-      this.list[i] = tree;
+    // for (let x = 1; x < 5; x++) {
+    //   for (let y = 1; y < 4; y++) {        
+    //     let pos = {
+    //       x: 175 + 350*(x - 1),
+    //       y: 50 + 200*y,
+    //     };
+        
+    //     i += 1;
+    //     let tree = new Tree(i, pos, 25);
+    //     this.list[i] = tree;
+    //   }
+    // }
+
+    Object.values(Tree.createNodes(24, 300)).forEach(tree => {
+      let pos = { x: tree.x, y: tree.y };
+      this.list[tree.id] = new Tree(tree.id, pos, 25);
+    });
+  }
+
+  static createNodes(numNodes, radius) {
+    const nodes = [];
+    const width = (radius * 2) + 700;
+
+    for (let i=0; i < numNodes; i++) {
+      let angle = (i / (numNodes/2)) * Math.PI; // Calculate the angle at which the element will be placed.
+      let x = (radius * Math.cos(angle)) + (width/2) + 40; // Calculate the x position of the element.
+      let y = (radius * 0.75 * Math.sin(angle)) + (width/2) - 175; // Calculate the y position of the element.
+      nodes.push({'id': i, 'x': x, 'y': y});
     }
+
+    return nodes;
   }
 
   static update() {
@@ -35,7 +59,6 @@ class Tree extends Entity {
 
   // call chopped when tree is chopped
   chopped() {
-    console.log('chop');
     this.logs -= 1;
   }
 
@@ -46,8 +69,13 @@ class Tree extends Entity {
 
   // update
   updateSize() {
-    this.size = this.logs * 5;
+    this.size = this.logs * 10;
   }
+
+  // can't call from index.html for some reason
+  // getImage() {
+  //   return `/client/images/trees/${(tree.id % 4) + 1}${tree.logs}.png`;
+  // }
 }
 
 Tree.list = {};
