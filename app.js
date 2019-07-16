@@ -3,11 +3,9 @@ const Entity = require('./entity');
 const Fire = require('./fire');
 const Tree = require('./tree');
 const Specter = require('./ghosts/specter');
-const SpecterLeft = require('./ghosts/specterLeft');
 const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
 spawner1.speed = 0;
-const spawner2 = new SpecterLeft(0, { x: 1300, y: 375 }, 15);
-spawner2.speed = 0;
+
 
 
 const express = require("express");
@@ -38,8 +36,7 @@ const socketList = {};
 const entities = {
   players: Player.list,
   trees: Tree.list,
-  specter: Specter.list,
-  specterLeft: SpecterLeft.list
+  specter: Specter.list
 } 
   
 Player.onConnect = socket => {
@@ -89,13 +86,13 @@ Tree.spawnTrees();
 
 setInterval(() => {
   // pass entities to all?
+  Specter.fire = fire;
   const pack = {
 
     player: Player.update(entities.trees),
     tree: Tree.update(),
     fire: fire.update(),
-    specter: Specter.update(),
-    specterLeft: SpecterLeft.update()
+    specter: Specter.update()
   };
 
   for (let i in socketList) {
@@ -103,8 +100,7 @@ setInterval(() => {
     socket.emit("pack", pack)
 
   }
-  spawner1.spawnSpecter();
-  spawner2.spawnSpecter();
+  spawner1.spawnSpecter()
 }, 1000 / 60);
 
 

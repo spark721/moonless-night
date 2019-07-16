@@ -30,8 +30,12 @@ class Specter extends Entity {
     spawnSpecter() {
         // console.log(this.cd)
         if (this.cd === 0){
+            let pos = {
+                x: Math.floor(Math.random() * 1400),
+                y: Math.floor(Math.random() * 750)
+            }
             this.spawned += 1;
-            let specter = new Specter(this.spawned, { x: 1, y: 375 }, 15);
+            let specter = new Specter(this.spawned, pos, 15);
             Specter.list[this.spawned] = specter;
             this.cd = this.cdMax;
         }
@@ -43,12 +47,24 @@ class Specter extends Entity {
         super.update();
         this.updatePosition();
     }
-
+    moveToObject(object){
+        let diffX = object.x - this.x;
+        let diffY = object.y - this.y;
+        if (diffX > 0) {
+            this.x += this.speed;
+        } else {
+            this.x -= this.speed;
+        }
+        if (diffY > 0) {
+            this.y += this.speed;
+        } else {
+            this.y -= this.speed;
+        }
+    }
     updatePosition() {
-        this.x += this.speed;
-        if (this.x > 700){
+        this.moveToObject(Specter.fire)
+        if ((this.x <= 710 & this.x >= 690) && (this.y <= 360 & this.y >= 340)) {
             delete Specter.list[this.id];
-        }else{
         }
     };
 
