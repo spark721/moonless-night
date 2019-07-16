@@ -1,9 +1,22 @@
+const path = require('path');
 const Player = require('./player');
 const Entity = require('./entity');
 const Fire = require('./fire');
 const Tree = require('./tree');
 const Specter = require('./ghosts/specter');
 const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use("/client", express.static(__dirname + "/client"));
+  app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/client/index.html");
+  });
+  // app.use(express.static('frontend/build'));
+  // app.get('/', (req, res) => {
+  //   res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  // })
+}
+
 spawner1.speed = 0;
 
 const express = require("express");
