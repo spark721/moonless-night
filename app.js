@@ -74,8 +74,6 @@ io.on("connection", socket => {
   });
 });
 
-
-
 // game.js?
 // Ghost.spawnGhosts();
 
