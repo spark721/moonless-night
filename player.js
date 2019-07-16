@@ -5,7 +5,7 @@ class Player extends Entity {
   constructor(id, pos, size) {
     super(id, pos, size);
     this.state = "NEUTRAL";
-    this.speed = 3;
+    this.speed = 1;
     this.pressingRight = false;
     this.pressingLeft = false;
     this.pressingUp = false;
@@ -55,7 +55,6 @@ class Player extends Entity {
     }
 
     if (this.distance(this.fire) < 120 && this.state === "LOGS") {
-      console.log(this.distance(this.fire))
       this.state = "TORCH"
     }
   }
