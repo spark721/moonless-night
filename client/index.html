@@ -9,20 +9,14 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-
-  
-
-
   const ctx = document.getElementById('ctx').getContext('2d');
   ctx.font = '30px Arial';
   
   const socket = io();
   
-
-
   socket.on('pack', data => {
     // clear canvas
-    ctx.clearRect(0,0,1400, 750);
+    ctx.clearRect(0, 0, 1400, 750);
     for (let i = 0; i < data.player.length; i++) {
       ctx.fillText(data.player[i].state, data.player[i].x, data.player[i].y) 
     }
@@ -31,13 +25,16 @@
 
     // render trees
     for (let i = 0; i < data.tree.length; i++) {
+      let tree = data.tree[i];
       ctx.beginPath();
-      ctx.arc(data.tree[i].x, data.tree[i].y, data.tree[i].size, 0, 2 * Math.PI);
+      ctx.arc(tree.x, tree.y, tree.size, 0, 2 * Math.PI);
       ctx.stroke();
+      const treeImage = new Image();
+      treeImage.src = `/client/images/trees/${(tree.id % 4) + 1}${tree.logs}.png`;
+      ctx.drawImage(treeImage, tree.x-50, tree.y-175, 100, 200);
     }    
 
     medFireDrawImage();
-
   })
 
   document.onkeydown = event => {
@@ -55,9 +52,5 @@
     if (event.keyCode === 83) socket.emit('keyPress', {inputId: 'down', state: false});
     if (event.keyCode === 74) socket.emit('keyPress', {inputId: 'chop', state: false });
   }
-
 </script>
-
-
-
 </body>
