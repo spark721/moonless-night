@@ -5,6 +5,8 @@ const Fire = require('./fire');
 const Tree = require('./tree');
 const Specter = require('./ghosts/specter');
 const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
+const Stalker = require('./ghosts/stalker')
+const spawner2 = new Stalker(0, { x: 1, y: 1 }, 15);
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
@@ -24,6 +26,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 spawner1.speed = 0;
+spawner2.speed = 0;
 
 
 
@@ -50,7 +53,8 @@ const entities = {
   player: Player.list,
   tree: Tree.list,
   fire: fire,
-  specter: Specter.list
+  specter: Specter.list,
+  stalker: Stalker.list
 
   // ghosts: Ghost.list
 } 
@@ -102,7 +106,6 @@ io.on("connection", socket => {
 // Ghost.spawnGhosts();
 
 Tree.spawnTrees();
-
 let count = 0
 
 setInterval(() => {
@@ -112,8 +115,9 @@ setInterval(() => {
   
   // pass entities to all?
   Specter.fire = fire;
-  Specter.players = entities.players;
-  // console.log(entities.players);
+  Specter.players = entities.player;
+  Stalker.players = entities.player;
+  // console.log(entities.player);
   const pack = {
 
     player: Player.update(entities),
@@ -123,7 +127,8 @@ setInterval(() => {
 
     tree: Tree.update(),
     fire: fire.update(),
-    specter: Specter.update()
+    specter: Specter.update(),
+    stalker: Stalker.update()
   };
 
   for (let i in socketList) {
@@ -135,7 +140,9 @@ setInterval(() => {
       count = 0;
     }
   }
-  spawner1.spawnSpecter()
+
+  spawner1.spawnSpecter();
+  spawner2.spawnStalker();
 }, 1000 / 60);
 
 // Fire dwindles every 10 seconds

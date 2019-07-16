@@ -23,32 +23,49 @@
       ctx.fillText(data.player[i].state, data.player[i].x, data.player[i].y) 
     }
     ctx.fillText(`${data.fire.firePower}`, 700, 100);
-
+    
+    
     // render trees
     for (let i = 0; i < data.tree.length; i++) {
       let tree = data.tree[i];
-
+      
       if(tree.logs > 0) {
-      ctx.beginPath();
-      ctx.arc(tree.x, tree.y, tree.size, 0, 2 * Math.PI);
-      ctx.stroke();
-
-      const treeImage = new Image();
-
-      treeImage.src = `/client/images/trees/${(tree.id % 4) + 1}${tree.logs}.png`;
-      ctx.drawImage(treeImage, tree.x-50 * (tree.logs/6 + 0.5), tree.y-175 * (tree.logs/6 + 0.5), 100 * (tree.logs/6 + 0.5), 200 * (tree.logs/6 + 0.5));
+        ctx.beginPath();
+        ctx.arc(tree.x, tree.y, tree.size, 0, 2 * Math.PI);
+        ctx.stroke();
+        
+        const treeImage = new Image();
+        
+        treeImage.src = `/client/images/trees/${(tree.id % 4) + 1}${tree.logs}.png`;
+        ctx.drawImage(treeImage, tree.x-50 * (tree.logs/6 + 0.5), tree.y-175 * (tree.logs/6 + 0.5), 100 * (tree.logs/6 + 0.5), 200 * (tree.logs/6 + 0.5));
       }
     } 
     
     //specter
     for (let i = 0; i < data.specter.length; i++) {
+      ctx.fillStyle = "#3370d4";
       ctx.beginPath();
       ctx.arc(data.specter[i].x, data.specter[i].y, data.specter[i].size, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.fill();
       ctx.stroke();  
-
+      
     }    
-
+    //stalker
+    for (let i = 0; i < data.stalker.length; i++) {
+      ctx.fillStyle = "#c82124";
+      ctx.beginPath();
+      ctx.arc(data.stalker[i].x, data.stalker[i].y, data.stalker[i].size, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();  
+      
+    }    
+    ctx.fillStyle = "rgba(255, 255, 255, 0)";
     medFireDrawImage();
+    ctx.fillStyle = "rgba(255, 255, 255, 0)";
+    ctx.fillStyle = "#FFFFFF";
+    
   })
 
   document.onkeydown = event => {
