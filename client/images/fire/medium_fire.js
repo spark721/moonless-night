@@ -31,9 +31,9 @@ character.src = "/client/images/fire/fire_medium_sprites.png"
 // var ctx = canvas.getContext('2d');
 
 var i = 0;
-var count = 0
+var count = 0;
 // this changes the speed of the animation
-var spriteSpd = 10
+var spriteSpd = 5;
 
 function updateFrame() {
   if (currentFrame < 8 ){
@@ -52,8 +52,6 @@ function updateFrame() {
   }
   
   srcX = currentFrame * width;
-
-  ctx.clearRect(x,y, width, height);
 }
 
 

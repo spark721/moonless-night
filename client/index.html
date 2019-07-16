@@ -1,5 +1,10 @@
 <link rel="stylesheet" type="text/css" href="/client/stylesheets/index.css">
 <script src="/client/images/fire/medium_fire.js"></script>
+<script src="/client/images/player/XX/walking/player_walk_right.js"></script>
+<script src="/client/images/player/XX/walking/player_walk_left.js"></script>
+<script src="/client/images/player/XX/walking/player_walk_up.js"></script>
+<script src="/client/images/player/XX/walking/player_walk_down.js"></script>
+<script src="/client/images/player/XX/idle/player_idle.js"></script>
 
 
 <!-- <body class="body" background="/client/images/background/bk_forest_night.png"> -->
@@ -15,14 +20,31 @@
   ctx.fillStyle = "#FFFFFF";
 
   const socket = io();
-  
+  let coords;
+
   socket.on('pack', data => {
     // clear canvas
     ctx.clearRect(0, 0, 1400, 750);
     for (let i = 0; i < data.player.length; i++) {
       ctx.fillText(data.player[i].state, data.player[i].x, data.player[i].y) 
+      coords = data;
+
+        if (data.player[i].pressingRight) drawWalkRight(coords.player[i].x, coords.player[i].y)
+        if (data.player[i].pressingLeft) drawWalkLeft(coords.player[i].x, coords.player[i].y)
+        if (data.player[i].pressingUp) drawWalkUp(coords.player[i].x, coords.player[i].y)
+        if (data.player[i].pressingDown) drawWalkDown(coords.player[i].x, coords.player[i].y)
+
+        if (
+          !data.player[i].pressingDown &&
+          !data.player[i].pressingUp &&
+          !data.player[i].pressingLeft &&
+          !data.player[i].pressingRight) {
+         drawPlayerIdle(coords.player[i].x, coords.player[i].y)
+          }
+
     }
     ctx.fillText(`${data.fire.firePower}`, 700, 100);
+  
 
     // render trees
     for (let i = 0; i < data.tree.length; i++) {
@@ -51,7 +73,12 @@
   })
 
   document.onkeydown = event => {
-    if (event.keyCode === 68) socket.emit('keyPress', {inputId: 'right', state: true}); // d
+    if (event.keyCode === 68) {
+      socket.emit('keyPress', {inputId: 'right', state: true}); // d
+      for (let i = 0; i < coords.player.length; i++) {
+        // drawWalkRight(coords.player[i].x, coords.player[i].y)
+      }
+    }
     if (event.keyCode === 65) socket.emit('keyPress', {inputId: 'left', state: true}); // a
     if (event.keyCode === 87) socket.emit('keyPress', {inputId: 'up', state: true}); // w
     if (event.keyCode === 83) socket.emit('keyPress', {inputId: 'down', state: true}); // s
