@@ -6,8 +6,6 @@ const Specter = require('./ghosts/specter');
 const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
 spawner1.speed = 0;
 
-
-
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
@@ -24,12 +22,7 @@ app.get("/", (req, res) => {
 app.use("/client", express.static(__dirname + "/client"));
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
-
-
-
-
 const fire = new Fire(1, { x: 700, y: 350 }, null);
-
 
 const socketList = {};
 
@@ -37,6 +30,7 @@ const entities = {
   players: Player.list,
   trees: Tree.list,
   specter: Specter.list
+  // ghosts: Ghost.list
 } 
   
 Player.onConnect = socket => {
@@ -50,6 +44,7 @@ Player.onConnect = socket => {
     if (data.inputId === "left") player.pressingLeft = data.state;
     if (data.inputId === "up") player.pressingUp = data.state;
     if (data.inputId === "down") player.pressingDown = data.state;
+    if (data.inputId === "chop") player.pressingChop = data.state;
   });
 }
 
@@ -75,20 +70,15 @@ io.on("connection", socket => {
   });
 });
 
-
-
 // game.js?
 // Ghost.spawnGhosts();
 
 Tree.spawnTrees();
 
-
-
 setInterval(() => {
   // pass entities to all?
   Specter.fire = fire;
   const pack = {
-
     player: Player.update(entities.trees),
     tree: Tree.update(),
     fire: fire.update(),
@@ -103,9 +93,6 @@ setInterval(() => {
   spawner1.spawnSpecter()
 }, 1000 / 60);
 
-
-
-
 // Fire dwindles every 10 seconds
 // If the fire burns out, stop dwindling and call gameOver for the whole game
 let firePit = setInterval(() => {
@@ -113,8 +100,7 @@ let firePit = setInterval(() => {
     null
     // game.gameOver();
   } else {
-    fire.dwindle();
+    // fire.dwindle();
   }
 
 }, 3000);
-

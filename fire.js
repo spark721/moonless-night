@@ -49,9 +49,6 @@ class Fire extends Entity {
     }
   };
 
-  draw(ctx) {
-
-  }
 
 };
 

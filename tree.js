@@ -5,7 +5,7 @@ const Entity = require("./entity");
 class Tree extends Entity {
   constructor(id, pos, size) {
     super(id, pos, size);
-    this.logs = 5;
+    this.logs = 10;
     this.state = "NEUTRAL";
   }
 
@@ -16,7 +16,7 @@ class Tree extends Entity {
         y: Math.floor(Math.random() * 750)
       };
 
-      let tree = new Tree(i, pos, 25);
+      let tree = new Tree(i, pos, 50);
       this.list[i] = tree;
     }
   }
@@ -35,6 +35,7 @@ class Tree extends Entity {
 
   // call chopped when tree is chopped
   chopped() {
+    console.log('chop');
     this.logs -= 1;
   }
 
@@ -45,7 +46,7 @@ class Tree extends Entity {
 
   // update
   updateSize() {
-    this.size = this.logs * 10;
+    this.size = this.logs * 5;
   }
 }
 
