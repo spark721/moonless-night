@@ -73,13 +73,27 @@
 
       //specter
       for (let i = 0; i < data.specter.length; i++) {
+        ctx.fillStyle = "#3370d4";
         ctx.beginPath();
         ctx.arc(data.specter[i].x, data.specter[i].y, data.specter[i].size, 0, 2 * Math.PI);
-        ctx.stroke();
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();  
+      }    
+      //stalker
+      for (let i = 0; i < data.stalker.length; i++) {
+        ctx.fillStyle = "#c82124";
+        ctx.beginPath();
+        ctx.arc(data.stalker[i].x, data.stalker[i].y, data.stalker[i].size, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();  
+      } 
 
-      }
-
+      ctx.fillStyle = "rgba(255, 255, 255, 0)";
       medFireDrawImage();
+      ctx.fillStyle = "rgba(255, 255, 255, 0)";
+      ctx.fillStyle = "#FFFFFF";
     })
 
     socket.on("addToChat", (data) => {
@@ -113,12 +127,3 @@
   
 </body>
 </html>
-
-
-
-
-
-
-
-
-
