@@ -9,6 +9,18 @@ class Tree extends Entity {
     this.state = "NEUTRAL";
   }
 
+  static spawnTree() {
+    let rand = Math.floor(Math.random() * 3);
+
+    if (rand === 0) {
+      Tree.spawnTree1();
+    } else if (rand === 1) {
+      Tree.spawnTree2();
+    } else {
+      Tree.spawnTree3();
+    }
+  }
+
   static spawnTree1() {
     let i = 0;
 
