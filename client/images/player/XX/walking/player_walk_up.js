@@ -42,8 +42,7 @@ function updateWalkUp() {
   if (WalkUpCount % 8 === 0) {
     WalkUpCF = ++WalkUpCF % WalkUpcols;
   }
-  // console.log(WalkUpCF)
-  // }
+ 
   WalkUpX = WalkUpCF * VertWidth;
 }
 WalkUpY = 0

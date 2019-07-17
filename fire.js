@@ -62,7 +62,7 @@ class Fire extends Entity {
       if (this.firePower < 16) this.status = "CRITICAL";
 
     } else {
-      // console.log("Game Over");
+    
       this.gameOver = true;
     }
   };

@@ -42,8 +42,7 @@ function updateWalkRight() {
   if(walkRightCount % 8 === 0){
     walkRightCF = ++walkRightCF % walkRightcols;
   }
-    // console.log(walkRightCF)
-  // }
+  
   walkRightX = walkRightCF * cfWidth;
 }
 walkRightY = 0

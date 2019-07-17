@@ -41,7 +41,7 @@ class Stalker extends Entity {
       Stalker.list[this.spawned] = stalker;
       this.cd = Math.floor(Math.random() * 2400 + 180);
       this.spawnCd = false;
-      // console.log(stalker);
+   
     }
     this.cd -= 1;
   }
@@ -80,14 +80,14 @@ class Stalker extends Entity {
   // }
   collideWithPlayer() {
     for (let i in Stalker.players) {
-      // console.log(Specter.players[i].x);
+    
       if (
         this.x >= Stalker.players[i].x - 10 &&
         this.x <= Stalker.players[i].x + 10 &&
         (this.y >= Stalker.players[i].y - 10 &&
           this.y <= Stalker.players[i].y + 10)
       ) {
-        // console.log('Stalker collided with player')
+      
       }
     }
   }
@@ -97,7 +97,7 @@ class Stalker extends Entity {
       this.x = this.x;
       this.y = this.y;
     } else {
-      // console.log(object.x);
+
       let diffX = object.x - this.x;
       let diffY = object.y - this.y;
       if (diffX > 0) {
