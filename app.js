@@ -45,7 +45,6 @@ server.listen(port);
 spawner1.speed = 0;
 spawner2.speed = 0;
 Tree.list = {};
-Player.list = {};
 
 
 const entities = {
