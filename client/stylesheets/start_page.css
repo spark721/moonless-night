@@ -1,0 +1,45 @@
+
+body {
+    background-color: #110a17;
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    color: #970000b3;
+    font-size: 60px;
+    font-weight: 900;
+}
+
+a, a:visited {
+    color: #9f9f9f;
+    text-decoration: none;
+    font-size: 36px;
+}
+
+div.play-button {
+    display: flex;
+    width: 250px;
+    height: 80px;
+    border: 10px solid #5b1d00;
+    border-radius: 25px;
+    justify-content: center;
+    align-items: center;
+    margin: 100px 0;
+}
+
+div.play-button:hover {
+    color: #ffffff;
+    border: 10px solid #b50000;
+}
+
+.foot-note {
+    color: #656565;
+    margin: 200px 0 0 0;
+}
+
