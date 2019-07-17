@@ -7,7 +7,7 @@ const io = require("socket.io")(server);
 const port = process.env.PORT || 2000;
 const socketList = {};
 
-// const Game = require('./game');
+const Game = require('./game');
 const Player = require('./player');
 const Entity = require('./entity');
 const Fire = require('./fire');
@@ -17,7 +17,7 @@ const Torch = require('./items/torch');
 const Specter = require('./ghosts/specter');
 const Stalker = require('./ghosts/stalker');
 
-const fire = new Fire(1, { x: 700, y: 420 }, 30);
+let fire = new Fire(1, { x: 700, y: 420 }, 30);
 const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
 const spawner2 = new Stalker(0, { x: 1, y: 1 }, 15);
 
@@ -65,6 +65,9 @@ Player.onConnect = socket => {
   const pos = { x: 700, y: 300 };
   const size = 15;
   const player = new Player(socket.id, pos, size);
+  // if (Object.keys(Player.list).length === 0){
+  //   fire.resetFire();
+  // }
   Player.list[socket.id] = player;
   socket.on("keyPress", data => {
     if (data.inputId === "right") player.pressingRight = data.state; 
@@ -107,7 +110,6 @@ io.on("connection", socket => {
     console.log(`Client disconnected`);
 
     delete socketList[socket.id];
-    delete Player.list[socket.id];
 
     Player.onDisconnect(socket);
   });
@@ -119,6 +121,7 @@ io.on("connection", socket => {
     }
   })
 });
+
 
 
 Tree.spawnTrees();
@@ -134,7 +137,7 @@ setInterval(() => {
   Specter.torches = entities.torch;
   Specter.logs = entities.log;
   Stalker.players = entities.player;
-  // console.log(entities.player);
+  // console.log(Game.getFire());
   const pack = {
 
     player: Player.update(entities),
@@ -150,16 +153,16 @@ setInterval(() => {
     const socket = socketList[i];
     socket.emit("pack", pack)
 
-    if (count === 180) {
+    if (count === 60) {
       fire.dwindle();
       count = 0;
-
+ 
       if (fire.gameOver) {
         io.emit("over");
       }
     }
   }
-
+ 
   spawner1.spawnSpecter();
   spawner2.spawnStalker();
 

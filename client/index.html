@@ -15,7 +15,6 @@
 
   <script src="/client/images/fire/fire_high.js"></script>
   <script src="/client/images/fire/medium_fire.js"></script>
-  <script src="/client/images/fire/fire_low.js"></script>
   <script src="/client/images/fire/fire_very_low.js"></script>
   <script src="/client/images/fire/fire_critical.js"></script>
 
@@ -97,6 +96,7 @@
 
       // END TEST
       ctx.fillText(`${data.fire.firePower}`, 700, 100);
+      
 
       // render trees
       for (let i = 0; i < data.tree.length; i++) {
@@ -157,8 +157,19 @@
       // ctx.drawImage(torchImage, 0, 0, 102, 205, data.torch[i].x - 20, data.torch[i].y - 10, 64, 40)
       lowFireDraw(data.torch[i].x-60, data.torch[i].y-120)
     }    
-    ctx.fillStyle = "rgba(255, 255, 255, 0)";
-    medFireDrawImage();
+    // ctx.fillStyle = "rgba(255, 255, 255, 0)";
+    console.log(data.fire.status)
+    if (data.fire.status === "HIGH") {
+      highFireDrawImage();
+    }else if (data.fire.status === "MEDIUM"){
+      medFireDrawImage();
+    }else if (data.fire.status === "VERY LOW"){
+      veryLowFireDrawImage();
+    }else if (data.fire.status === "CRITICAL"){
+      criticalFireDrawImage();
+    }else{
+      medFireDrawImage();
+    }
     ctx.fillStyle = "#FFFFFF";
       
       
