@@ -107,17 +107,17 @@ class Stalker extends Entity {
         }
     }
     updateNearestObjects(players) {
-        if (players !== undefined){
-            const playersValues = Object.values(players)
-            const sortedPlayers = playersValues.sort((a, b) => {
-                return this.distance(a) - this.distance(b);
-            });
+        // if (players !== undefined){
+        //     const playersValues = Object.values(players)
+        //     const sortedPlayers = playersValues.sort((a, b) => {
+        //         return this.distance(a) - this.distance(b);
+        //     });
     
-            const closestPlayer = sortedPlayers[0];
-            this.player = closestPlayer;
-        }else{
-            this.player = undefined;
-        }
+        //     const closestPlayer = sortedPlayers[0];
+        //     this.player = closestPlayer;
+        // }else{
+        //     this.player = undefined;
+        // }
 
         // if (this.distance(closestPlayer) < 70) {
         // } else {

@@ -12,9 +12,10 @@ class Fire extends Entity {
   constructor(id, pos, size) {
     super(id, pos, size)
 
-    this.firePower = 20;
+    this.firePower = 3;
     this.radius = this.firePower * 5;
     this.gameOver = false;
+    this.status = null;
 
     this.dwindle = this.dwindle.bind(this);
     this.updateRadius = this.updateRadius.bind(this);
@@ -26,6 +27,7 @@ class Fire extends Entity {
       x: this.x,
       y: this.y,
       size: this.size,
+      status: this.status
     }
     return pack;
   }
@@ -48,9 +50,17 @@ class Fire extends Entity {
     if(this.firePower > 1){
       this.firePower -= 1;
       this.updateRadius();
+      
       console.log(`Dwindling ` + `${this.firePower}`);
+
+      if (this.firePower > 60) this.status = "HIGH"
+      if (this.firePower > 50) this.status = "MEDIUM"
+      if (this.firePower > 40) this.status = "LOW"
+      if (this.firePower > 20) this.status = "VERY LOW"
+      if (this.firePower < 10) this.status = "CRITICAL"
+
     } else {
-      console.log("Game Over");
+      // console.log("Game Over");
       this.gameOver = true;
     }
   };
