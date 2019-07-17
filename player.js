@@ -56,6 +56,7 @@ class Player extends Entity {
       this.pressingChop
     ) {
       this.state = "TORCH";
+      this.fire.firePower -= 2
     }
 
     if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
@@ -65,7 +66,6 @@ class Player extends Entity {
     if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
       Torch.delete(this.torch.id);
       this.state = "TORCH";
-      this.fire.firePower -= 2
     }
 
     if (this.pressingHeal && this.player) {
