@@ -45,6 +45,24 @@ class Player extends Entity {
     this.updatePosition(entities);
     this.chop();
     this.drop();
+
+    // console.log(this.pressingChop);
+    if (
+      this.distance(this.fire) < 120 &&
+      this.state === "NEUTRAL" &&
+      this.pressingChop
+    ) {
+      this.state = "TORCH";
+    } else if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
+      Log.delete(this.log.id);
+      this.state = "LOGS";
+    } else if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
+      Torch.delete(this.torch.id);
+      this.state = "TORCH";
+    }
+    if (this.pressingHeal && this.player) {
+      entities.player[this.player].getHealed();
+    }
   }
 
   updateNearestObjects(entities) {
@@ -70,6 +88,7 @@ class Player extends Entity {
     const closestLog = sortedLogs[0];
 
     if (this.distance(closestLog) < 70) {
+      
       this.log = closestLog;
     } else {
       this.log = undefined;
@@ -131,25 +150,9 @@ class Player extends Entity {
     } else {
       this.torch = undefined;
     }
-
-    if (
-      this.distance(this.fire) < 120 &&
-      this.state === "NEUTRAL" &&
-      this.pressingChop
-    ) {
-      this.state = "TORCH";
-    }else if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
-      Log.delete(this.log.id);
-      this.state = "LOGS";
-    }else if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
-      Torch.delete(this.torch.id);
-      this.state = "TORCH";
-    }
-    if (this.pressingHeal && this.player) {
-      entities.player[this.player].getHealed();
-    }
+    
   }
-
+  
   updatePosition(entities) {
     const trees = Object.values(entities.tree);
 
