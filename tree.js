@@ -9,7 +9,7 @@ class Tree extends Entity {
     this.state = "NEUTRAL";
   }
 
-  static spawnTree() {
+  static spawnTree1() {
     let i = 0;
 
     for (let x = 1; x < 9; x++) {
