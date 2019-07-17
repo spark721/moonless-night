@@ -14,6 +14,7 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="/client/images/fire/medium_fire.js"></script>
   <script src="/client/images/stalker/stalker_sprite.js"></script>
+  <script src="/client/images/specter/specter_sprite.js"></script>
   <script src="/client/images/player/XX/walking/player_walk_right.js"></script>
   <script src="/client/images/player/XX/walking/player_walk_left.js"></script>
   <script src="/client/images/player/XX/walking/player_walk_up.js"></script>
@@ -28,7 +29,7 @@
     <canvas id='ctx' width='1400' height='788' ></canvas>
     <div class="chat">
       <div id="chat-text">
-        <div>Hello! this is chat box</div>
+        <div>Keep the fire going!</div>
       </div>
       
       <form id="chat-form">
@@ -110,7 +111,8 @@
     for (let i = 0; i < data.specter.length; i++) {
       ctx.fillStyle = "#3370d4";
       ctx.beginPath();
-      ctx.arc(data.specter[i].x, data.specter[i].y, data.specter[i].size, 0, 2 * Math.PI);
+      // ctx.arc(data.specter[i].x, data.specter[i].y, data.specter[i].size, 0, 2 * Math.PI);
+      specterDrawImage(data.specter[i].x - 15, data.specter[i].y - 15);
       ctx.closePath();
       ctx.fill();
       ctx.stroke();  
@@ -120,8 +122,8 @@
     for (let i = 0; i < data.stalker.length; i++) {
       ctx.fillStyle = "#c82124";
       ctx.beginPath();
-      ctx.arc(data.stalker[i].x, data.stalker[i].y, data.stalker[i].size, 0, 2 * Math.PI);
-      // stalkerDrawImage(data.stalker[i].x, data.stalker[i].y);
+      // ctx.arc(data.stalker[i].x, data.stalker[i].y, data.stalker[i].size, 0, 2 * Math.PI);
+      stalkerDrawImage(data.stalker[i].x-27, data.stalker[i].y-35);
       ctx.closePath();
       ctx.fill();
       ctx.stroke();  
@@ -183,8 +185,19 @@
       if (event.keyCode === 74) socket.emit('keyPress', { inputId: 'chop', state: false });
       if (event.keyCode === 75) socket.emit('keyPress', {inputId: 'drop', state: false });
     }
+
+    socket.on("over", () => {
+      document.getElementById('game-over').style.display = "block";
+    })
+
+    const off = () => {
+      document.getElementById('game-over').style.display = "none";
+    }
   </script>
 
+  <div id="game-over" onclick="off()" >
+    <a href="/"><span class="game-over-msg">YOU LOST</span></a>
+  </div>
   
 </body>
 </html>
