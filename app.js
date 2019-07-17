@@ -76,6 +76,10 @@ Player.onConnect = socket => {
     if (data.inputId === "chop") player.pressingChop = data.state;
     if (data.inputId === "drop") player.pressingDrop = data.state;
     if (data.inputId === "heal") player.pressingHeal = data.state;
+    if (data.inputId === "right" && data.inputId === "left") {
+      player.pressingRight = false;
+      player.pressingLeft = false;
+    }
   });
 }
 
