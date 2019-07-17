@@ -60,7 +60,7 @@
 
     socket.on('pack', data => {
       // clear canvas
-      ctx.clearRect(0, 0, 1400, 750);
+      ctx.clearRect(0, 0, 1400, 788);
       for (let i = 0; i < data.player.length; i++) {
         ctx.fillText(data.player[i].state, 100, 100)
         ctx.beginPath();
@@ -96,12 +96,7 @@
         let tree = data.tree[i];
 
         if (tree.logs > 0) {
-          ctx.beginPath();
-          ctx.arc(tree.x, tree.y, tree.size, 0, 2 * Math.PI);
-          ctx.stroke();
-
           const treeImage = new Image();
-
           treeImage.src = `/client/images/trees/${(tree.id % 4) + 1}${tree.logs}.png`;
           ctx.drawImage(treeImage, tree.x - 50 * (tree.logs / 6 + 0.5), tree.y - 175 * (tree.logs / 6 + 0.5), 100 * (tree.logs / 6 + 0.5), 200 * (tree.logs / 6 + 0.5));
         }
@@ -174,7 +169,8 @@
       if (event.keyCode === 87) socket.emit('keyPress', { inputId: 'up', state: true }); // w
       if (event.keyCode === 83) socket.emit('keyPress', { inputId: 'down', state: true }); // s
       if (event.keyCode === 74) socket.emit('keyPress', { inputId: 'chop', state: true });
-      if (event.keyCode === 75) socket.emit('keyPress', {inputId: 'drop', state: true });
+      if (event.keyCode === 75) socket.emit('keyPress', { inputId: 'drop', state: true });
+      if (event.keyCode === 72) socket.emit('keyPress', { inputId: 'heal', state: true });
     }
 
     document.onkeyup = event => {
@@ -183,7 +179,8 @@
       if (event.keyCode === 87) socket.emit('keyPress', { inputId: 'up', state: false });
       if (event.keyCode === 83) socket.emit('keyPress', { inputId: 'down', state: false });
       if (event.keyCode === 74) socket.emit('keyPress', { inputId: 'chop', state: false });
-      if (event.keyCode === 75) socket.emit('keyPress', {inputId: 'drop', state: false });
+      if (event.keyCode === 75) socket.emit('keyPress', { inputId: 'drop', state: false });
+      if (event.keyCode === 72) socket.emit('keyPress', { inputId: 'heal', state: false });
     }
 
     socket.on("over", () => {

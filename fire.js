@@ -34,7 +34,6 @@ class Fire extends Entity {
 
   eatLogs () {
     this.firePower += 5
-    console.log(this.firePower)
   }
 
 

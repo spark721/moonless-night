@@ -3,7 +3,6 @@ const Torch = require('./items/torch');
 const Log = require('./items/log');
 
 class Player extends Entity {
-
   constructor(id, pos, size) {
     super(id, pos, size);
     this.state = "NEUTRAL";
@@ -14,12 +13,14 @@ class Player extends Entity {
     this.pressingDown = false;
     this.pressingChop = false;
     this.pressingDrop = false;
+    this.pressingHeal = false;
     this.tree = undefined;
     this.fire = undefined;
     this.log = undefined;
     this.torch = undefined;
     this.player = undefined;
-    this.ghost = undefined;
+    this.specter = undefined;
+    this.stalker = undefined;
     this.spawned = 0;
   }
 
@@ -28,16 +29,18 @@ class Player extends Entity {
 
     for (let i in Player.list) {
       let player = Player.list[i];
-      player.update(entities);
+      if (player.state !== "FETAL") player.update(entities);
       pack.push(player);
     }
 
     return pack;
   }
 
-
   update(entities) {
-    super.update();
+    if (this.specter || this.stalker) {
+      this.state = "FETAL";
+    }
+
     if (entities) this.updateNearestObjects(entities);
     this.updatePosition(entities);
     this.chop();
@@ -45,14 +48,13 @@ class Player extends Entity {
   }
 
   updateNearestObjects(entities) {
-  
     this.fire = entities.fire;
-    const trees = Object.values(entities.tree)
+    const trees = Object.values(entities.tree);
     const sortedTrees = trees.sort((a, b) => {
       return this.distance(a) - this.distance(b);
     });
 
-    const closestTree = sortedTrees[0];
+    const closestTree = sortedTrees.filter(tree => tree.logs > 0)[0];
 
     if (this.distance(closestTree) < 70) {
       this.tree = closestTree;
@@ -60,7 +62,7 @@ class Player extends Entity {
       this.tree = undefined;
     }
     ////////////////////////////////////////////////////////////////
-    const logs = Object.values(entities.log)
+    const logs = Object.values(entities.log);
     const sortedLogs = logs.sort((a, b) => {
       return this.distance(a) - this.distance(b);
     });
@@ -73,7 +75,51 @@ class Player extends Entity {
       this.log = undefined;
     }
     ////////////////////////////////////////////////////////////////
-    const torches = Object.values(entities.torch)
+    const specters = Object.values(entities.specter);
+    const sortedSpecters = specters.sort((a, b) => {
+      return this.distance(a) - this.distance(b);
+    });
+
+    const closestSpecter = sortedSpecters[0];
+
+    if (this.distance(closestSpecter) < 40) {
+      this.specter = closestSpecter;
+    } else {
+      this.specter = undefined;
+    }    
+    ////////////////////////////////////////////////////////////////
+    const stalkers = Object.values(entities.stalker);
+    const sortedStalkers = stalkers.sort((a, b) => {
+      return this.distance(a) - this.distance(b);
+    });
+    
+    const closestStalker = sortedStalkers[0];
+
+    if (
+      this.distance(closestStalker) > 0 &&
+      this.distance(closestStalker) < 40
+    ) {
+      this.stalker = true;
+    } else {
+      this.stalker = undefined;
+    }    
+    ////////////////////////////////////////////////////////////////
+    const players = Object.values(entities.player).filter(player => player.id !== this.id);
+    const sortedPlayers = players.sort((a, b) => {
+      return this.distance(a) - this.distance(b);
+    });
+
+    const closestPlayer = sortedPlayers[0];
+
+    if (closestPlayer === undefined) {
+      return;
+    } else if (this.distance(closestPlayer) < 70) {
+      this.player = closestPlayer.id;
+    } else {
+      this.player = undefined;
+    }    
+    ////////////////////////////////////////////////////////////////
+    const torches = Object.values(entities.torch);
     const sortedTorches = torches.sort((a, b) => {
       return this.distance(a) - this.distance(b);
     });
@@ -86,7 +132,11 @@ class Player extends Entity {
       this.torch = undefined;
     }
 
-    if (this.distance(this.fire) < 120 && this.state === "NEUTRAL" && this.pressingChop) {
+    if (
+      this.distance(this.fire) < 120 &&
+      this.state === "NEUTRAL" &&
+      this.pressingChop
+    ) {
       this.state = "TORCH";
     }
     if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
@@ -97,11 +147,14 @@ class Player extends Entity {
       Torch.delete(this.torch.id);
       this.state = "TORCH";
     }
+    if (this.pressingHeal && this.player) {
+      entities.player[this.player].getHealed();
+    }
   }
 
   updatePosition(entities) {
     const trees = Object.values(entities.tree);
-   
+
     const tempPos = { x: this.x, y: this.y };
 
     if (this.pressingRight) tempPos.x += this.speed;
@@ -109,20 +162,34 @@ class Player extends Entity {
     if (this.pressingDown) tempPos.y += this.speed;
     if (this.pressingUp) tempPos.y -= this.speed;
 
-    if (!this.playerTreeCollision(tempPos, trees) && !this.playerFireCollision(tempPos, this.fire)) {
+    if (
+      !this.playerTreeCollision(tempPos, trees) &&
+      !this.playerFireCollision(tempPos, this.fire)
+    ) {
       this.x = tempPos.x;
       this.y = tempPos.y;
     }
 
-    if (this.pressingChop && this.distance(this.fire) < 110 && this.state === "LOGS") {
+    if (
+      this.pressingChop &&
+      this.distance(this.fire) < 110 &&
+      this.state === "LOGS"
+    ) {
       this.fire.eatLogs();
-      this.state = "NEUTRAL"
+      this.state = "NEUTRAL";
     }
-    if (this.pressingChop && this.distance(this.fire) < 110 && this.state === "TORCH") {
+    if (
+      this.pressingChop &&
+      this.distance(this.fire) < 110 &&
+      this.state === "TORCH"
+    ) {
       // this.fire.eatLogs();
-      this.state = "NEUTRAL"
+      this.state = "NEUTRAL";
     }
+  }
 
+  getHealed() {
+    this.state = "NEUTRAL";
   }
 
   distance(object) {
@@ -140,13 +207,13 @@ class Player extends Entity {
   }
 
   drop() {
-    if (this.pressingDrop){
-      if(this.state === "TORCH"){
+    if (this.pressingDrop) {
+      if (this.state === "TORCH") {
         this.state = "NEUTRAL";
         let torch = new Torch(this.spawned, { x: this.x, y: this.y }, 15);
         Torch.list[this.spawned] = torch;
         this.spawned++;
-      } else if (this.state === "LOGS"){
+      } else if (this.state === "LOGS") {
         this.state = "NEUTRAL";
         let log = new Log(this.spawned, { x: this.x, y: this.y }, 15);
         Log.list[this.spawned] = log;
@@ -155,9 +222,9 @@ class Player extends Entity {
     }
   }
 
-
   playerTreeCollision(tempPos, treeList) {
     return Object.values(treeList).some(tree => {
+      if (tree.logs === 0) return false;
       const dx = tempPos.x - tree.x;
       const dy = tempPos.y - tree.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
@@ -173,10 +240,10 @@ class Player extends Entity {
     const dy = tempPos.y - fire.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    if (distance < this.size + fire.size){
+    if (distance < this.size + fire.size) {
       return true;
     }
-  };
+  }
 };
 
 Player.list = {};
