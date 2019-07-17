@@ -12,7 +12,12 @@
 
   <link rel="stylesheet" type="text/css" href="/client/stylesheets/index.css">
   <script src="/socket.io/socket.io.js"></script>
+
+  <script src="/client/images/fire/fire_high.js"></script>
   <script src="/client/images/fire/medium_fire.js"></script>
+  <script src="/client/images/fire/fire_very_low.js"></script>
+  <script src="/client/images/fire/fire_critical.js"></script>
+
   <script src="/client/images/stalker/stalker_sprite.js"></script>
   <script src="/client/images/specter/specter_sprite.js"></script>
   <script src="/client/images/player/XX/walking/player_walk_right.js"></script>
@@ -21,7 +26,6 @@
   <script src="/client/images/player/XX/walking/player_walk_down.js"></script>
   <script src="/client/images/player/XX/idle/player_idle.js"></script>
   <script src="/client/images/fire/torch.js"></script>
-
 
   <title>Moonless Night</title>
 </head>
@@ -222,6 +226,7 @@
 
       // END TEST
       ctx.fillText(`${data.fire.firePower}`, 700, 100);
+      
 
       // render trees
       for (let i = 0; i < data.tree.length; i++) {
@@ -244,6 +249,7 @@
         ctx.fill();
         ctx.stroke();  
       
+
       }    
       //stalker
       for (let i = 0; i < data.stalker.length; i++) {
@@ -265,21 +271,33 @@
         // ctx.stroke();  
         ctx.drawImage(logImage, 0, 0, 50, 50, data.log[i].x - 20, data.log[i].y - 10, 64, 40)
         
-      }    
-      //torch
-      for (let i = 0; i < data.torch.length; i++) {
-        // ctx.fillStyle = "orange";
-        // ctx.beginPath();
-        // ctx.arc(data.torch[i].x, data.torch[i].y, data.torch[i].size, 0, 2 * Math.PI);
-        // ctx.closePath();
-        // ctx.fill();
-        // ctx.stroke();  
-        // ctx.drawImage(torchImage, 0, 0, 102, 205, data.torch[i].x - 20, data.torch[i].y - 10, 64, 40)
-        lowFireDraw(data.torch[i].x-60, data.torch[i].y-120)
-      }    
-      ctx.fillStyle = "rgba(255, 255, 255, 0)";
+    }    
+    //torch
+    for (let i = 0; i < data.torch.length; i++) {
+      // ctx.fillStyle = "orange";
+      // ctx.beginPath();
+      // ctx.arc(data.torch[i].x, data.torch[i].y, data.torch[i].size, 0, 2 * Math.PI);
+      // ctx.closePath();
+      // ctx.fill();
+      // ctx.stroke();  
+      // ctx.drawImage(torchImage, 0, 0, 102, 205, data.torch[i].x - 20, data.torch[i].y - 10, 64, 40)
+      lowFireDraw(data.torch[i].x-60, data.torch[i].y-120)
+    }    
+    // ctx.fillStyle = "rgba(255, 255, 255, 0)";
+    console.log(data.fire.status)
+    if (data.fire.status === "HIGH") {
+      highFireDrawImage();
+    }else if (data.fire.status === "MEDIUM"){
       medFireDrawImage();
-      ctx.fillStyle = "#FFFFFF";
+    }else if (data.fire.status === "VERY LOW"){
+      veryLowFireDrawImage();
+    }else if (data.fire.status === "CRITICAL"){
+      criticalFireDrawImage();
+    }else{
+      medFireDrawImage();
+    }
+    ctx.fillStyle = "#FFFFFF";
+
       
       
     })
@@ -300,9 +318,11 @@
       if (event.keyCode === 65) socket.emit('keyPress', { inputId: 'left', state: true }); // a
       if (event.keyCode === 87) socket.emit('keyPress', { inputId: 'up', state: true }); // w
       if (event.keyCode === 83) socket.emit('keyPress', { inputId: 'down', state: true }); // s
-      if (event.keyCode === 74) socket.emit('keyPress', { inputId: 'chop', state: true });
-      if (event.keyCode === 75) socket.emit('keyPress', { inputId: 'drop', state: true });
-      if (event.keyCode === 72) socket.emit('keyPress', { inputId: 'heal', state: true });
+      if (event.keyCode === 74) {
+        socket.emit('keyPress', { inputId: 'chop', state: true }); // j
+      }
+      if (event.keyCode === 75) socket.emit('keyPress', { inputId: 'drop', state: true }); // k
+      if (event.keyCode === 72) socket.emit('keyPress', { inputId: 'heal', state: true }); // h
     }
 
     document.onkeyup = event => {
