@@ -9,8 +9,8 @@ class Specter extends Entity {
         this.state = "NEUTRAL";
         this.speed = 0.5;
         this.spawned = 0;
-        this.cdMax = 360;
-        this.cd = 180;
+        this.cdMax = 800;
+        this.cd = 400;
         this.spawnSpecter = this.spawnSpecter.bind(this);
     };
     
@@ -31,7 +31,17 @@ class Specter extends Entity {
     }
     
     spawnSpecter() {
-     
+        if (Specter.count % 1200 === 0) {
+            if (this.cdMax > 400) {
+                this.cdMax -= 150;
+            } else if ((this.cdMax < 401) && (this.cdMax > 100)) {
+                this.cdMax -= 100;
+            } else if ((this.cdMax < 101) && (this.cdMax > 60)) {
+                this.cdMax -= 20;
+            } else {
+                this.cdMax = 50;
+            }
+        }
         if (this.cd === 0){
             let pos = {
               x: Math.floor(Math.random() * 1400),

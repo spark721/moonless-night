@@ -131,10 +131,12 @@ setInterval(() => {
   
   // pass entities to all?
   Specter.fire = fire;
+  Specter.count = count;
   Specter.players = entities.player;
   Specter.torches = entities.torch;
   Specter.logs = entities.log;
   Stalker.players = entities.player;
+  Stalker.count = count;
   const pack = {
     player: Player.update(entities),
     tree: Tree.update(),
