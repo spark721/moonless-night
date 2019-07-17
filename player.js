@@ -97,7 +97,7 @@ class Player extends Entity {
 
     if (
       this.distance(closestStalker) > 0 &&
-      this.distance(closestStalker) < 55
+      this.distance(closestStalker) < 40
     ) {
       this.stalker = true;
     } else {
