@@ -12,11 +12,14 @@ body {
 }
 
 canvas {
+  position: absolute;
   z-index: 0;
   object-fit: contain;
-  background: url("/client/images/background/bk_forest_night.png");
+  /* background: url("/client/images/background/bk_forest_night.png"); */
   background-size: contain;
   background-repeat: no-repeat;
+  top: 0;
+  left: 0;
 }
 
 div.chat {
