@@ -160,15 +160,15 @@ setInterval(() => {
     const socket = socketList[i];
     socket.emit("pack", pack)
 
-    if (count % 60 === 0) {
+    if (count % 120 === 0) {
       fire.dwindle();
-      count = 0;
+      // count = 0;
  
       if (fire.gameOver) {
         io.emit("over");
         fire.firePower = 25;
         fire.gameOver = false;
-        count = 0;
+        // count = 0;
         // entities = {};
       }
     }
@@ -177,9 +177,10 @@ setInterval(() => {
       io.emit("over");
       fire.firePower = 25;
     }
-    if (count === 18000){
+    if (count > 10800){
       io.emit("win");
       fire.firePower = 25;
+      count = 0;
     }
   }
  

@@ -7,7 +7,7 @@ class Specter extends Entity {
     constructor(id, pos, size) {
         super(id, pos, size);
         this.state = "NEUTRAL";
-        this.speed = 0.5;
+        this.speed = 0.7;
         this.spawned = 0;
         this.cdMax = 800;
         this.cd = 400;
@@ -31,7 +31,7 @@ class Specter extends Entity {
     }
     
     spawnSpecter() {
-        if (Specter.count % 1200 === 0) {
+        if (Specter.count % 300 === 0) {
             if (this.cdMax > 400) {
                 this.cdMax -= 150;
             } else if ((this.cdMax < 401) && (this.cdMax > 100)) {

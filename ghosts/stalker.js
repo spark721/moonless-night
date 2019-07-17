@@ -10,7 +10,7 @@ class Stalker extends Entity {
     this.state = "NEUTRAL";
     this.moveCd = 2;
     this.moveCdMax = 2;
-    this.speed = 1;
+    this.speed = 3;
     this.spawned = 0;
     this.cdMax = 2400;
     this.cd = 1500;
@@ -33,9 +33,9 @@ class Stalker extends Entity {
   }
 
   spawnStalker() {
-    if (Stalker.count % 1800 === 0){
+    if (Stalker.count % 600 === 0){
       if(this.cdMax > 800){
-        this.cdMax -= 800;
+        this.cdMax -= 600;
       } else if ((this.cdMax < 801)&&(this.cdMax > 100)){
         this.cdMax -= 100;
       } else if ((this.cdMax < 101)&&(this.cdMax > 60)){
