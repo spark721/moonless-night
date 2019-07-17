@@ -12,7 +12,7 @@ class Fire extends Entity {
   constructor(id, pos, size) {
     super(id, pos, size)
 
-    this.firePower = 3;
+    this.firePower = 20;
     this.radius = this.firePower * 5;
     this.gameOver = false;
     this.status = null;
@@ -42,23 +42,27 @@ class Fire extends Entity {
     this.radius = this.firePower * 5;
   }
 
-  
+  resetFire(){
+    this.firePower = 10;
+    this.radius = this.firePower * 5;
+    this.gameOver = false;
+    this.status = null;
+  }
 
   // When fire has dwindled to 0 firePower, game is over. Set gameOver to true.
   dwindle () {
     if(this.firePower > 1){
       this.firePower -= 1;
       this.updateRadius();
-      console.log(`Dwindling ` + `${this.firePower}`);
+      // console.log(`Dwindling ` + `${this.firePower}`);
 
-      if (this.firePower > 60) this.status = "HIGH"
-      if (this.firePower > 50) this.status = "MEDIUM"
-      if (this.firePower > 40) this.status = "LOW"
-      if (this.firePower > 20) this.status = "VERY LOW"
-      if (this.firePower < 10) this.status = "CRITICAL"
+      if (this.firePower > 50) this.status = "HIGH";
+      if ((this.firePower > 30) && (this.firePower < 51)) this.status = "MEDIUM";
+      if ((this.firePower > 15) && (this.firePower < 31)) this.status = "VERY LOW";
+      if (this.firePower < 16) this.status = "CRITICAL";
 
     } else {
-      // console.log("Game Over");
+    
       this.gameOver = true;
     }
   };

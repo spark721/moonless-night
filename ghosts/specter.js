@@ -7,10 +7,10 @@ class Specter extends Entity {
     constructor(id, pos, size) {
         super(id, pos, size);
         this.state = "NEUTRAL";
-        this.speed = 1;
+        this.speed = 0.5;
         this.spawned = 0;
-        this.cdMax = 360;
-        this.cd = 180;
+        this.cdMax = 800;
+        this.cd = 400;
         this.spawnSpecter = this.spawnSpecter.bind(this);
     };
     
@@ -31,7 +31,17 @@ class Specter extends Entity {
     }
     
     spawnSpecter() {
-        // console.log(this.cd)
+        if (Specter.count % 1200 === 0) {
+            if (this.cdMax > 400) {
+                this.cdMax -= 150;
+            } else if ((this.cdMax < 401) && (this.cdMax > 100)) {
+                this.cdMax -= 100;
+            } else if ((this.cdMax < 101) && (this.cdMax > 60)) {
+                this.cdMax -= 20;
+            } else {
+                this.cdMax = 50;
+            }
+        }
         if (this.cd === 0){
             let pos = {
               x: Math.floor(Math.random() * 1400),
@@ -59,11 +69,12 @@ class Specter extends Entity {
 
         if (distance < this.size + fire.size) {
             Specter.delete(this.id);
+            fire.firePower -= 5;
         }
     }
     collideWithTorch(torches){
         for (let i in torches) {
-            // console.log(Specter.players[i].x);
+         
             const tempPos = { x: this.x, y: this.y };
             const dx = tempPos.x - torches[i].x;
             const dy = tempPos.y - torches[i].y;
@@ -78,9 +89,9 @@ class Specter extends Entity {
 
     collideWithPlayer(){
         for (let i in Specter.players) {
-            // console.log(Specter.players[i].x);
+         
             if ((this.x >= Specter.players[i].x - 10 && this.x <= Specter.players[i].x + 10) && (this.y >= Specter.players[i].y - 10 && this.y <= Specter.players[i].y + 10)) {
-                // console.log('Specter collided with player')
+               
             }
         }
     }

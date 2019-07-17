@@ -12,9 +12,16 @@ body {
 }
 
 canvas {
-  z-index: 0;
-  object-fit: contain;
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+}
+
+canvas#ctx {
+  z-index: -1;
   background: url("/client/images/background/bk_forest_night.png");
+  object-fit: contain;
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -23,6 +30,7 @@ div.chat {
     width: 400px;
     height: 725px;
     margin: 0 0 0 4px;
+    display: none;
 }
 
 #chat-text {
@@ -66,11 +74,36 @@ div.chat {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  z-index: 999; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
 }
 
 .game-over-msg {
+    font-family: 'Roboto', sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 64px;
+    color: #b50000;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    text-decoration: underline;
+}
+#winner {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(219, 200, 30, 0.8); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+.winner-msg {
     font-family: 'Roboto', sans-serif;
     position: absolute;
     top: 50%;
