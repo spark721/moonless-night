@@ -8,10 +8,12 @@ class Stalker extends Entity {
   constructor(id, pos, size) {
     super(id, pos, size);
     this.state = "NEUTRAL";
-    this.speed = 0.5;
+    this.moveCd = 2;
+    this.moveCdMax = 2;
+    this.speed = 1;
     this.spawned = 0;
-    this.cdMax = Math.floor(Math.random() * 2400 + 180);
-    this.cd = Math.floor(Math.random() * 180) + 100;
+    this.cdMax = 2400;
+    this.cd = 1500;
     this.deathCd = 720;
     this.summoningSickness = 120;
     this.player = undefined;
@@ -31,6 +33,18 @@ class Stalker extends Entity {
   }
 
   spawnStalker() {
+    if (Stalker.count % 1800 === 0){
+      if(this.cdMax > 800){
+        this.cdMax -= 800;
+      } else if ((this.cdMax < 801)&&(this.cdMax > 100)){
+        this.cdMax -= 100;
+      } else if ((this.cdMax < 101)&&(this.cdMax > 60)){
+        this.cdMax -= 20;
+      } else {
+        this.cdMax = 50;
+      }
+    }
+
     if (this.cd === 0) {
       let pos = {
         x: Math.floor(Math.random() * 1400),
@@ -39,7 +53,7 @@ class Stalker extends Entity {
       this.spawned += 1;
       let stalker = new Stalker(this.spawned, pos, 30);
       Stalker.list[this.spawned] = stalker;
-      this.cd = Math.floor(Math.random() * 2400 + 180);
+      this.cd = this.cdMax;
       this.spawnCd = false;
    
     }
@@ -68,8 +82,12 @@ class Stalker extends Entity {
   update() {
     super.update();
     this.summonSickness();
-    this.updatePosition();
+    if (this.moveCd === 0){
+      this.updatePosition();
+      this.moveCd = this.moveCdMax;
+    }
     this.delete();
+    this.moveCd --;
   }
 
   // collideWithFire(fire) {
