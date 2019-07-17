@@ -121,15 +121,9 @@ io.on("connection", socket => {
   })
 });
 
-let rand = Math.floor(Math.random() * 3);
 
-if (rand === 0) {
-  Tree.spawnTree1();
-} else if (rand === 1) {
-  Tree.spawnTree2();
-} else {
-  Tree.spawnTree3();
-}
+
+Tree.spawnTree();
 
 
 let count = 0
@@ -162,25 +156,35 @@ setInterval(() => {
 
     if (count % 120 === 0) {
       fire.dwindle();
-      // count = 0;
  
+
       if (fire.gameOver) {
         io.emit("over");
         fire.firePower = 25;
         fire.gameOver = false;
-        // count = 0;
-        // entities = {};
+        count = 0;
+        Tree.list = {};
+        Tree.spawnTree();
+        entities.tree = Tree.list;
+
       }
     }
     let playerArray = Object.values(Player.list);
     if (playerArray.every(player => {return player.state === "FETAL";})){
       io.emit("over");
       fire.firePower = 25;
+      Tree.list = {};
+      Tree.spawnTree();
+      entities.tree = Tree.list;
     }
     if (count > 10800){
       io.emit("win");
       fire.firePower = 25;
+      Tree.list = {};
+      Tree.spawnTree();
+      entities.tree = Tree.list;
       count = 0;
+
     }
   }
  
