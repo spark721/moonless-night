@@ -22,7 +22,6 @@
   <script src="/client/images/player/XX/idle/player_idle.js"></script>
   <script src="/client/images/fire/torch.js"></script>
 
-
   <title>Moonless Night</title>
 </head>
 <body>
@@ -169,9 +168,12 @@
       if (event.keyCode === 65) socket.emit('keyPress', { inputId: 'left', state: true }); // a
       if (event.keyCode === 87) socket.emit('keyPress', { inputId: 'up', state: true }); // w
       if (event.keyCode === 83) socket.emit('keyPress', { inputId: 'down', state: true }); // s
-      if (event.keyCode === 74) socket.emit('keyPress', { inputId: 'chop', state: true });
-      if (event.keyCode === 75) socket.emit('keyPress', { inputId: 'drop', state: true });
-      if (event.keyCode === 72) socket.emit('keyPress', { inputId: 'heal', state: true });
+      if (event.keyCode === 74) {
+        socket.emit('keyPress', { inputId: 'chop', state: true }); // j
+        console.log("chop")
+      }
+      if (event.keyCode === 75) socket.emit('keyPress', { inputId: 'drop', state: true }); // k
+      if (event.keyCode === 72) socket.emit('keyPress', { inputId: 'heal', state: true }); // h
     }
 
     document.onkeyup = event => {

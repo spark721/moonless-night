@@ -41,7 +41,7 @@ class Stalker extends Entity {
       Stalker.list[this.spawned] = stalker;
       this.cd = Math.floor(Math.random() * 2400 + 180);
       this.spawnCd = false;
-      console.log(stalker);
+      // console.log(stalker);
     }
     this.cd -= 1;
   }
