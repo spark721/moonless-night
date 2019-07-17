@@ -163,6 +163,13 @@ setInterval(() => {
         io.emit("over");
       }
     }
+    let playerArray = Object.values(Player.list);
+    if (playerArray.every(player => {return player.state === "FETAL";})){
+      io.emit("over");
+    }
+    if (count === 18000){
+      io.emit("win");
+    }
   }
  
   spawner1.spawnSpecter();
