@@ -7,7 +7,7 @@ class Stalker extends Entity {
     constructor(id, pos, size) {
         super(id, pos, size);
         this.state = "NEUTRAL";
-        this.speed = 1;
+        this.speed = 0.5;
         this.spawned = 0;
         this.cdMax = Math.floor((Math.random() * 2400) + 180);
         this.cd = Math.floor((Math.random() * 180) + 100);
@@ -107,23 +107,30 @@ class Stalker extends Entity {
         }
     }
     updateNearestObjects(players) {
-        if (players !== undefined){
-            const playersValues = Object.values(players)
-            const sortedPlayers = playersValues.sort((a, b) => {
-                return this.distance(a) - this.distance(b);
-            });
+        // if (players !== undefined){
+        //     const playersValues = Object.values(players)
+        //     const sortedPlayers = playersValues.sort((a, b) => {
+        //         return this.distance(a) - this.distance(b);
+        //     });
     
-            const closestPlayer = sortedPlayers[0];
-            this.player = closestPlayer;
-        }else{
-            this.player = undefined;
-        }
+        //     const closestPlayer = sortedPlayers[0];
+        //     this.player = closestPlayer;
+        // }else{
+        //     this.player = undefined;
+        // }
 
         // if (this.distance(closestPlayer) < 70) {
         // } else {
         //     this.player = undefined;
         // }
 
+    }
+    
+    distance(object) {
+        if (object === undefined) return 0;
+        const dx = this.x - object.x;
+        const dy = this.y - object.y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     updatePosition() {
