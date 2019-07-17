@@ -23,8 +23,6 @@ const spawner2 = new Stalker(0, { x: 1, y: 1 }, 15);
 
 
 if (process.env.NODE_ENV === 'production') {
-  app.use("/client", express.static(__dirname + "/client"));
-  server.listen(port);
 
 
   app.get("/", (req, res) => {
@@ -34,6 +32,10 @@ if (process.env.NODE_ENV === 'production') {
   app.get("/game", (req, res) => {
     res.sendFile(__dirname + "/client/index.html");
   });
+
+  app.use("/client", express.static(__dirname + "/client"));
+  server.listen(port);
+
   // app.use("/client", express.static(__dirname + "/client"));
   // app.get("/", (req, res) => {
   //   res.sendFile(__dirname + "/client/index.html");
