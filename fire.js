@@ -34,7 +34,6 @@ class Fire extends Entity {
 
   eatLogs () {
     this.firePower += 5
-    console.log(this.firePower)
   }
 
 
@@ -50,7 +49,6 @@ class Fire extends Entity {
     if(this.firePower > 1){
       this.firePower -= 1;
       this.updateRadius();
-      
       console.log(`Dwindling ` + `${this.firePower}`);
 
       if (this.firePower > 60) this.status = "HIGH"
