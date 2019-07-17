@@ -59,6 +59,7 @@ class Specter extends Entity {
 
         if (distance < this.size + fire.size) {
             Specter.delete(this.id);
+            fire.firePower -= 5;
         }
     }
     collideWithTorch(torches){
