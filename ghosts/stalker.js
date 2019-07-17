@@ -115,13 +115,13 @@ class Stalker extends Entity {
   
   updateNearestObjects(players) {
     if (players !== undefined) {
-      const playersValues = Object.values(players).filter(player => player.state !== "FETAL");
+      let playersValues = Object.values(players).filter(player => player.state !== "FETAL");
 
-      const sortedPlayers = playersValues.sort((a, b) => {
+      let sortedPlayers = playersValues.sort((a, b) => {
         return this.distance(a) - this.distance(b);
       });
 
-      const closestPlayer = sortedPlayers[0];
+      let closestPlayer = sortedPlayers[0];
       this.player = closestPlayer;
     } else {
       this.player = undefined;
@@ -130,8 +130,8 @@ class Stalker extends Entity {
 
   distance(object) {
     if (object === undefined) return 0;
-    const dx = this.x - object.x;
-    const dy = this.y - object.y;
+    let dx = this.x - object.x;
+    let dy = this.y - object.y;
     return Math.sqrt(dx * dx + dy * dy);
   }
 
