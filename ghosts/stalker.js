@@ -4,6 +4,7 @@ const Fire = require("../fire");
 // this.state = ['NEUTRAL', 'FETAL', 'TORCH', 'LOG', 'STICK', 'HEALING', 'BEINGHEALED']
 
 class Stalker extends Entity {
+
   constructor(id, pos, size) {
     super(id, pos, size);
     this.state = "NEUTRAL";
@@ -139,6 +140,7 @@ class Stalker extends Entity {
     this.moveToObject(this.player);
     this.collideWithPlayer();
   }
+
 };
 
 Stalker.list = {};
