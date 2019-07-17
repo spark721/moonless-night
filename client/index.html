@@ -14,11 +14,13 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="/client/images/fire/medium_fire.js"></script>
   <script src="/client/images/stalker/stalker_sprite.js"></script>
+  <script src="/client/images/specter/specter_sprite.js"></script>
   <script src="/client/images/player/XX/walking/player_walk_right.js"></script>
   <script src="/client/images/player/XX/walking/player_walk_left.js"></script>
   <script src="/client/images/player/XX/walking/player_walk_up.js"></script>
   <script src="/client/images/player/XX/walking/player_walk_down.js"></script>
   <script src="/client/images/player/XX/idle/player_idle.js"></script>
+   
 
   <title>Moonless Night</title>
 </head>
@@ -101,7 +103,8 @@
     for (let i = 0; i < data.specter.length; i++) {
       ctx.fillStyle = "#3370d4";
       ctx.beginPath();
-      ctx.arc(data.specter[i].x, data.specter[i].y, data.specter[i].size, 0, 2 * Math.PI);
+      // ctx.arc(data.specter[i].x, data.specter[i].y, data.specter[i].size, 0, 2 * Math.PI);
+      specterDrawImage(data.specter[i].x - 15, data.specter[i].y - 15);
       ctx.closePath();
       ctx.fill();
       ctx.stroke();  
@@ -111,8 +114,8 @@
     for (let i = 0; i < data.stalker.length; i++) {
       ctx.fillStyle = "#c82124";
       ctx.beginPath();
-      ctx.arc(data.stalker[i].x, data.stalker[i].y, data.stalker[i].size, 0, 2 * Math.PI);
-      // stalkerDrawImage(data.stalker[i].x, data.stalker[i].y);
+      // ctx.arc(data.stalker[i].x, data.stalker[i].y, data.stalker[i].size, 0, 2 * Math.PI);
+      stalkerDrawImage(data.stalker[i].x-27, data.stalker[i].y-35);
       ctx.closePath();
       ctx.fill();
       ctx.stroke();  
