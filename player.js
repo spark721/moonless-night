@@ -45,6 +45,25 @@ class Player extends Entity {
     this.updatePosition(entities);
     this.chop();
     this.drop();
+
+    if (
+      this.distance(this.fire) < 120 &&
+      this.state === "NEUTRAL" &&
+      this.pressingChop
+    ) {
+      this.state = "TORCH";
+    }
+    if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
+      Log.delete(this.log.id);
+      this.state = "LOGS";
+    }
+    if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
+      Torch.delete(this.torch.id);
+      this.state = "TORCH";
+    }
+    if (this.pressingHeal && this.player) {
+      entities.player[this.player].getHealed();
+    }
   }
 
   updateNearestObjects(entities) {
@@ -131,25 +150,6 @@ class Player extends Entity {
     } else {
       this.torch = undefined;
     }
-
-    if (
-      this.distance(this.fire) < 120 &&
-      this.state === "NEUTRAL" &&
-      this.pressingChop
-    ) {
-      this.state = "TORCH";
-    }
-    if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
-      Log.delete(this.log.id);
-      this.state = "LOGS";
-    }
-    if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
-      Torch.delete(this.torch.id);
-      this.state = "TORCH";
-    }
-    if (this.pressingHeal && this.player) {
-      entities.player[this.player].getHealed();
-    }
   }
 
   updatePosition(entities) {
@@ -185,6 +185,24 @@ class Player extends Entity {
     ) {
       // this.fire.eatLogs();
       this.state = "NEUTRAL";
+    }
+    if (
+      this.distance(this.fire) < 120 &&
+      this.state === "NEUTRAL" &&
+      this.pressingChop
+    ) {
+      this.state = "TORCH";
+    }
+    if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
+      Log.delete(this.log.id);
+      this.state = "LOGS";
+    }
+    if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
+      Torch.delete(this.torch.id);
+      this.state = "TORCH";
+    }
+    if (this.pressingHeal && this.player) {
+      entities.player[this.player].getHealed();
     }
   }
 
