@@ -85,15 +85,13 @@ class Player extends Entity {
     } else {
       this.torch = undefined;
     }
-
-    if (this.distance(this.fire) < 120 && this.state === "NEUTRAL" && this.pressingChop) {
+    // console.log((this.distance(this.fire) < 70 && this.state === "NEUTRAL" && this.pressingChop));
+    if (this.distance(this.fire) < 70 && this.state === "NEUTRAL" && this.pressingChop) {
       this.state = "TORCH";
-    }
-    if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
+    }else if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
       Log.delete(this.log.id);
       this.state = "LOGS";
-    }
-    if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
+    }else if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
       Torch.delete(this.torch.id);
       this.state = "TORCH";
     }
@@ -118,10 +116,10 @@ class Player extends Entity {
       this.fire.eatLogs();
       this.state = "NEUTRAL"
     }
-    if (this.pressingChop && this.distance(this.fire) < 110 && this.state === "TORCH") {
-      // this.fire.eatLogs();
-      this.state = "NEUTRAL"
-    }
+    // if (this.pressingChop && this.distance(this.fire) < 110 && this.state === "TORCH") {
+    //   // this.fire.eatLogs();
+    //   this.state = "NEUTRAL"
+    // }
 
   }
 
