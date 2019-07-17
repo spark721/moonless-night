@@ -46,32 +46,23 @@ class Player extends Entity {
     this.chop();
     this.drop();
 
-<<<<<<< HEAD
-=======
-    // console.log(this.pressingChop);
->>>>>>> dacea354b19e73616813b0c4ec0f603a4a97dc4f
     if (
-      this.distance(this.fire) < 120 &&
+      this.distance(this.fire) < 50 &&
       this.state === "NEUTRAL" &&
       this.pressingChop
     ) {
       this.state = "TORCH";
-<<<<<<< HEAD
     }
+
     if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
       Log.delete(this.log.id);
       this.state = "LOGS";
-    }
+    } 
     if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
-=======
-    } else if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
-      Log.delete(this.log.id);
-      this.state = "LOGS";
-    } else if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
->>>>>>> dacea354b19e73616813b0c4ec0f603a4a97dc4f
       Torch.delete(this.torch.id);
       this.state = "TORCH";
     }
+
     if (this.pressingHeal && this.player) {
       entities.player[this.player].getHealed();
     }
@@ -79,6 +70,7 @@ class Player extends Entity {
 
   updateNearestObjects(entities) {
     this.fire = entities.fire;
+    // console.log(Object.values(entities.torch));
     const trees = Object.values(entities.tree);
     const sortedTrees = trees.sort((a, b) => {
       return this.distance(a) - this.distance(b);
@@ -143,19 +135,20 @@ class Player extends Entity {
     const closestPlayer = sortedPlayers[0];
 
     if (closestPlayer === undefined) {
-      return;
+      this.player = undefined
     } else if (this.distance(closestPlayer) < 70) {
       this.player = closestPlayer.id;
     } else {
       this.player = undefined;
     }    
     ////////////////////////////////////////////////////////////////
-    const torches = Object.values(entities.torch);
-    const sortedTorches = torches.sort((a, b) => {
+    console.log(Object.values(entities.torch));
+    let torches = Object.values(entities.torch);
+    let sortedTorches = torches.sort((a, b) => {
       return this.distance(a) - this.distance(b);
     });
 
-    const closestTorch = sortedTorches[0];
+    let closestTorch = sortedTorches[0];
 
     if (this.distance(closestTorch) < 70) {
       this.torch = closestTorch;
@@ -183,39 +176,39 @@ class Player extends Entity {
     }
 
     if (
-      this.pressingChop &&
+      this.pressingDrop &&
       this.distance(this.fire) < 110 &&
       this.state === "LOGS"
     ) {
       this.fire.eatLogs();
       this.state = "NEUTRAL";
     }
-    if (
-      this.pressingChop &&
-      this.distance(this.fire) < 110 &&
-      this.state === "TORCH"
-    ) {
-      // this.fire.eatLogs();
-      this.state = "NEUTRAL";
-    }
-    if (
-      this.distance(this.fire) < 120 &&
-      this.state === "NEUTRAL" &&
-      this.pressingChop
-    ) {
-      this.state = "TORCH";
-    }
-    if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
-      Log.delete(this.log.id);
-      this.state = "LOGS";
-    }
-    if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
-      Torch.delete(this.torch.id);
-      this.state = "TORCH";
-    }
-    if (this.pressingHeal && this.player) {
-      entities.player[this.player].getHealed();
-    }
+    // if (
+    //   this.pressingChop &&
+    //   this.distance(this.fire) < 110 &&
+    //   this.state === "TORCH"
+    // ) {
+    //   this.fire.eatLogs();
+    //   this.state = "NEUTRAL";
+    // }
+    // if (
+    //   this.distance(this.fire) <  &&
+    //   this.state === "NEUTRAL" &&
+    //   this.pressingChop
+    // ) {
+    //   this.state = "TORCH";
+    // }
+    // if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
+    //   Log.delete(this.log.id);
+    //   this.state = "LOGS";
+    // }
+    // if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
+    //   Torch.delete(this.torch.id);
+    //   this.state = "TORCH";
+    // }
+    // if (this.pressingHeal && this.player) {
+    //   entities.player[this.player].getHealed();
+    // }
   }
 
   getHealed() {

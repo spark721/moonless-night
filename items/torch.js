@@ -12,8 +12,8 @@ class Torch extends Entity {
     constructor(id, pos, size) {
         super(id, pos, size)
 
-        this.firePower = 20;
-        this.radius = this.firePower * 5;
+        // this.firePower = 20;
+        // this.radius = this.firePower * 5;
         // this.gameOver = false;
 
         // this.dwindle = this.dwindle.bind(this);
@@ -41,9 +41,9 @@ class Torch extends Entity {
     }
 
     // Updates state of fire. Will eventually be ["CRITICAL", "VERY LOW", "LOW", "MEDIUM", "HIGH"]
-    updateRadius() {
-        this.radius = this.firePower * 5;
-    }
+    // updateRadius() {
+    //     this.radius = this.firePower * 5;
+    // }
 
 
 
