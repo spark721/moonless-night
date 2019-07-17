@@ -38,6 +38,7 @@ var lowFire_count = 0;
 var lowFire_spriteSpd = 6;
 
 function lowFire_updateFrame() {
+  // console.log(lowFire_srcY);
   if (lowFire_currentFrame < 8) {
     lowFire_count++
     if (lowFire_count % lowFire_spriteSpd === 0) { lowFire_currentFrame = ++lowFire_currentFrame }

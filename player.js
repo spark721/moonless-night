@@ -46,18 +46,29 @@ class Player extends Entity {
     this.chop();
     this.drop();
 
+<<<<<<< HEAD
+=======
+    // console.log(this.pressingChop);
+>>>>>>> dacea354b19e73616813b0c4ec0f603a4a97dc4f
     if (
       this.distance(this.fire) < 120 &&
       this.state === "NEUTRAL" &&
       this.pressingChop
     ) {
       this.state = "TORCH";
+<<<<<<< HEAD
     }
     if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
       Log.delete(this.log.id);
       this.state = "LOGS";
     }
     if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
+=======
+    } else if (this.state === "NEUTRAL" && this.log && this.pressingChop) {
+      Log.delete(this.log.id);
+      this.state = "LOGS";
+    } else if (this.state === "NEUTRAL" && this.torch && this.pressingChop) {
+>>>>>>> dacea354b19e73616813b0c4ec0f603a4a97dc4f
       Torch.delete(this.torch.id);
       this.state = "TORCH";
     }
@@ -89,6 +100,7 @@ class Player extends Entity {
     const closestLog = sortedLogs[0];
 
     if (this.distance(closestLog) < 70) {
+      
       this.log = closestLog;
     } else {
       this.log = undefined;
@@ -151,7 +163,7 @@ class Player extends Entity {
       this.torch = undefined;
     }
   }
-
+  
   updatePosition(entities) {
     const trees = Object.values(entities.tree);
 
