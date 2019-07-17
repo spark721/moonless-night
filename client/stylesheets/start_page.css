@@ -38,8 +38,18 @@ div.play-button:hover {
     border: 10px solid #b50000;
 }
 
+.instruction h3, h4 {
+    color: #797979;
+    text-decoration: underline;
+}
+
+.instruction p {
+    color: #797979;
+    margin: 5px 0;
+}
+
+
 .foot-note {
     color: #656565;
     margin: 200px 0 0 0;
 }
-
