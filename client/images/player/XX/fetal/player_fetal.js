@@ -35,7 +35,7 @@ Fetal.src = "/client/images/player/XX/fetal/player_fetal.png"
 
 var FetalCount = 0;
 // this changes the speed of the animation
-var FetalSpd = 18;
+var FetalSpd = 30;
 
 function updateFetal() {
   FetalCount += 1

@@ -199,10 +199,10 @@
         ctx.arc(data.player[i].x, data.player[i].y, data.player[i].size, 0, 2 * Math.PI);
         ctx.stroke();
 
-        if (data.player[i].pressingRight && !data.player[i].state !== "FETAL" ) drawWalkRight(data.player[i].x - 17, data.player[i].y - 55)
-        if (data.player[i].pressingLeft && !data.player[i].state !== "FETAL") drawWalkLeft(data.player[i].x - 17, data.player[i].y - 55)
-        if (data.player[i].pressingUp && !data.player[i].state !== "FETAL") drawWalkUp(data.player[i].x - 17, data.player[i].y - 55)
-        if (data.player[i].pressingDown && !data.player[i].state !== "FETAL") drawWalkDown(data.player[i].x - 17, data.player[i].y - 55)
+        if (data.player[i].pressingRight && data.player[i].state !== "FETAL" ) drawWalkRight(data.player[i].x - 17, data.player[i].y - 55)
+        if (data.player[i].pressingLeft && data.player[i].state !== "FETAL") drawWalkLeft(data.player[i].x - 17, data.player[i].y - 55)
+        if (data.player[i].pressingUp && data.player[i].state !== "FETAL") drawWalkUp(data.player[i].x - 17, data.player[i].y - 55)
+        if (data.player[i].pressingDown && data.player[i].state !== "FETAL") drawWalkDown(data.player[i].x - 17, data.player[i].y - 55)
         if (data.player[i].state === "FETAL") drawFetal(data.player[i].x - 17, data.player[i].y - 55)
 
         if (
