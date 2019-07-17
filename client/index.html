@@ -173,8 +173,19 @@
       if (event.keyCode === 74) socket.emit('keyPress', { inputId: 'chop', state: false });
       if (event.keyCode === 75) socket.emit('keyPress', {inputId: 'drop', state: false });
     }
+
+    socket.on("over", () => {
+      document.getElementById('game-over').style.display = "block";
+    })
+
+    const off = () => {
+      document.getElementById('game-over').style.display = "none";
+    }
   </script>
 
+  <div id="game-over" onclick="off()" >
+    <a href="/"><span class="game-over-msg">YOU LOST</span></a>
+  </div>
   
 </body>
 </html>

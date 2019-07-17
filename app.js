@@ -7,6 +7,7 @@ const io = require("socket.io")(server);
 const port = process.env.PORT || 2000;
 const socketList = {};
 
+// const Game = require('./game');
 const Player = require('./player');
 const Entity = require('./entity');
 const Fire = require('./fire');
@@ -126,8 +127,6 @@ let count = 0
 
 setInterval(() => {
   count++
-
-  
   
   // pass entities to all?
   Specter.fire = fire;
@@ -154,21 +153,14 @@ setInterval(() => {
     if (count === 180) {
       fire.dwindle();
       count = 0;
+
+      if (fire.gameOver) {
+        io.emit("over");
+      }
     }
   }
 
   spawner1.spawnSpecter();
   spawner2.spawnStalker();
+
 }, 1000 / 60);
-
-// Fire dwindles every 10 seconds
-// If the fire burns out, stop dwindling and call gameOver for the whole game
-let firePit = setInterval(() => {
-  if(fire.gameOver) {
-    null
-    // game.gameOver();
-  } else {
-    fire.firePower--;
-  }
-
-}, 3000);

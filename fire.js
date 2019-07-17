@@ -12,7 +12,7 @@ class Fire extends Entity {
   constructor(id, pos, size) {
     super(id, pos, size)
 
-    this.firePower = 20;
+    this.firePower = 3;
     this.radius = this.firePower * 5;
     this.gameOver = false;
 
@@ -48,9 +48,9 @@ class Fire extends Entity {
     if(this.firePower > 1){
       this.firePower -= 1;
       this.updateRadius();
-      console.log(`Dwindling ` + `${this.firePower}`);
+      // console.log(`Dwindling ` + `${this.firePower}`);
     } else {
-      console.log("Game Over");
+      // console.log("Game Over");
       this.gameOver = true;
     }
   };
