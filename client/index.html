@@ -184,7 +184,7 @@
     torchImage.src = '/client/images/fire/fire_medium_sprites.png'
 
     const ctx = document.getElementById('ctx').getContext('2d');
-    ctx.font = '30px Arial';
+    ctx.font = '20px Arial';
 
     ctx.fillStyle = "#FFFFFF";
 
@@ -194,10 +194,10 @@
       // clear canvas
       ctx.clearRect(0, 0, 1400, 788);
       for (let i = 0; i < data.player.length; i++) {
-        ctx.fillText(data.player[i].state, 100, 100)
-        ctx.beginPath();
-        ctx.arc(data.player[i].x, data.player[i].y, data.player[i].size, 0, 2 * Math.PI);
-        ctx.stroke();
+        // ctx.fillText(data.player[i].state, 100, 100)
+        // ctx.beginPath();
+        // ctx.arc(data.player[i].x, data.player[i].y, data.player[i].size, 0, 2 * Math.PI);
+        // ctx.stroke();
 
         if (data.player[i].pressingRight && data.player[i].state !== "FETAL" ) drawWalkRight(data.player[i].x - 17, data.player[i].y - 55)
         if (data.player[i].pressingLeft && data.player[i].state !== "FETAL") drawWalkLeft(data.player[i].x - 17, data.player[i].y - 55)
@@ -228,7 +228,7 @@
 
 
       // END TEST
-      ctx.fillText(`${data.fire.firePower}`, 700, 100);
+      ctx.fillText(`${data.fire.firePower}`, 685, 460);
       
 
       // render trees
