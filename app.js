@@ -39,13 +39,12 @@ app.get("/game", (req, res) => {
 
   
 app.use("/client", express.static(__dirname + "/client"));
-server.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen(port);
 
 
 spawner1.speed = 0;
 spawner2.speed = 0;
 Tree.list = {};
-Player.list = {};
 
 
 const entities = {
@@ -76,6 +75,7 @@ Player.onConnect = socket => {
     if (data.inputId === "down") player.pressingDown = data.state;
     if (data.inputId === "chop") player.pressingChop = data.state;
     if (data.inputId === "drop") player.pressingDrop = data.state;
+    if (data.inputId === "heal") player.pressingHeal = data.state;
   });
 }
 
@@ -97,7 +97,7 @@ io.on("connection", socket => {
   socketList[socket.id] = socket;
 
   let clients = io.engine.clientsCount;
-  console.log(`Client connected: ${clients}`);
+  // console.log(`Client connected: ${clients}`);
 
   if (clients > 2) {
     socket.disconnect(true);
@@ -107,7 +107,7 @@ io.on("connection", socket => {
 
   // server socket automatically listens for 'disconnect'
   socket.on("disconnect", () => {
-    console.log(`Client disconnected`);
+    // console.log(`Client disconnected`);
 
     delete socketList[socket.id];
 
@@ -139,7 +139,6 @@ setInterval(() => {
   Stalker.players = entities.player;
   // console.log(Game.getFire());
   const pack = {
-
     player: Player.update(entities),
     tree: Tree.update(),
     fire: fire.update(),

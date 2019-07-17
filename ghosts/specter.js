@@ -13,7 +13,6 @@ class Specter extends Entity {
         this.cd = 180;
         this.spawnSpecter = this.spawnSpecter.bind(this);
     };
-
     
     static update() {
         const pack = [];
@@ -35,9 +34,9 @@ class Specter extends Entity {
         // console.log(this.cd)
         if (this.cd === 0){
             let pos = {
-                x: Math.floor(Math.random() * 1400),
-                y: Math.floor(Math.random() * 750)
-            }
+              x: Math.floor(Math.random() * 1400),
+              y: Math.floor(Math.random() * 788)
+            };
             this.spawned += 1;
             let specter = new Specter(this.spawned, pos, 15);
             Specter.list[this.spawned] = specter;
