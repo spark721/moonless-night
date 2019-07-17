@@ -111,6 +111,7 @@ class Stalker extends Entity {
       }
     }
   }
+  
   updateNearestObjects(players) {
     if (players !== undefined) {
       const playersValues = Object.values(players).filter(player => player.state !== "FETAL");
@@ -124,11 +125,6 @@ class Stalker extends Entity {
     } else {
       this.player = undefined;
     }
-
-    // if (this.distance(closestPlayer) < 70) {
-    // } else {
-    //     this.player = undefined;
-    // }
   }
 
   distance(object) {
@@ -144,6 +140,7 @@ class Stalker extends Entity {
     this.collideWithPlayer();
   }
 };
+
 Stalker.list = {};
 // change to webpack?
 module.exports = Stalker;
