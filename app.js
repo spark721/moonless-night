@@ -47,7 +47,7 @@ spawner2.speed = 0;
 Tree.list = {};
 
 
-const entities = {
+let entities = {
 
   player: Player.list,
   tree: Tree.list,
@@ -132,6 +132,7 @@ let count = 0
 
 setInterval(() => {
   count++
+
   
   // pass entities to all?
   Specter.fire = fire;
@@ -155,12 +156,16 @@ setInterval(() => {
     const socket = socketList[i];
     socket.emit("pack", pack)
 
-    if (count === 60) {
+    if (count % 60 === 0) {
       fire.dwindle();
       count = 0;
  
       if (fire.gameOver) {
         io.emit("over");
+        fire.firePower = 25;
+        fire.gameOver = false;
+        count = 0;
+        // entities = {};
       }
     }
     let playerArray = Object.values(Player.list);
