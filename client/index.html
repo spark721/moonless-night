@@ -20,7 +20,8 @@
   <script src="/client/images/player/XX/walking/player_walk_up.js"></script>
   <script src="/client/images/player/XX/walking/player_walk_down.js"></script>
   <script src="/client/images/player/XX/idle/player_idle.js"></script>
-   
+  <script src="/client/images/fire/torch.js"></script>
+
 
   <title>Moonless Night</title>
 </head>
@@ -42,10 +43,14 @@
   
   
   <script>
-
+    
     const chatText = document.getElementById("chat-text")
     const chatInput = document.getElementById("chat-input")
     const chatForm = document.getElementById("chat-form")
+    const logImage = new Image();
+    logImage.src = '/client/images/logs/spr_log_0.png'
+    const torchImage = new Image();
+    torchImage.src = '/client/images/fire/fire_medium_sprites.png'
 
     const ctx = document.getElementById('ctx').getContext('2d');
     ctx.font = '30px Arial';
@@ -53,7 +58,6 @@
     ctx.fillStyle = "#FFFFFF";
 
     const socket = io();
-    let coords;
 
     socket.on('pack', data => {
       // clear canvas
@@ -63,25 +67,30 @@
         ctx.beginPath();
         ctx.arc(data.player[i].x, data.player[i].y, data.player[i].size, 0, 2 * Math.PI);
         ctx.stroke();
-        coords = data;
 
-        if (data.player[i].pressingRight) drawWalkRight(coords.player[i].x - 17, coords.player[i].y - 55)
-        if (data.player[i].pressingLeft) drawWalkLeft(coords.player[i].x - 17, coords.player[i].y - 55)
-        if (data.player[i].pressingUp) drawWalkUp(coords.player[i].x - 17, coords.player[i].y - 55)
-        if (data.player[i].pressingDown) drawWalkDown(coords.player[i].x - 17, coords.player[i].y - 55)
+        if (data.player[i].pressingRight) drawWalkRight(data.player[i].x - 17, data.player[i].y - 55)
+        if (data.player[i].pressingLeft) drawWalkLeft(data.player[i].x - 17, data.player[i].y - 55)
+        if (data.player[i].pressingUp) drawWalkUp(data.player[i].x - 17, data.player[i].y - 55)
+        if (data.player[i].pressingDown) drawWalkDown(data.player[i].x - 17, data.player[i].y - 55)
 
         if (
           !data.player[i].pressingDown &&
           !data.player[i].pressingUp &&
           !data.player[i].pressingLeft &&
           !data.player[i].pressingRight) {
-          drawPlayerIdle(coords.player[i].x - 17, coords.player[i].y - 55)
+          drawPlayerIdle(data.player[i].x - 17, data.player[i].y - 55)
         }
+
+        // TORCH RENDERING
+
+        if (data.player[i].state === "TORCH") lowFireDraw(data.player[i].x - 80, data.player[i].y - 110)
+
+        if (data.player[i].state === "LOGS") ctx.drawImage(logImage, 0, 0, 50, 50, data.player[i].x - 10, data.player[i].y - 25, 64, 40)
       }
+      // TEST
+
+      // END TEST
       ctx.fillText(`${data.fire.firePower}`, 700, 100);
-      ctx.beginPath();
-      ctx.arc(data.fire.x, data.fire.y, data.fire.size, 0, 2 * Math.PI);
-      ctx.stroke();
 
       // render trees
       for (let i = 0; i < data.tree.length; i++) {
@@ -122,21 +131,25 @@
     }    
     //log
     for (let i = 0; i < data.log.length; i++) {
-      ctx.fillStyle = "brown";
-      ctx.beginPath();
-      ctx.arc(data.log[i].x, data.log[i].y, data.log[i].size, 0, 2 * Math.PI);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();  
+      // ctx.fillStyle = "brown";
+      // ctx.beginPath();
+      // ctx.arc(data.log[i].x, data.log[i].y, data.log[i].size, 0, 2 * Math.PI);
+      // ctx.closePath();
+      // ctx.fill();
+      // ctx.stroke();  
+      ctx.drawImage(logImage, 0, 0, 50, 50, data.log[i].x - 20, data.log[i].y - 10, 64, 40)
+      
     }    
     //torch
     for (let i = 0; i < data.torch.length; i++) {
-      ctx.fillStyle = "orange";
-      ctx.beginPath();
-      ctx.arc(data.torch[i].x, data.torch[i].y, data.torch[i].size, 0, 2 * Math.PI);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();  
+      // ctx.fillStyle = "orange";
+      // ctx.beginPath();
+      // ctx.arc(data.torch[i].x, data.torch[i].y, data.torch[i].size, 0, 2 * Math.PI);
+      // ctx.closePath();
+      // ctx.fill();
+      // ctx.stroke();  
+      // ctx.drawImage(torchImage, 0, 0, 102, 205, data.torch[i].x - 20, data.torch[i].y - 10, 64, 40)
+      lowFireDraw(data.torch[i].x-60, data.torch[i].y-120)
     }    
     ctx.fillStyle = "rgba(255, 255, 255, 0)";
     medFireDrawImage();
