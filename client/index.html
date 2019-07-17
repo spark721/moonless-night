@@ -206,13 +206,24 @@
       document.getElementById('game-over').style.display = "block";
     })
 
+    socket.on("win", () => {
+      document.getElementById('winner').style.display = "block";
+    })
+
     const off = () => {
       document.getElementById('game-over').style.display = "none";
+    }
+    const offwin = () => {
+      document.getElementById('winner').style.display = "none";
     }
   </script>
 
   <div id="game-over" onclick="off()" >
     <a href="/"><span class="game-over-msg">YOU LOST</span></a>
+  </div>
+
+  <div id="winner" onclick="offwin()" >
+    <a href="/"><span class="winner-msg">YOU WIN</span></a>
   </div>
   
 </body>
