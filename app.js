@@ -140,6 +140,21 @@ Tree.spawnTree();
 
 let count = 0
 
+function resetGame() {
+  fire.firePower = 25;
+  fire.gameOver = false;
+  count = 0;
+  Tree.list = {};
+  Tree.spawnTree();
+  entities.tree = Tree.list;
+  spawner1.cdMax = 800;
+  spawner2.cdMax = 2400;
+  Torch.list = {};
+  entities.torch = Torch.list;
+  Log.list = {};
+  entities.log = Log.list;
+}
+
 setInterval(() => {
   count++
 
@@ -172,48 +187,52 @@ setInterval(() => {
 
       if (fire.gameOver) {
         io.emit("over");
-        fire.firePower = 25;
-        fire.gameOver = false;
-        count = 0;
-        Tree.list = {};
-        Tree.spawnTree();
-        entities.tree = Tree.list;
-        spawner1.cdMax = 800;
-        spawner2.cdMax = 2400;
-        Torch.list = {};
-        entities.torch = Torch.list;
-        Log.list = {};
-        entities.log = Log.list;
+        resetGame();
+        // fire.firePower = 25;
+        // fire.gameOver = false;
+        // count = 0;
+        // Tree.list = {};
+        // Tree.spawnTree();
+        // entities.tree = Tree.list;
+        // spawner1.cdMax = 800;
+        // spawner2.cdMax = 2400;
+        // Torch.list = {};
+        // entities.torch = Torch.list;
+        // Log.list = {};
+        // entities.log = Log.list;
       }
     }
     let playerArray = Object.values(Player.list);
     if (playerArray.every(player => {return player.state === "FETAL";})){
       io.emit("over");
-      fire.firePower = 25;
-      Tree.list = {};
-      Tree.spawnTree();
-      entities.tree = Tree.list;
-      spawner1.cdMax = 800;
-      spawner2.cdMax = 2400;
-      Torch.list = {};
-      entities.torch = Torch.list;
-      Log.list = {};
-      entities.log = Log.list;
+      resetGame();
+      // count = 0;
+      // fire.firePower = 25;
+      // Tree.list = {};
+      // Tree.spawnTree();
+      // entities.tree = Tree.list;
+      // spawner1.cdMax = 800;
+      // spawner2.cdMax = 2400;
+      // Torch.list = {};
+      // entities.torch = Torch.list;
+      // Log.list = {};
+      // entities.log = Log.list;
     }
 
     if (count > 5400){
       io.emit("win");
-      fire.firePower = 25;
-      Tree.list = {};
-      Tree.spawnTree();
-      entities.tree = Tree.list;
-      Torch.list = {};
-      entities.torch = Torch.list;
-      Log.list = {};
-      entities.log = Log.list;
-      count = 0;
-      spawner1.cdMax = 800;
-      spawner2.cdMax = 2400;
+      resetGame();
+      // fire.firePower = 25;
+      // Tree.list = {};
+      // Tree.spawnTree();
+      // entities.tree = Tree.list;
+      // Torch.list = {};
+      // entities.torch = Torch.list;
+      // Log.list = {};
+      // entities.log = Log.list;
+      // count = 0;
+      // spawner1.cdMax = 800;
+      // spawner2.cdMax = 2400;
 
     }
   }
