@@ -37,7 +37,7 @@ let specter_spriteSpd = 20;
 function specter_updateFrame() {
     // if (specter_currentFrame < 11) {
     specter_count++
-    // console.log(specter_count);
+  
     if (specter_count % specter_spriteSpd === 0) {
         specter_currentFrame += 1
         specter_currentFrame = specter_currentFrame % 11

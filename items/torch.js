@@ -47,17 +47,7 @@ class Torch extends Entity {
 
 
 
-    // When fire has dwindled to 0 firePower, game is over. Set gameOver to true.
-    dwindle() {
-        // if (this.firePower > 1) {
-        //     this.firePower -= 1;
-        //     this.updateRadius();
-        //     console.log(`Dwindling ` + `${this.firePower}`);
-        // } else {
-        //     console.log("Game Over");
-        //     this.gameOver = true;
-        // }
-    };
+  
 
 
 };

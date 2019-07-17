@@ -42,8 +42,6 @@ function updatePlayerIdle() {
   if (PlayerIdleCount % PlayerIdleSpd === 0) {
     PlayerIdleCF = ++PlayerIdleCF % PlayerIdlecols;
   }
-  // console.log(PlayerIdleCF)
-  // }
   PlayerIdleX = PlayerIdleCF * PlayerIdleWidth;
 }
 PlayerIdleY = 0

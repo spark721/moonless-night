@@ -31,7 +31,7 @@ class Specter extends Entity {
     }
     
     spawnSpecter() {
-        // console.log(this.cd)
+     
         if (this.cd === 0){
             let pos = {
               x: Math.floor(Math.random() * 1400),
@@ -63,7 +63,7 @@ class Specter extends Entity {
     }
     collideWithTorch(torches){
         for (let i in torches) {
-            // console.log(Specter.players[i].x);
+         
             const tempPos = { x: this.x, y: this.y };
             const dx = tempPos.x - torches[i].x;
             const dy = tempPos.y - torches[i].y;
@@ -78,9 +78,9 @@ class Specter extends Entity {
 
     collideWithPlayer(){
         for (let i in Specter.players) {
-            // console.log(Specter.players[i].x);
+         
             if ((this.x >= Specter.players[i].x - 10 && this.x <= Specter.players[i].x + 10) && (this.y >= Specter.players[i].y - 10 && this.y <= Specter.players[i].y + 10)) {
-                // console.log('Specter collided with player')
+               
             }
         }
     }

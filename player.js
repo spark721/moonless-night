@@ -1,6 +1,7 @@
 const Entity = require("./entity");
 const Torch = require('./items/torch');
 const Log = require('./items/log');
+const Specter = require('./ghosts/specter');
 
 class Player extends Entity {
   constructor(id, pos, size) {
@@ -37,8 +38,11 @@ class Player extends Entity {
   }
 
   update(entities) {
-    if (this.specter || this.stalker) {
+    if ((this.state !== "TORCH") && (this.specter || this.stalker)) {
       this.state = "FETAL";
+    } else if ((this.state === "TORCH") && (this.specter)){
+      Specter.delete(this.specter.id);
+      this.state = "NEUTRAL";
     }
 
     if (entities) this.updateNearestObjects(entities);
@@ -70,7 +74,7 @@ class Player extends Entity {
 
   updateNearestObjects(entities) {
     this.fire = entities.fire;
-    // console.log(Object.values(entities.torch));
+   
     const trees = Object.values(entities.tree);
     const sortedTrees = trees.sort((a, b) => {
       return this.distance(a) - this.distance(b);
@@ -142,7 +146,7 @@ class Player extends Entity {
       this.player = undefined;
     }    
     ////////////////////////////////////////////////////////////////
-    console.log(Object.values(entities.torch));
+
     let torches = Object.values(entities.torch);
     let sortedTorches = torches.sort((a, b) => {
       return this.distance(a) - this.distance(b);

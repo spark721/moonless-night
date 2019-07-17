@@ -97,7 +97,6 @@ io.on("connection", socket => {
   socketList[socket.id] = socket;
 
   let clients = io.engine.clientsCount;
-  // console.log(`Client connected: ${clients}`);
 
   if (clients > 2) {
     socket.disconnect(true);
@@ -107,7 +106,6 @@ io.on("connection", socket => {
 
   // server socket automatically listens for 'disconnect'
   socket.on("disconnect", () => {
-    // console.log(`Client disconnected`);
 
     delete socketList[socket.id];
 
@@ -137,7 +135,6 @@ setInterval(() => {
   Specter.torches = entities.torch;
   Specter.logs = entities.log;
   Stalker.players = entities.player;
-  // console.log(Game.getFire());
   const pack = {
     player: Player.update(entities),
     tree: Tree.update(),
