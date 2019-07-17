@@ -88,11 +88,8 @@ Player.onDisconnect = socket => {
 };
 
 
-
 // game.js?
 // Ghost.spawnGhosts();
-
-Tree.spawnTrees();
 
 
 // on client "connection", do the following
@@ -124,9 +121,16 @@ io.on("connection", socket => {
   })
 });
 
+let rand = Math.floor(Math.random() * 3);
 
+if (rand === 0) {
+  Tree.spawnTree1();
+} else if (rand === 1) {
+  Tree.spawnTree2();
+} else {
+  Tree.spawnTree3();
+}
 
-Tree.spawnTrees();
 
 let count = 0
 

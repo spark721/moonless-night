@@ -7,7 +7,7 @@ class Player extends Entity {
   constructor(id, pos, size) {
     super(id, pos, size);
     this.state = "NEUTRAL";
-    this.speed = 2;
+    this.speed = 3;
     this.pressingRight = false;
     this.pressingLeft = false;
     this.pressingUp = false;
@@ -181,13 +181,23 @@ class Player extends Entity {
     }
 
     if (
-      this.pressingDrop &&
-      this.distance(this.fire) < 110 &&
+      this.pressingChop &&
+      this.distance(this.fire) < 100 &&
       this.state === "LOGS"
     ) {
       this.fire.eatLogs();
       this.state = "NEUTRAL";
     }
+
+    if (
+      this.pressingChop &&
+      this.distance(this.fire) < 100 &&
+      this.state === "TORCH"
+    ) {
+      // this.fire.eatLogs();
+      this.state = "NEUTRAL";
+    }
+
     // if (
     //   this.pressingChop &&
     //   this.distance(this.fire) < 110 &&
@@ -251,16 +261,25 @@ class Player extends Entity {
   }
 
   playerTreeCollision(tempPos, treeList) {
-    return Object.values(treeList).some(tree => {
-      if (tree.logs === 0) return false;
-      const dx = tempPos.x - tree.x;
-      const dy = tempPos.y - tree.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
+    if (
+      tempPos.x < 25 ||
+      tempPos.y < 25 ||
+      tempPos.x > 1350 ||
+      tempPos.y > 750
+    ) {
+      return true
+    } else {
+      return Object.values(treeList).some(tree => {
+        if (tree.logs === 0) return false;
+        const dx = tempPos.x - tree.x;
+        const dy = tempPos.y - tree.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (distance < this.size + tree.size) {
-        return true;
-      }
-    });
+        if (distance < this.size + tree.size - 5) {
+          return true;
+        }
+      });
+    }
   }
 
   playerFireCollision(tempPos, fire) {
