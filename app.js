@@ -175,9 +175,11 @@ setInterval(() => {
     let playerArray = Object.values(Player.list);
     if (playerArray.every(player => {return player.state === "FETAL";})){
       io.emit("over");
+      fire.firePower = 25;
     }
     if (count === 18000){
       io.emit("win");
+      fire.firePower = 25;
     }
   }
  

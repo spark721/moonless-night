@@ -181,7 +181,7 @@ class Player extends Entity {
     }
 
     if (
-      this.pressingChop &&
+      this.pressingDrop &&
       this.distance(this.fire) < 100 &&
       this.state === "LOGS"
     ) {
@@ -189,14 +189,14 @@ class Player extends Entity {
       this.state = "NEUTRAL";
     }
 
-    if (
-      this.pressingChop &&
-      this.distance(this.fire) < 100 &&
-      this.state === "TORCH"
-    ) {
-      // this.fire.eatLogs();
-      this.state = "NEUTRAL";
-    }
+    // if (
+    //   this.pressingChop &&
+    //   this.distance(this.fire) < 100 &&
+    //   this.state === "TORCH"
+    // ) {
+    //   this.fire.eatLogs();
+    //   this.state = "NEUTRAL";
+    // }
 
     // if (
     //   this.pressingChop &&
