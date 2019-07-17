@@ -31,15 +31,15 @@ class Specter extends Entity {
     }
     
     spawnSpecter() {
-        if (Specter.count % 300 === 0) {
+        if (Specter.count % 700 === 0) {
             if (this.cdMax > 400) {
                 this.cdMax -= 150;
             } else if ((this.cdMax < 401) && (this.cdMax > 100)) {
-                this.cdMax -= 100;
+                this.cdMax -= 50;
             } else if ((this.cdMax < 101) && (this.cdMax > 60)) {
                 this.cdMax -= 20;
             } else {
-                this.cdMax = 50;
+                this.cdMax = 120;
             }
         }
         if (this.cd === 0){

@@ -166,7 +166,12 @@ setInterval(() => {
         Tree.list = {};
         Tree.spawnTree();
         entities.tree = Tree.list;
-
+        spawner1.cdMax = 800;
+        spawner2.cdMax = 2400;
+        Torch.list = {};
+        entities.torch = Torch.list;
+        Log.list = {};
+        entities.log = Log.list;
       }
     }
     let playerArray = Object.values(Player.list);
@@ -176,14 +181,27 @@ setInterval(() => {
       Tree.list = {};
       Tree.spawnTree();
       entities.tree = Tree.list;
+      spawner1.cdMax = 800;
+      spawner2.cdMax = 2400;
+      Torch.list = {};
+      entities.torch = Torch.list;
+      Log.list = {};
+      entities.log = Log.list;
     }
-    if (count > 10800){
+
+    if (count > 5400){
       io.emit("win");
       fire.firePower = 25;
       Tree.list = {};
       Tree.spawnTree();
       entities.tree = Tree.list;
+      Torch.list = {};
+      entities.torch = Torch.list;
+      Log.list = {};
+      entities.log = Log.list;
       count = 0;
+      spawner1.cdMax = 800;
+      spawner2.cdMax = 2400;
 
     }
   }
