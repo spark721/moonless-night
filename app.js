@@ -106,6 +106,7 @@ Player.onDisconnect = socket => {
 
 // on client "connection", do the following
 io.on("connection", socket => {
+  socket.join('global');
   socket.id = Math.random();
   socketList[socket.id] = socket;
 
@@ -179,7 +180,8 @@ setInterval(() => {
 
   for (let i in socketList) {
     const socket = socketList[i];
-    socket.emit("pack", pack)
+    io.to('global').emit("pack", pack);
+    // socket.emit("pack", pack)
 
     if (count % 120 === 0) {
       fire.dwindle();
