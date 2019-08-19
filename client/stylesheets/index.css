@@ -30,7 +30,10 @@ div.chat {
     width: 400px;
     height: 725px;
     margin: 0 0 0 4px;
-    display: none;
+    /* display: none; */
+    position: absolute;
+    top: 0px;
+    left: 1400px;
 }
 
 #chat-text {
@@ -113,4 +116,66 @@ div.chat {
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
     text-decoration: underline;
+}
+
+
+.bolded-instructions {
+  font-weight: 900;
+  color: red;
+}
+
+.instructions-container {
+    position: absolute;
+    left: 210px;
+    top: 790px;
+    display: flex;
+    width: 60vw;
+    justify-content: space-between;
+    color: #797979;
+}
+
+.specter {
+    display: flex;
+    height: 100px;
+    width: 100px;
+    align-content: center;
+    flex-direction: column;
+}
+
+.specter p {
+    margin: auto;
+    color: red;
+    font-weight: 900;
+}
+
+.specter img{
+    height: 100%;
+    width: 100%
+}
+
+.stalker {
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    height: 100px;
+    width: 100px;
+}
+
+.stalker p {
+    margin: auto;
+    color: red;
+    font-weight: 900;
+}
+
+.bolded-white {
+    font-style: italic;
+    color: white;
+    
+}
+
+.instruction h3, h4 {
+    color: yellow;
+    text-decoration: underline;
+    font-size: 24px;
+    line-height: 50%;
 }
