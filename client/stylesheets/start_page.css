@@ -39,8 +39,10 @@ div.play-button:hover {
 }
 
 .instruction h3, h4 {
-    color: #797979;
+    color: yellow;
     text-decoration: underline;
+    font-size: 24px;
+    line-height: 50%;
 }
 
 .instruction p {
@@ -52,4 +54,54 @@ div.play-button:hover {
 .foot-note {
     color: #656565;
     margin: 200px 0 0 0;
+}
+
+.bolded-instructions {
+  font-weight: 900;
+  color: red;
+}
+
+.instructions-container {
+    display: flex;
+    width: 60vw;
+    justify-content: space-between;
+}
+
+.specter {
+    display: flex;
+    height: 100px;
+    width: 100px;
+    align-content: center;
+    flex-direction: column;
+}
+
+.specter p {
+    margin: auto;
+    color: red;
+    font-weight: 900;
+}
+
+.specter img{
+    height: 100%;
+    width: 100%
+}
+
+.stalker {
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    height: 100px;
+    width: 100px;
+}
+
+.stalker p {
+    margin: auto;
+    color: red;
+    font-weight: 900;
+}
+
+.bolded-white {
+    font-style: italic;
+    color: white;
+
 }
