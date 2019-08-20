@@ -121,7 +121,7 @@ div.chat {
 
 .bolded-instructions {
   font-weight: 900;
-  color: red;
+  color: #f3edf7;
 }
 
 .instructions-container {
@@ -131,7 +131,7 @@ div.chat {
     display: flex;
     width: 60vw;
     justify-content: space-between;
-    color: #797979;
+    color: #834eb1;
 }
 
 .specter {
@@ -144,7 +144,7 @@ div.chat {
 
 .specter p {
     margin: auto;
-    color: red;
+    color: #f3edf7;
     font-weight: 900;
 }
 
@@ -163,18 +163,18 @@ div.chat {
 
 .stalker p {
     margin: auto;
-    color: red;
+    color: #f3edf7;
     font-weight: 900;
 }
 
 .bolded-white {
     font-style: italic;
-    color: white;
+    color: #f3edf7;
     
 }
 
 .instruction h3, h4 {
-    color: yellow;
+    color: #834eb1;
     text-decoration: underline;
     font-size: 24px;
     line-height: 50%;

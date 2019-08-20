@@ -11,7 +11,7 @@ body {
 
 .logo {
     font-family: 'Orbitron', sans-serif;
-    color: #970000b3;
+    color: #b50000;
     font-size: 60px;
     font-weight: 900;
 }
@@ -26,7 +26,7 @@ div.play-button {
     display: flex;
     width: 250px;
     height: 80px;
-    border: 10px solid #5b1d00;
+    border: 10px solid #834eb1;
     border-radius: 25px;
     justify-content: center;
     align-items: center;
@@ -39,14 +39,14 @@ div.play-button:hover {
 }
 
 .instruction h3, h4 {
-    color: yellow;
+    color: #834eb1;
     text-decoration: underline;
     font-size: 24px;
     line-height: 50%;
 }
 
 .instruction p {
-    color: #797979;
+    color: #834eb1;
     margin: 5px 0;
 }
 
@@ -58,7 +58,7 @@ div.play-button:hover {
 
 .bolded-instructions {
   font-weight: 900;
-  color: red;
+  color: #f3edf7;
 }
 
 .instructions-container {
@@ -77,7 +77,7 @@ div.play-button:hover {
 
 .specter p {
     margin: auto;
-    color: red;
+    color: #f3edf7;
     font-weight: 900;
 }
 
@@ -96,7 +96,7 @@ div.play-button:hover {
 
 .stalker p {
     margin: auto;
-    color: red;
+    color: #f3edf7;
     font-weight: 900;
 }
 
