@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-
   <link rel="icon" href="/client/images/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/client/stylesheets/index.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
@@ -28,6 +27,9 @@
   <script src="/client/images/player/XX/fetal/player_fetal.js"></script>
   <script src="/client/images/fire/torch.js"></script>
 
+  <script defer src="/client/game/fog.js"></script>
+  <script defer src="/client/game/logic.js"></script>
+
   <title>Moonless Night</title>
 </head>
 <body>
@@ -39,47 +41,46 @@
       <div id="chat-text">
         <div>Keep the fire going!</div>
       </div>
-      
       <form id="chat-form">
-        <input type="text" 
-              id="chat-input"
-              placeholder="type your message here" >
+        <input
+          type="text" 
+          id="chat-input"
+          placeholder="type your message here"
+        >
       </form>
     </div>
   </div>
-
-  <script src="/client/game/fog.js"></script>
-  <script src="/client/game/logic.js"></script>
-
   <div id="game-over" onclick="off()" >
     <a href="/"><span class="game-over-msg">YOU LOST</span></a>
   </div>
-
   <div id="winner" onclick="offwin()" >
     <a href="/"><span class="winner-msg">YOU WIN</span></a>
   </div>
-
-    <article class="instructions-container">
-      <div class="specter">
-        <img src="/client/images/instructions/specter.png" alt="">
-        <p>SPECTER</p>
-      </div>
-      <div class="instruction">
-        <h3>Goal: keep the fire alive until sunrise (90 seconds). Evade ghosts.</h3>
-        <h3><span class="bolded-instructions">Specters</span> can be stopped with <span
-            class="bolded-instructions">torches.</span> <span class="bolded-instructions">Stalkers</span> are <span
-            class="bolded-white">immortal</span></h3>
-        <p class="bolded-instructions">MOVE THE MOUSE TO CLEAR THE FOG OF WAR</p>
-        <p><span class="bolded-instructions">W, A, S, D</span>: directional movement</p>
-        <p><span class="bolded-instructions">E: PICK UP</span> items (trees, logs, or torches)</p>
-        <p><span class="bolded-instructions">Q: DROP</span> held items</p>
-        <p><span class="bolded-instructions">R: REVIVE</span> fallen teammates</p>
-      </div>
-      <div class="stalker">
-        <img src="/client/images/instructions/stalker.png" alt="">
-        <p>STALKER</p>
-      </div>
-    </article>
-  
+  <article class="instructions-container">
+    <div class="specter">
+      <img src="/client/images/instructions/specter.png" alt="">
+      <p>SPECTER</p>
+    </div>
+    <div class="instruction">
+      <h3>Goal: keep the fire alive until sunrise (90 seconds). Evade ghosts.</h3>
+      <h3>
+        <span class="bolded-instructions">Specters</span>
+        can be stopped with
+        <span class="bolded-instructions">torches.</span>
+        <span class="bolded-instructions">Stalkers</span>
+        are
+        <span class="bolded-white">immortal</span>
+      </h3>
+      <p class="bolded-instructions">MOVE THE MOUSE TO CLEAR THE FOG OF WAR</p>
+      <p><span class="bolded-instructions">W, A, S, D</span>: directional movement</p>
+      <p><span class="bolded-instructions">E: PICK UP</span> items (trees, logs, or torches)</p>
+      <p><span class="bolded-instructions">Q: DROP</span> held items</p>
+      <p><span class="bolded-instructions">R: REVIVE</span> fallen teammates</p>
+    </div>
+    <div class="stalker">
+      <img src="/client/images/instructions/stalker.png" alt="">
+      <p>STALKER</p>
+    </div>
+  </article>
 </body>
 </html>
