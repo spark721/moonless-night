@@ -7,7 +7,7 @@ const io = require("socket.io")(server);
 const port = process.env.PORT || 2000;
 const socketList = {};
 
-const Game = require('./game');
+// const Game = require('./game');
 const Player = require('./player');
 const Entity = require('./entity');
 const Fire = require('./fire');
