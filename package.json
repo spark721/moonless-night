@@ -4,7 +4,7 @@
   "description": "## Overview",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node src/app.js",
     "server": "nodemon --exec babel-node src/app.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
   },
