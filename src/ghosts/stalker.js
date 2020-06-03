@@ -1,10 +1,7 @@
-const Entity = require("../entity");
-const Fire = require("../fire");
-
-// this.state = ['NEUTRAL', 'FETAL', 'TORCH', 'LOG', 'STICK', 'HEALING', 'BEINGHEALED']
+import Entity from '../entity';
+import Fire from '../fire';
 
 class Stalker extends Entity {
-
   constructor(id, pos, size) {
     super(id, pos, size);
     this.state = "NEUTRAL";
@@ -33,7 +30,7 @@ class Stalker extends Entity {
   }
 
   spawnStalker() {
-    if (Stalker.count % 600 === 0){
+    if (Stalker.count % 600 === 0) {
       if(this.cdMax > 800){
         this.cdMax -= 600;
       } else if ((this.cdMax < 801)&&(this.cdMax > 100)){
@@ -55,15 +52,14 @@ class Stalker extends Entity {
       Stalker.list[this.spawned] = stalker;
       this.cd = this.cdMax;
       this.spawnCd = false;
-   
     }
+
     this.cd -= 1;
   }
 
   delete() {
-    if (this.deathCd === 0) {
-      delete Stalker.list[this.id];
-    }
+    if (this.deathCd === 0) delete Stalker.list[this.id];
+
     this.deathCd--;
   }
 
@@ -81,10 +77,12 @@ class Stalker extends Entity {
   // nice
   update() {
     this.summonSickness();
-    if (this.moveCd === 0){
+
+    if (this.moveCd === 0) {
       this.updatePosition();
       this.moveCd = this.moveCdMax;
     }
+
     this.delete();
     this.moveCd --;
   }
@@ -114,7 +112,6 @@ class Stalker extends Entity {
       this.x = this.x;
       this.y = this.y;
     } else {
-
       let diffX = object.x - this.x;
       let diffY = object.y - this.y;
       if (diffX > 0) {
@@ -157,9 +154,8 @@ class Stalker extends Entity {
     this.moveToObject(this.player);
     this.collideWithPlayer();
   }
-
 };
 
 Stalker.list = {};
-// change to webpack?
-module.exports = Stalker;
+
+export default Stalker;

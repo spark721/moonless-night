@@ -1,6 +1,4 @@
-const Entity = require("./entity");
-
-// this.state = ["NEUTRAL", "CHOPPED"]
+import Entity from './entity';
 
 class Tree extends Entity {
   constructor(id, pos, size) {
@@ -135,5 +133,4 @@ class Tree extends Entity {
 
 Tree.list = {};
 
-// change to webpack
-module.exports = Tree;
+export default Tree;

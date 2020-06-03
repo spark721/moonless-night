@@ -1,55 +1,43 @@
-const Entity = require('../entity');
-
-// this.state = {
-//   CRITICAL: false,
-//   VERY_LOW: false,
-//   LOW: false,
-//   MEDIUM: true,
-//   HIGH: false
-// }
+import Entity from '../entity';
 
 class Torch extends Entity {
-    constructor(id, pos, size) {
-        super(id, pos, size)
+  constructor(id, pos, size) {
+    super(id, pos, size);
 
-        // this.firePower = 20;
-        // this.radius = this.firePower * 5;
-        // this.gameOver = false;
+    // this.firePower = 20;
+    // this.radius = this.firePower * 5;
+    // this.gameOver = false;
 
-        // this.dwindle = this.dwindle.bind(this);
-        // this.updateRadius = this.updateRadius.bind(this);
-    };
+    // this.dwindle = this.dwindle.bind(this);
+    // this.updateRadius = this.updateRadius.bind(this);
+  };
 
-    static update() {
-        const pack = [];
+  static update() {
+    const pack = [];
 
-        for (let i in Torch.list) {
-            const torch = Torch.list[i];
+    for (let i in Torch.list) {
+      const torch = Torch.list[i];
 
-            torch.update();
-            pack.push(torch)
-        }
-        return pack;
+      torch.update();
+      pack.push(torch)
     }
-    static delete(torchId) {
-        delete Torch.list[torchId];
-    }
+    return pack;
+  }
 
+  static delete(torchId) {
+    delete Torch.list[torchId];
+  }
 
-    update(){
+  update() {
 
-    }
+  }
 
-    // Updates state of fire. Will eventually be ["CRITICAL", "VERY LOW", "LOW", "MEDIUM", "HIGH"]
-    // updateRadius() {
-    //     this.radius = this.firePower * 5;
-    // }
-
-
-
-  
-
-
+  // Updates state of fire. Will eventually be ["CRITICAL", "VERY LOW", "LOW", "MEDIUM", "HIGH"]
+  // updateRadius() {
+  //     this.radius = this.firePower * 5;
+  // }
 };
+
 Torch.list = {};
-module.exports = Torch;
+
+export default Torch;

@@ -1,7 +1,7 @@
-const Entity = require("./entity");
-const Torch = require('./items/torch');
-const Log = require('./items/log');
-const Specter = require('./ghosts/specter');
+import Entity from './entity';
+import Torch from './items/torch';
+import Log from './items/log';
+import Specter from './ghosts/specter';
 
 class Player extends Entity {
   constructor(id, pos, size) {
@@ -75,7 +75,7 @@ class Player extends Entity {
 
   updateNearestObjects(entities) {
     this.fire = entities.fire;
-   
+
     const trees = Object.values(entities.tree);
     const sortedTrees = trees.sort((a, b) => {
       return this.distance(a) - this.distance(b);
@@ -295,6 +295,4 @@ class Player extends Entity {
 
 Player.list = {};
 
-
-// module.exports = Player;
-export default Player
+export default Player;

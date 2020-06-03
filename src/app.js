@@ -7,14 +7,14 @@ const io = require("socket.io")(server);
 const port = process.env.PORT || 2000;
 const socketList = {};
 
-// const Player = require('./player');
 import Player from './player';
-const Fire = require('./fire');
-const Tree = require('./tree');
-const Log = require('./items/log');
-const Torch = require('./items/torch');
-const Specter = require('./ghosts/specter');
-const Stalker = require('./ghosts/stalker');
+import Fire from './fire';
+import Tree from './tree';
+import Log from './items/log'
+import Torch from './items/torch';
+import Specter from './ghosts/specter';
+import Stalker from './ghosts/stalker'
+
 
 let fire = new Fire(1, { x: 700, y: 420 }, 30);
 const spawner1 = new Specter(0, { x: 1, y: 375 }, 15);
@@ -49,9 +49,7 @@ spawner1.speed = 0;
 spawner2.speed = 0;
 Tree.list = {};
 
-
 let entities = {
-
   player: Player.list,
   tree: Tree.list,
   fire: fire,
@@ -59,10 +57,8 @@ let entities = {
   stalker: Stalker.list,
   torch: Torch.list,
   log: Log.list
-
-  // ghosts: Ghost.list
 } 
-  
+
 Player.onConnect = socket => {
   const pos = { x: 700, y: 300 };
   const size = 15;

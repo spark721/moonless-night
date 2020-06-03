@@ -1,12 +1,4 @@
-const Entity = require('./entity');
-
-// this.state = {
-//   CRITICAL: false,
-//   VERY_LOW: false,
-//   LOW: false,
-//   MEDIUM: true,
-//   HIGH: false
-// }
+import Entity from './entity';
 
 class Fire extends Entity {
   constructor(id, pos, size) {
@@ -21,7 +13,7 @@ class Fire extends Entity {
     this.updateRadius = this.updateRadius.bind(this);
   };
 
-  update () {
+  update() {
     let pack = {
       firePower: this.firePower,
       x: this.x,
@@ -32,17 +24,16 @@ class Fire extends Entity {
     return pack;
   }
 
-  eatLogs () {
+  eatLogs() {
     this.firePower += 5
   }
 
-
   // Updates state of fire. Will eventually be ["CRITICAL", "VERY LOW", "LOW", "MEDIUM", "HIGH"]
-  updateRadius () {
+  updateRadius() {
     this.radius = this.firePower * 5;
   }
 
-  resetFire(){
+  resetFire() {
     this.firePower = 10;
     this.radius = this.firePower * 5;
     this.gameOver = false;
@@ -50,24 +41,18 @@ class Fire extends Entity {
   }
 
   // When fire has dwindled to 0 firePower, game is over. Set gameOver to true.
-  dwindle () {
-    if(this.firePower > 1){
+  dwindle() {
+    if (this.firePower > 1) {
       this.firePower -= 1;
       this.updateRadius();
-      // console.log(`Dwindling ` + `${this.firePower}`);
-
       if (this.firePower > 50) this.status = "HIGH";
       if ((this.firePower > 30) && (this.firePower < 51)) this.status = "MEDIUM";
       if ((this.firePower > 15) && (this.firePower < 31)) this.status = "VERY LOW";
       if (this.firePower < 16) this.status = "CRITICAL";
-
     } else {
-    
       this.gameOver = true;
     }
   };
-
-
 };
 
-module.exports = Fire;
+export default Fire;
